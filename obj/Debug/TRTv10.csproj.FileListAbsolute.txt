@@ -24,3 +24,12 @@ C:\Users\filip\Desktop\TRTv10\obj\Debug\TRTv10.csproj.GenerateResource.cache
 C:\Users\filip\Desktop\TRTv10\obj\Debug\TRTv10.csproj.CoreCompileInputs.cache
 C:\Users\filip\Desktop\TRTv10\obj\Debug\TRTv10.exe
 C:\Users\filip\Desktop\TRTv10\obj\Debug\TRTv10.pdb
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.csprojAssemblyReference.cache
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.Properties.Resources.resources
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.User_Interface.FrmExplorer.resources
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.User_Interface.FrmLogin.resources
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.User_Interface.FrmServicos.resources
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.csproj.GenerateResource.cache
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.csproj.CoreCompileInputs.cache
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.exe
+C:\Users\Emptor\Documents\Visual Studio 2017\Backup Files\TRTV10\TranstarApp\obj\Debug\TRTv10.pdb

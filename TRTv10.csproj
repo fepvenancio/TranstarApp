@@ -58,67 +58,67 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BasBE100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\BasBE100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\BasBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CblBE100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\CblBE100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\CblBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CctBE100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\CctBE100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\CctBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ErpBE100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ErpBE100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\ErpBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ErpBS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ErpBS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\ErpBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ErpDS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="IBasBS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\IBasBS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\IBasBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ICblBS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ICblBS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\ICblBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ICctBS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ICctBS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\ICctBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ITesBS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ITesBS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\ITesBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="IVndBS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\IVndBS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\IVndBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Primavera.Extensibility.Engine">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\Primavera.Extensibility.Engine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\Primavera.Extensibility.Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Primavera.Extensibility.Patterns">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\Primavera.Extensibility.Patterns.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\Primavera.Extensibility.Patterns.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PRISDK100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\PRISDK100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\PRISDK100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="StdBE100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\StdBE100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\StdBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="StdPlatBS100">
-      <HintPath>..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\StdPlatBS100.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PRIMAVERA\SG100\Apl\StdPlatBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
