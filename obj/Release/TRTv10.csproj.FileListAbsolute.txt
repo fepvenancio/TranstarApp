@@ -1,0 +1,13 @@
+C:\Users\fixus\Desktop\TRTv10\bin\Release\TRTv10.exe.config
+C:\Users\fixus\Desktop\TRTv10\bin\Release\TRTv10.exe
+C:\Users\fixus\Desktop\TRTv10\bin\Release\TRTv10.pdb
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.csprojAssemblyReference.cache
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.exe.config
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.Properties.Resources.resources
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.User_Interface.FrmExplorer.resources
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.User_Interface.FrmLogin.resources
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.User_Interface.FrmServicos.resources
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.csproj.GenerateResource.cache
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.csproj.CoreCompileInputs.cache
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.exe
+C:\Users\fixus\Desktop\TRTv10\obj\Release\TRTv10.pdb

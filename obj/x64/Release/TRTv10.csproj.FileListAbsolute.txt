@@ -1,0 +1,2 @@
+C:\Users\fixus\Desktop\TRTv10\obj\x64\Release\TRTv10.csprojAssemblyReference.cache
+C:\Users\fixus\Desktop\TRTv10\obj\x64\Release\TRTv10.exe.config

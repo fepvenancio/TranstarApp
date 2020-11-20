@@ -1,0 +1,13 @@
+C:\Users\filip\source\repos\TRTv10\bin\x64\Debug\TRTv10.exe.config
+C:\Users\filip\source\repos\TRTv10\bin\x64\Debug\TRTv10.exe
+C:\Users\filip\source\repos\TRTv10\bin\x64\Debug\TRTv10.pdb
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.csprojAssemblyReference.cache
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.exe.config
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.Properties.Resources.resources
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.csproj.GenerateResource.cache
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.csproj.CoreCompileInputs.cache
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.exe
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.pdb
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.User_Interface.FrmExplorer.resources
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.User_Interface.FrmLogin.resources
+C:\Users\filip\source\repos\TRTv10\obj\x64\Debug\TRTv10.User_Interface.FrmServicos.resources
