@@ -318,7 +318,6 @@ namespace TRTv10.Integration
                 docVenda.Referencia = processo;
                 docVenda.Requisicao = processo;
 
-                MessageBox.Show(linhas.Count.ToString());
                 for (int i = 0; i < linhas.Count; i++)
                 {
                     var qtd = Convert.ToDouble(1);
