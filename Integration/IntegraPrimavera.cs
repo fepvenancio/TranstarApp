@@ -318,6 +318,7 @@ namespace TRTv10.Integration
                 docVenda.Referencia = processo;
                 docVenda.Requisicao = processo;
 
+                MessageBox.Show(linhas.Count.ToString());
                 for (int i = 0; i < linhas.Count; i++)
                 {
                     var qtd = Convert.ToDouble(1);
@@ -335,15 +336,15 @@ namespace TRTv10.Integration
                     PriEngine.Engine.Vendas.Documentos.AdicionaLinha(docVenda, artigo, ref qtd);
 
                     var linhasVenda = docVenda.Linhas;
-                    linhasVenda.GetEdita(i).PrecUnit = linhas[i]._precUnit;
+                    linhasVenda.GetEdita(i+1).PrecUnit = linhas[i]._precUnit;
 
                     if (iva.ToString() == "True")
                     {
-                        linhasVenda.GetEdita(i).CodIva = "14";
+                        linhasVenda.GetEdita(i+1).CodIva = "14";
                     }
                     else
                     {
-                        linhasVenda.GetEdita(i).CodIva = "90";
+                        linhasVenda.GetEdita(i+1).CodIva = "90";
                     }
                 }
 

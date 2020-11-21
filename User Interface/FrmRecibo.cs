@@ -9,8 +9,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using IBasBS100;
-using PRISDK100;
 using TRTv10.Engine;
 using TRTv10.Integration;
 
@@ -83,37 +81,37 @@ namespace TRTv10.User_Interface
             }
         }
 
-        private void CriaLiquidacao(double total, string idLinha, Guid idCabec)
+        private void CriaLiquidacao(double total, Guid[] idLinhas, Guid idCabec)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
             using var sqlCon = new SqlConnection(connectionString);
             sqlCon.Open();
 
-            using (var transaction = sqlCon.BeginTransaction())
+            foreach (Guid idLin in idLinhas)
             {
-                var sqlCmdVRec = new SqlCommand("TDU_TRT_ValorRecLinhasDoc", sqlCon)
+                using (var transaction = sqlCon.BeginTransaction())
                 {
-                    Connection = sqlCon, Transaction = transaction, CommandType = CommandType.StoredProcedure
-                };
-                sqlCmdVRec.Parameters.AddWithValue("@idLinha", idLinha);
-                sqlCmdVRec.ExecuteNonQuery();
+                    var sqlCmdVRec = new SqlCommand("TDU_TRT_ValorRecLinhasDoc", sqlCon)
+                    {
+                        Connection = sqlCon, Transaction = transaction, CommandType = CommandType.StoredProcedure
+                    };
+                    sqlCmdVRec.Parameters.AddWithValue("@idLinha", idLin);
+                    sqlCmdVRec.ExecuteNonQuery();
 
-                var sqlCmdCriaLiq = new SqlCommand("TDU_TRT_CriaLiquidacao", sqlCon)
-                {
-                    Connection = sqlCon, Transaction = transaction, CommandType = CommandType.StoredProcedure
-                };
-                sqlCmdCriaLiq.Parameters.AddWithValue("@idLinha", idLinha);
-                sqlCmdCriaLiq.Parameters.AddWithValue("@idDoc", idCabec);
-                sqlCmdCriaLiq.Parameters.AddWithValue("@total", total);
-                sqlCmdCriaLiq.ExecuteNonQuery();
+                    var sqlCmdCriaLiq = new SqlCommand("TDU_TRT_CriaLiquidacao", sqlCon)
+                    {
+                        Connection = sqlCon, Transaction = transaction, CommandType = CommandType.StoredProcedure
+                    };
+                    sqlCmdCriaLiq.Parameters.AddWithValue("@idLinha", idLin);
+                    sqlCmdCriaLiq.Parameters.AddWithValue("@idDoc", idCabec);
+                    sqlCmdCriaLiq.Parameters.AddWithValue("@total", total);
+                    sqlCmdCriaLiq.ExecuteNonQuery();
                 
-                transaction.Commit();
+                    transaction.Commit();
+                }
             }
-
             sqlCon.Close();
-            
-            
             PriEngine.Platform.Dialogos.MostraAviso("Liquidação criada com sucesso.");
         }
 
@@ -140,7 +138,6 @@ namespace TRTv10.User_Interface
             {
                 if (idLin.ToString() != "00000000-0000-0000-0000-000000000000")
                 {
-                    MessageBox.Show(idLin.ToString());
                     var sql = new StringBuilder();
                     sql.Append("SELECT DISTINCT(I.CDU_DocPrimavera) ");
                     sql.Append("FROM TDU_TRT_Items I ");
@@ -158,6 +155,29 @@ namespace TRTv10.User_Interface
             CriaDocExplorer(distinctDocs, idLinhas);
         }
 
+        private string VerificaDoc(Guid idLin)
+        {
+            string docResult = string.Empty;
+            var sql = new StringBuilder();
+            sql.Append("SELECT I.CDU_DocPrimavera ");
+            sql.Append("FROM TDU_TRT_Items I ");
+            sql.Append("INNER JOIN TDU_TRT_LinhasDocumentos L ON L.CDU_Artigo = I.CDU_Codigo "); 
+            sql.Append($"WHERE L.CDU_Id = '{idLin.ToString()}' ");
+            string queryDoc = sql.ToString();
+            StdBELista lstItemDoc = PriEngine.Engine.Consulta(queryDoc);
+
+            if (lstItemDoc.Valor(0).ToString() != "")
+            {
+                docResult = lstItemDoc.Valor(0);
+            }
+            else
+            {
+                docResult = "N/A";
+            }
+
+            return docResult;
+        }
+
         private void CriaDocExplorer(string[] documentos, Guid[] idLinhas)
         {
             foreach (var doc in documentos)
@@ -166,40 +186,28 @@ namespace TRTv10.User_Interface
                 
                 foreach (Guid idLin in idLinhas)
                 {
-                    MessageBox.Show(idLin.ToString());
-                    string artigo = string.Empty;
-                    double qtd = 1;
-                    double precUnit = 0;
-                    double precIva = 0;
+                    if (VerificaDoc(idLin) == doc)
+                    {
+                        string artigo = string.Empty;
+                        double qtd = 1;
+                        double precUnit = 0;
+                        double precIva = 0;
                     
-                    var sql = new StringBuilder();
-                    sql.Append("SELECT CDU_Artigo, CDU_Quantidade, CDU_PrecIVA, CDU_PrecUnit ");
-                    sql.Append("FROM TDU_TRT_LinhasDocumentos ");
-                    sql.Append($"WHERE CDU_Id = '{idLin.ToString()}' ");
-                    string queryDocs = sql.ToString();
-                    StdBELista lstDocs = PriEngine.Engine.Consulta(queryDocs);
+                        var sql = new StringBuilder();
+                        sql.Append("SELECT CDU_Artigo, CDU_Quantidade, CDU_PrecIVA, CDU_PrecUnit ");
+                        sql.Append("FROM TDU_TRT_LinhasDocumentos ");
+                        sql.Append($"WHERE CDU_Id = '{idLin.ToString()}' ");
+                        string queryDocs = sql.ToString();
+                        StdBELista lstDocs = PriEngine.Engine.Consulta(queryDocs);
 
-                    Linha linha = new Linha(artigo, qtd, precUnit, precIva);
-                    linha._artigo = lstDocs.Valor(0).ToString();
-                    linha._qtd = Convert.ToDouble(lstDocs.Valor(1));
-                    linha._precIva = Convert.ToDouble(lstDocs.Valor(2));
-                    linha._precUnit = Convert.ToDouble(lstDocs.Valor(3));
-                    Linhas.Add(linha);
+                        Linha linha = new Linha(artigo, qtd, precUnit, precIva);
+                        linha._artigo = lstDocs.Valor(0).ToString();
+                        linha._qtd = Convert.ToDouble(lstDocs.Valor(1));
+                        linha._precIva = Convert.ToDouble(lstDocs.Valor(2));
+                        linha._precUnit = Convert.ToDouble(lstDocs.Valor(3));
+                        Linhas.Add(linha);
+                    }
                 }
-
-                foreach (var lin in Linhas)
-                {
-                    MessageBox.Show(lin._artigo);
-                }
-                
-                //for (int i = 0; i < numLinhas; i++) 
-                //{
-                //    Linhas.Add(new Linha((string)sqlResultado[0], (decimal)sqlResultado["L.CDU_Quantidade"], 
-                //        (double)sqlResultado["L.CDU_PrecUnit"], (double)sqlResultado["L.CDU_PrecIVA"]));
-                //}
-                    
-                //sqlResultado.Dispose();
-                
 
                 //Integra Primavera
                 IntegraPrimavera docErp = new IntegraPrimavera();
@@ -326,7 +334,7 @@ namespace TRTv10.User_Interface
                         {
                             double total = Convert.ToDouble(dgvr.Cells[2].Value.ToString());
                             string idLinha = dgvr.Cells[3].Value.ToString();
-                            CriaLiquidacao(total, idLinha, IdCab);
+                            //CriaLiquidacao(total, idLinha, IdCab);
                             i += 1;
                         }
 
@@ -360,26 +368,22 @@ namespace TRTv10.User_Interface
                         }
 
                         Guid[] idLinhas = new Guid[j];
-                        int i = 1;
+                        int i = 0;
+                        double total = 0;
                         foreach (DataGridViewRow dgvr in dgvLinhasRecibo.Rows)
                         {
                             if (dgvr.Cells[0].Value.ToString() == "True")
                             {
-
-                                double total = Convert.ToDouble(dgvr.Cells[2].Value.ToString());
+                                total = Convert.ToDouble(dgvr.Cells[2].Value.ToString());
                                 string idLinha = dgvr.Cells[3].Value.ToString();
-                                MessageBox.Show(idLinha);
                                 idLinhas[i] = new Guid(idLinha);
-                                
-                                CriaLiquidacao(total, idLinha, IdCab);
-                                
                                 i += 1;
                             }
-
-                            if (i > 0)
-                            {
-                                CriaDocErp(idLinhas);
-                            }
+                        }
+                        if (i > 0)
+                        {
+                            CriaLiquidacao(total, idLinhas, IdCab);
+                            CriaDocErp(idLinhas);
                         }
                     }
                     catch (Exception ex)
