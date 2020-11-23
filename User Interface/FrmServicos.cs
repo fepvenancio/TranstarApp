@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using StdBE100;
@@ -511,22 +512,16 @@ namespace TRTv10.User_Interface
         {
             int Numerador = 0;
             string codProcesso = "";
-            StdBELista lstNumeradores;
             string fileName = "";
-            
+ 
             if (txtSERRequisicao.Text != "")
             {
-               
+ 
                 codProcesso = cbSERNumSimulacao.Text; //alterar para REQ
                 PriEngine.Platform.Mapas.Inicializar("BAS");
                 PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                lstNumeradores = PriEngine.Engine.Consulta("select Numerador from SeriesVendas where tipodoc='FP' and SeriePorDefeito=1");
-                while (!lstNumeradores.NoFim())
-                {
-                    Numerador = (int)lstNumeradores.Valor("Numerador");
-                    lstNumeradores.Seguinte();
-                }
-                Numerador++;
+                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+                Numerador = list.Length + 1;
                 fileName = string.Format("{0}_{1}.pdf", codProcesso, Numerador);
                 PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
                 PriEngine.Platform.Mapas.JanelaPrincipal = 0;
@@ -536,17 +531,12 @@ namespace TRTv10.User_Interface
             }
             else
             {
-              
+ 
                 codProcesso = cbSERNumSimulacao.Text;
                 PriEngine.Platform.Mapas.Inicializar("BAS");
                 PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                lstNumeradores = PriEngine.Engine.Consulta("select Numerador from SeriesVendas where tipodoc='FP' and SeriePorDefeito=1");
-                while (!lstNumeradores.NoFim())
-                {
-                    Numerador = (int)lstNumeradores.Valor("Numerador");
-                    lstNumeradores.Seguinte();
-                }
-                Numerador++;
+                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+                Numerador = list.Length + 1;
                 fileName = string.Format("{0}_{1}.pdf", codProcesso, Numerador);
                 //PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @"\\192.168.10.10\primavera\SG100\Mapas\App\testeIP.pdf");
                 PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
