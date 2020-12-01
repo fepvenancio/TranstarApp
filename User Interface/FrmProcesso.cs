@@ -69,6 +69,11 @@ namespace TRTv10.User_Interface
             ActualizaDadosProcesso();
         }
 
+        private void dgvDocumentosRI_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         /// <summary>
         ///     Consoante o processo escolhido ele limpa a grelha e popula com os dados desse processo
         /// </summary>
@@ -374,6 +379,7 @@ namespace TRTv10.User_Interface
                     vendas.CriaDocumento(documento, serie, data, processo, processo, sqlCon, transaction, IdOrig,
                         IdLin, "", 0);
                     vendas.ConvertLinhas(IdLin, sqlCon, transaction);
+                    vendas.CriaAprovacao( documento, serie, processo, sqlCon, transaction);
                     transaction.Commit();
                 }
 
@@ -417,5 +423,6 @@ namespace TRTv10.User_Interface
         }
 
         #endregion
+
     }
 }

@@ -7,6 +7,7 @@ namespace TRTv10.User_Interface
     {
         private FrmServicos _frmServicos;
         private FrmProcesso _frmProcesso;
+        private FrmAprovacoes _frmAprovacoes;
 
         public FrmExplorer(string user)
         {
@@ -18,6 +19,7 @@ namespace TRTv10.User_Interface
         {
             _frmServicos ??= new FrmServicos();
             _frmProcesso ??= new FrmProcesso();
+            _frmAprovacoes ??= new FrmAprovacoes();
 
             _frmServicos.ActualizaDadosSimulacao();
             _frmServicos.ActualizaDadosServ();
@@ -38,6 +40,11 @@ namespace TRTv10.User_Interface
         private void ConsultaDeProcessosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _frmProcesso.ShowDialog();
+        }
+
+        private void aprovaçõesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _frmAprovacoes.ShowDialog();
         }
     }
 }

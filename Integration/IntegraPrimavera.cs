@@ -159,6 +159,12 @@ namespace TRTv10.Integration
             LinhasConvertidas(idLin, sqlCon, transaction);
         }
 
+        public void CriaAprovacao(string documento, string serie, string processo, 
+            SqlConnection sqlCon, SqlTransaction transaction)
+        {
+            CriaAprovacoes(documento, serie, processo, sqlCon, transaction);
+        }
+
         #endregion
 
         #region metodos privados
@@ -395,6 +401,69 @@ namespace TRTv10.Integration
                 $"UPDATE TDU_TRT_Serie  SET CDU_Numerador = '{NumDoc}' WHERE CDU_Documento = '{documento}' AND CDU_PreDefinido = 1 ",
                 sqlCon) {Connection = sqlCon, Transaction = transaction};
             sqlUp.ExecuteNonQuery();
+        }
+
+        private int UltimoNumDoc(string documento, string serie, SqlConnection sqlCon, SqlTransaction transaction)
+        {
+            int ultNum = 0;
+            using (SqlCommand sqlCmd = new SqlCommand($"SELECT MAX(CDU_Numero) As 'NumDoc' FROM TDU_TRT_CabecDocumentos " +
+                                        $" WHERE CDU_Documento = '{documento}' AND CDU_Serie = '{serie}' ", sqlCon, transaction))
+            {
+                //sqlCon.Open();
+                using (SqlDataReader reader = sqlCmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ultNum = reader.GetInt32(reader.GetOrdinal("NumDoc"));
+                        }
+                    }
+                }
+            }
+            
+            return ultNum;
+        }
+
+        private void CriaAprovacoes(string documento, string serie,string processo, SqlConnection sqlCon,
+            SqlTransaction transaction)
+        {
+            var numDoc = UltimoNumDoc(documento, serie, sqlCon, transaction);
+            Guid idDoc = Guid.Empty;
+            string cliente = string.Empty;
+            string nome = string.Empty;
+
+            using (SqlCommand sqlCmd = new SqlCommand($"SELECT CDU_Id As 'Id', CDU_Cliente As 'Cliente', CDU_Nome As 'Nome' FROM TDU_TRT_CabecDocumentos " +
+                                                      $"WHERE CDU_Documento = '{documento}' AND CDU_Serie = '{serie}' AND CDU_Numero = {numDoc} ", sqlCon, transaction))
+            {
+                //sqlCon.Open();
+                using (SqlDataReader reader = sqlCmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            idDoc = reader.GetGuid(reader.GetOrdinal("Id"));
+                            cliente = reader.GetString(reader.GetOrdinal("Cliente"));
+                            nome = reader.GetString(reader.GetOrdinal("Nome"));
+                        }
+                    }
+                }
+            }
+
+            var sqlCmdIn = new SqlCommand("TDU_TRT_InsertAprovacoes", sqlCon)
+            {
+                Connection = sqlCon, Transaction = transaction, CommandType = CommandType.StoredProcedure
+            };
+            sqlCmdIn.Parameters.AddWithValue("@idDoc", idDoc);
+            sqlCmdIn.Parameters.AddWithValue("@documento", documento);
+            sqlCmdIn.Parameters.AddWithValue("@serie", serie);
+            sqlCmdIn.Parameters.AddWithValue("@numDoc", numDoc);
+            sqlCmdIn.Parameters.AddWithValue("@dataDoc", DateTime.Now.Date);
+            sqlCmdIn.Parameters.AddWithValue("@processo", processo);
+            sqlCmdIn.Parameters.AddWithValue("@cliente", cliente);
+            sqlCmdIn.Parameters.AddWithValue("@nome", nome);
+            sqlCmdIn.ExecuteNonQuery();
         }
 
         private void LinhasDocReq(string simulacao, SqlConnection sqlCon, SqlTransaction transaction)

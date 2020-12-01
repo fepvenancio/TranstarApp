@@ -42,6 +42,7 @@
             this.gruposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlsExplorer = new System.Windows.Forms.ToolStrip();
             this.tlsLabelUtilizador = new System.Windows.Forms.ToolStripLabel();
+            this.aprovaçõesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnsExplorer.SuspendLayout();
             this.tlsExplorer.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +93,8 @@
             // 
             // aprovaçõesToolStripMenuItem
             // 
+            this.aprovaçõesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aprovaçõesToolStripMenuItem1});
             this.aprovaçõesToolStripMenuItem.Name = "aprovaçõesToolStripMenuItem";
             this.aprovaçõesToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
             this.aprovaçõesToolStripMenuItem.Text = "Aprovações";
@@ -154,6 +157,13 @@
             this.tlsLabelUtilizador.Size = new System.Drawing.Size(57, 22);
             this.tlsLabelUtilizador.Text = "Utilizador";
             // 
+            // aprovaçõesToolStripMenuItem1
+            // 
+            this.aprovaçõesToolStripMenuItem1.Name = "aprovaçõesToolStripMenuItem1";
+            this.aprovaçõesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.aprovaçõesToolStripMenuItem1.Text = "Aprovações";
+            this.aprovaçõesToolStripMenuItem1.Click += new System.EventHandler(this.aprovaçõesToolStripMenuItem1_Click);
+            // 
             // FrmExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -196,5 +206,6 @@
         private System.Windows.Forms.ToolStripMenuItem relatóriosToolStripMenuItem;
         private System.Windows.Forms.ToolStrip tlsExplorer;
         private System.Windows.Forms.ToolStripLabel tlsLabelUtilizador;
+        private System.Windows.Forms.ToolStripMenuItem aprovaçõesToolStripMenuItem1;
     }
 }

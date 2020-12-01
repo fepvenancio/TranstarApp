@@ -150,6 +150,12 @@
     <Compile Include="Integration\IntegraPrimavera.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User Interface\FrmAprovacoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmAprovacoes.Designer.cs">
+      <DependentUpon>FrmAprovacoes.cs</DependentUpon>
+    </Compile>
     <Compile Include="User Interface\FrmCRViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -219,11 +225,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="User Interface\FrmAprovacoes.resx">
+      <DependentUpon>FrmAprovacoes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmExplorer.resx">
       <DependentUpon>FrmExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmProcesso.resx">
+      <DependentUpon>FrmProcesso.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmServicos.resx">
       <DependentUpon>FrmServicos.cs</DependentUpon>

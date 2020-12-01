@@ -133,6 +133,7 @@ namespace TRTv10.User_Interface
             this.dgvDocumentosRI.ReadOnly = true;
             this.dgvDocumentosRI.Size = new System.Drawing.Size(998, 171);
             this.dgvDocumentosRI.TabIndex = 6;
+            this.dgvDocumentosRI.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDocumentosRI_CellContentClick);
             // 
             // cmsVND
             // 
