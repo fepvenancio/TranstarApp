@@ -90,7 +90,7 @@ namespace TRTv10.Integration
         {
             CabecDoc(documento, serie, data, processo, sqlCon, transaction);
 
-            if (documento == "REQ")
+            if (documento == "REQ" || documento == "FS")
                 LinhasDocReq(simulacao, sqlCon, transaction);
             else if(documento == "RQA")
                 LinhasDocRqa(artigo, precUnit, sqlCon, transaction);

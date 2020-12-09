@@ -510,35 +510,101 @@ namespace TRTv10.User_Interface
         /// <param name="simulacao"></param>
         private void ImprimeSimulacao()
         {
-            int Numerador = 0;
-            string codProcesso = "";
+            int numerador = 0;
+            string codProcesso;
             string fileName = "";
  
-            if (txtSERRequisicao.Text != "")
+            if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
             {
- 
-                codProcesso = cbSERNumSimulacao.Text; //alterar para REQ
+                codProcesso = cbSERNumSimulacao.Text;
                 PriEngine.Platform.Mapas.Inicializar("BAS");
                 PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
                 var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                Numerador = list.Length + 1;
-                fileName = string.Format("{0}_{1}.pdf", codProcesso, Numerador);
+                numerador = list.Length + 1;
+                fileName = string.Format("{0}_{1}.pdf", codProcesso, numerador);
+                //PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @"\\192.168.10.10\primavera\SG100\Mapas\App\testeIP.pdf");
                 PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
                 PriEngine.Platform.Mapas.JanelaPrincipal = 0;
                 PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
                 PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
                 System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
             }
-            else
+            if (cbSEROperacao.Text == @"Requisição de fundos")
             {
- 
-                codProcesso = cbSERNumSimulacao.Text;
+                codProcesso = cbSERNumSimulacao.Text; //alterar para REQ
                 PriEngine.Platform.Mapas.Inicializar("BAS");
                 PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
                 var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                Numerador = list.Length + 1;
-                fileName = string.Format("{0}_{1}.pdf", codProcesso, Numerador);
-                //PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @"\\192.168.10.10\primavera\SG100\Mapas\App\testeIP.pdf");
+                numerador = list.Length + 1;
+                fileName = $"{codProcesso}_{numerador}.pdf";
+                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+                PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
+                PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
+                System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            }
+
+            if (cbSEROperacao.Text == @"Factura de Serviços" && cbSERNumSimulacao.Text != "")
+            {
+                bool valida = false;
+                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                //Validar se a FS ja existe
+                string sqlDocExiste = $"SELECT Tipodoc, NumDoc, Serie FROM CabecDoc WHERE TipoDoc = 'FS' AND Requisicao = '{cbSERNumSimulacao.Text}'";
+                StdBELista lstDocExiste = PriEngine.Engine.Consulta(sqlDocExiste);
+
+                if (lstDocExiste.Vazia())
+                {
+                    if (cbSEREntidade.Text != "" || cbSEREntidade.Text != @"VD")
+                    {
+                        var documento = "FS";
+                        var processoFS = cbSERNumSimulacao.Text;
+                        var serie = DateTime.Now.Year.ToString();
+                        var vendas = new IntegraPrimavera();
+                        var idOrig = Guid.NewGuid();
+                        var idLin = Guid.NewGuid();
+
+                        using (var sqlCon = new SqlConnection(connectionString))
+                        {
+                            sqlCon.Open();
+
+                            using (var transaction = sqlCon.BeginTransaction())
+                            {
+                                vendas.CriaProcesso(processoFS, processoFS, sqlCon, transaction);
+                                vendas.CriaDocumento(documento, serie, DateTime.Now, processoFS, processoFS,
+                                    sqlCon, transaction, idOrig, idLin, "", 0);
+                                transaction.Commit();
+                            }
+
+                            sqlCon.Close();
+                        }
+
+                        using (var sqlCon = new SqlConnection(connectionString))
+                        {
+                            sqlCon.Open();
+
+                            using var transaction = sqlCon.BeginTransaction();
+                            vendas.CriaDocumentoErp(documento, cbSEREntidade.Text, DateTime.Now, Convert.ToDouble(txtSERCambio.Text), serie,
+                                processoFS);
+                            transaction.Commit();
+                        }
+
+                        PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
+                        Close();
+                    }
+                    else
+                    {
+                        PriEngine.Platform.Dialogos.MostraAviso(
+                            "O cliente não deve ser nulo ou VD, altere o cliente por favor. ");
+                    }
+
+                }
+
+                codProcesso = cbSERNumSimulacao.Text; //alterar para FS
+                PriEngine.Platform.Mapas.Inicializar("BAS");
+                PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+                numerador = list.Length + 1;
+                fileName = $"{codProcesso}_{numerador}.pdf";
                 PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
                 PriEngine.Platform.Mapas.JanelaPrincipal = 0;
                 PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
@@ -894,9 +960,30 @@ namespace TRTv10.User_Interface
                     frmRqa.Show(this);
                 }
             }
-            else if (cbSEROperacao.Text == @"Outros Serviços")
+            else if (cbSEROperacao.Text == @"Factura de Serviços")
             {
-                
+                try
+                {
+                    var lstExiste = PriEngine.Engine.Consulta(
+                        $"SELECT CDU_Processo FROM TDU_TRT_ItemsServicos WHERE CDU_Processo = '{cbSERNumSimulacao.Text}'");
+
+                    if (!lstExiste.Vazia())
+                    {
+                        CarregaServicos();
+                    }
+                    else
+                    {
+                        CriaSimulacao();
+                        CriaServicos();
+                    }
+
+                    PopulaGrelha(cbSERNumSimulacao.Text);
+                    ActualizaDadosSimulacao();
+                }
+                catch (Exception ex)
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o serviço, {ex.Message}");
+                }
             }
         }
 
@@ -918,15 +1005,11 @@ namespace TRTv10.User_Interface
             if (cbSERCod.Text != "")
                 try
                 {
-                    if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
+                    if (cbSERNumSimulacao.Text != "")
                     {
                         UpdateSimulacao();
                         ImprimeSimulacao();
                     }
-
-                    if (cbSEROperacao.Text != @"Requisição de fundos") return;
-                    UpdateSimulacao();
-                    ImprimeSimulacao();
                 }
                 catch (Exception ex)
                 {
