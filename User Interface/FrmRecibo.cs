@@ -398,5 +398,10 @@ namespace TRTv10.User_Interface
         }
 
         #endregion
+
+        private void dgvLinhasRecibo_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

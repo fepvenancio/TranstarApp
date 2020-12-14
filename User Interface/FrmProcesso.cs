@@ -184,8 +184,9 @@ namespace TRTv10.User_Interface
                 var sql = new StringBuilder();
 
                 if (cbPRONumProcesso.Text == "") return;
-                sql.Append("SELECT CDU_Processo As 'Processo', CDU_Nome As 'Cliente', ");
-                sql.Append("CDU_Documento As 'Documento', CDU_Numero As 'Numero', CDU_Serie As 'Serie', ");
+                sql.Append("SELECT ");
+                sql.Append("CASE WHEN C.CDU_Processo LIKE 'COT%' THEN RIGHT(C.CDU_Processo, LEN(C.CDU_Processo) - 3) ELSE C.CDU_Processo END AS 'Processo', ");
+                sql.Append("C.CDU_Nome As 'Cliente', CDU_Documento As 'Documento', CDU_Numero As 'Numero', CDU_Serie As 'Serie', ");
                 sql.Append("SUM(L.CDU_Total) As 'Total', SUM(L.CDU_ValorRec) As 'Valor Recebido' ");
                 sql.Append("FROM TDU_TRT_CabecDocumentos C ");
                 sql.Append("INNER JOIN TDU_TRT_LinhasDocumentos L ");
@@ -206,7 +207,7 @@ namespace TRTv10.User_Interface
                 dgvDocumentosVND.Columns[3].Width = 75;
                 dgvDocumentosVND.Columns[4].Width = 50;
                 dgvDocumentosVND.Columns[5].Width = 100;
-                dgvDocumentosVND.Columns[6].Width = 100;
+                //dgvDocumentosVND.Columns[6].Width = 100;
                 dgvDocumentosVND.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10);
                 dgvDocumentosVND.DefaultCellStyle.Font = new Font("Arial", 10);
                 sqlCon.Close();

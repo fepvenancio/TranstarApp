@@ -237,6 +237,9 @@
     <EmbeddedResource Include="User Interface\FrmProcesso.resx">
       <DependentUpon>FrmProcesso.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmRecibo.resx">
+      <DependentUpon>FrmRecibo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmServicos.resx">
       <DependentUpon>FrmServicos.cs</DependentUpon>
     </EmbeddedResource>
