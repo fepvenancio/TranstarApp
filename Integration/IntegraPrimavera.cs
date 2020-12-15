@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using System.Windows.Forms;
+using StdPlatBS100;
 using TesBE100;
 using TRTv10.Engine;
 using VndBE100;
@@ -22,6 +23,41 @@ namespace TRTv10.Integration
         #endregion
 
         #region metodos publicos
+
+        public static void PrintInvoice()
+        {
+            var reportTemplate = "GCPVLS01";
+            try
+            {
+                // Alterar esta selection formula.
+                var strSelFormula = $"{{CabecDoc.TipoDoc}}='REQ' and {{CabecDoc.Serie}} = '2020' AND {{CabecDoc.NumDoc}}={Convert.ToString(1)}";
+                PriEngine.Platform.Mapas.Inicializar("VND");
+                var strFormula = new StringBuilder();
+                strFormula.Append($"StringVar Nome:='{PriEngine.Engine.Contexto.IDNome}';");
+                strFormula.Append($"StringVar Morada:='{PriEngine.Engine.Contexto.IDMorada}';");
+                strFormula.Append($"StringVar Localidade:='{PriEngine.Engine.Contexto.IDLocalidade}';");
+                strFormula.Append($"StringVar CodPostal:='{PriEngine.Engine.Contexto.IDCodPostal} {PriEngine.Engine.Contexto.IDCodPostalLocal}';");
+                strFormula.Append($"StringVar Telefone:='{PriEngine.Engine.Contexto.IDTelefone}';");
+                strFormula.Append($"StringVar Fax:='{PriEngine.Engine.Contexto.IDFax}';");
+                strFormula.Append($"StringVar Contribuinte:='{PriEngine.Engine.Contexto.IFNIF}';");
+                strFormula.Append($"StringVar CapitalSocial:='{PriEngine.Engine.Contexto.ICCapitalSocial}';");
+                strFormula.Append($"StringVar Conservatoria:='{PriEngine.Engine.Contexto.ICConservatoria}';");
+                strFormula.Append($"StringVar Matricula:='{PriEngine.Engine.Contexto.ICMatricula}';");
+                strFormula.Append($"StringVar MoedaCapitalSocial:='{PriEngine.Engine.Contexto.ICMoedaCapSocial}';");
+                PriEngine.Platform.Mapas.SetFormula("DadosEmpresa", strFormula.ToString());
+                
+                // A existir parametros devem ir aqui
+                var strParametros = new StringBuilder();
+                PriEngine.Platform.Mapas.SetFormula("InicializaParametros", strParametros.ToString());
+                PriEngine.Platform.Mapas.Destino = 0;
+                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, "C:\\Program Files\\PRIMAVERA\\SG100\\Mapas\\LP\\GCP");
+                PriEngine.Platform.Mapas.ImprimeListagem(reportTemplate, "Invoice", "P", 1, "N", strSelFormula, 0, false, true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while printing the document. n" + ex.Message);
+            }
+        }
 
         public string ItemDocumento(string item)
         {

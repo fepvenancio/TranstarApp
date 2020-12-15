@@ -156,12 +156,6 @@
     <Compile Include="User Interface\FrmAprovacoes.Designer.cs">
       <DependentUpon>FrmAprovacoes.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Interface\FrmCRViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="User Interface\FrmCRViewer.Designer.cs">
-      <DependentUpon>FrmCRViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="User Interface\FrmExplorer.cs">
       <SubType>Form</SubType>
     </Compile>

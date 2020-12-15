@@ -71,7 +71,13 @@ namespace TRTv10.User_Interface
         private void LimpaGrelhaApr()
         {
             var dt = (DataTable) dgvAprovacoes.DataSource;
-            dt?.Clear();
+            if (dgvAprovacoes.RowCount > 1)
+            {
+                dgvAprovacoes.Rows.Clear();
+            }
+                
+            if(dt != null)
+                dt.Clear();
         }
 
         private void PopulaGrelhaAprovacoes()
@@ -171,30 +177,33 @@ namespace TRTv10.User_Interface
                             value: dgvRow.Cells[columnName: "Serie"].Value == DBNull.Value
                                 ? ""
                                 : dgvRow.Cells[columnName: "Serie"].Value.ToString());
-                    
-                    
-                    var aprovacao = dgvRow.Cells[columnName: "AprTesouraria"].Value;
-                    int bit;
 
-                    if (aprovacao == "False")
+                    if (dgvRow.Cells[columnName: "AprTesouraria"].Selected)
                     {
-                        bit = 0;
+                        var aprovacao = dgvRow.Cells[columnName: "AprTesouraria"].Value;
+                        int bit = 0;
+
+                        if (aprovacao != null && aprovacao.ToString() == "False")
+                        {
+                            bit = 1;
+                        }
+
+                        if (aprovacao != null && aprovacao.ToString() == "True")
+                        {
+                            bit = 0;
+                        }
+
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@AprTes",
+                            value: bit);
                     }
                     else
                     {
-                        bit = 1;
+                        PriEngine.Platform.Dialogos.MostraAviso("Não tem permissões para alterar");
                     }
-
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@AprTes",
-                        value: bit);
-
                     sqlCmd.ExecuteNonQuery();
+                    PopulaGrelhaAprovacoes();
                 }
-                else
-                {
-                    PriEngine.Platform.Dialogos.MostraAviso("Não tem permissao para fazer a aprovaçao de tesouraria");
-                }
-                
+
                 if (nivelAuto == "N2")
                 {
                     var sqlCmd = new SqlCommand(cmdText: "TDU_TRT_GrelhaAPRN2_Edit", connection: sqlCon)
@@ -222,19 +231,33 @@ namespace TRTv10.User_Interface
                         value: dgvRow.Cells[columnName: "Serie"].Value == DBNull.Value
                             ? ""
                             : dgvRow.Cells[columnName: "Serie"].Value.ToString());
+
+                    if (dgvRow.Cells[columnName: "AprOperacoes"].Selected)
+                    {
+                        var aprovacao = dgvRow.Cells[columnName: "AprOperacoes"].Value.ToString();
+                        int bit = 0;
+
+                        if (aprovacao.ToString() == "False")
+                        {
+                            bit = 1;
+                        }
                     
-                    
-                    var aprovacao = dgvRow.Cells[columnName: "AprOperacoes"].Value.ToString();
-                    
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@AprOp",
-                        value: aprovacao);
+                        if (aprovacao.ToString() == "True")
+                        {
+                            bit = 0;
+                        }
+
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@AprOp",
+                            value: bit);
+                    }
+                    else
+                    {
+                        PriEngine.Platform.Dialogos.MostraAviso("Não tem permissões para alterar");
+                    }
                     sqlCmd.ExecuteNonQuery();
+                    PopulaGrelhaAprovacoes();
                 }
-                else
-                {
-                    PriEngine.Platform.Dialogos.MostraAviso("Não tem permissao para fazer a aprovaçao de tesouraria");
-                }
-                
+
                 if (nivelAuto == "N3")
                 {
                     var sqlCmd = new SqlCommand(cmdText: "TDU_TRT_GrelhaAPRN3_Edit", connection: sqlCon)
@@ -262,32 +285,93 @@ namespace TRTv10.User_Interface
                         value: dgvRow.Cells[columnName: "Serie"].Value == DBNull.Value
                             ? ""
                             : dgvRow.Cells[columnName: "Serie"].Value.ToString());
-                    
-                    var aprovacaoTes = dgvRow.Cells[columnName: "AprTesouraria"].Value.ToString();
-                    
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@AprTes",
-                        value: aprovacaoTes);
 
-                    var aprovacaoOp = dgvRow.Cells[columnName: "AprOperacoes"].Value.ToString();
-                    
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@AprOp",
-                        value: aprovacaoOp);
+                    if (dgvRow.Cells[columnName: "AprTesouraria"].Selected)
+                    {
+                        var aprovacaoTes = dgvRow.Cells[columnName: "AprTesouraria"].Value.ToString();
+                        int bit = 0;
 
-                    var aprovacaoDir = dgvRow.Cells[columnName: "AprDireccao"].Value.ToString();
-                    
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@AprDir",
-                        value: aprovacaoDir);
+                        if (aprovacaoTes.ToString() == "False")
+                        {
+                            bit = 1;
+                        }
 
-                    var aprovacaoPgt = dgvRow.Cells[columnName: "AprPagamento"].Value.ToString();
-                    
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@AprPgt",
-                        value: aprovacaoPgt);
-                    sqlCmd.ExecuteNonQuery();
+                        if (aprovacaoTes.ToString() == "True")
+                        {
+                            bit = 0;
+                        }
+
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@AprTes",
+                            value: bit);
+
+                        sqlCmd.ExecuteNonQuery();
+                        PopulaGrelhaAprovacoes();
+                    }
+
+                    if (dgvRow.Cells[columnName: "AprOperacoes"].Selected)
+                    {
+                        var aprovacaoOp = dgvRow.Cells[columnName: "AprOperacoes"].Value.ToString();
+                        int bit = 0;
+
+                        if (aprovacaoOp.ToString() == "False")
+                        {
+                            bit = 1;
+                        }
+
+                        if (aprovacaoOp.ToString() == "True")
+                        {
+                            bit = 0;
+                        }
+
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@AprOp",
+                            value: bit);
+
+                        sqlCmd.ExecuteNonQuery();
+                        PopulaGrelhaAprovacoes();
+                    }
+
+                    if (dgvRow.Cells[columnName: "AprDireccao"].Selected)
+                    {
+                        var aprovacaoDir = dgvRow.Cells[columnName: "AprDireccao"].Value.ToString();
+                        int bit = 0;
+                        if (aprovacaoDir.ToString() == "False")
+                        {
+                            bit = 1;
+                        }
+
+                        if (aprovacaoDir.ToString() == "True")
+                        {
+                            bit = 0;
+                        }
+
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@AprDir",
+                            value: bit);
+
+                        sqlCmd.ExecuteNonQuery();
+                        PopulaGrelhaAprovacoes();
+                    }
+
+                    if (dgvRow.Cells[columnName: "AprPagamento"].Selected)
+                    {
+                        var aprovacaoPgt = dgvRow.Cells[columnName: "AprPagamento"].Value.ToString();
+                        int bit = 0;
+                        if (aprovacaoPgt.ToString() == "False")
+                        {
+                            bit = 1;
+                        }
+
+                        if (aprovacaoPgt.ToString() == "True")
+                        {
+                            bit = 0;
+                        }
+
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@AprPgt",
+                            value: bit);
+
+                        sqlCmd.ExecuteNonQuery();
+                        PopulaGrelhaAprovacoes();
+                    }
                 }
-                else
-                {
-                    PriEngine.Platform.Dialogos.MostraAviso("Não tem permissao para fazer a aprovações de Direcção");
-                } 
                 
                 if (nivelAuto == "N4")
                 {
@@ -316,18 +400,35 @@ namespace TRTv10.User_Interface
                         value: dgvRow.Cells[columnName: "Serie"].Value == DBNull.Value
                             ? ""
                             : dgvRow.Cells[columnName: "Serie"].Value.ToString());
+
+                    if (dgvRow.Cells[columnName: "AprPagamento"].Selected)
+                    {
+                        var aprovacao = dgvRow.Cells[columnName: "AprPagamento"].Value.ToString();
+                        int bit = 0;
+
+                        if (aprovacao.ToString() == "False")
+                        {
+                            bit = 1;
+                        }
                     
-                    
-                    var aprovacao = dgvRow.Cells[columnName: "AprPagamento"].Value.ToString();
-                    
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@AprPgt",
-                        value: aprovacao);
+                        if (aprovacao.ToString() == "True")
+                        {
+                            bit = 0;
+                        }
+
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@AprPgt",
+                            value: bit);
+
+                    }
+                    else
+                    {
+                        PriEngine.Platform.Dialogos.MostraAviso("Não tem permissões para alterar");
+                    }
                     sqlCmd.ExecuteNonQuery();
+                    PopulaGrelhaAprovacoes();
                 }
-                else
-                {
-                    PriEngine.Platform.Dialogos.MostraAviso("Não tem permissao para fazer Pagamentos");
-                }
+                
+                sqlCon.Close();
             }
             catch
             {
