@@ -522,7 +522,6 @@ namespace TRTv10.User_Interface
                 var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
                 numerador = list.Length + 1;
                 fileName = string.Format("{0}_{1}.pdf", codProcesso, numerador);
-                //PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @"\\192.168.10.10\primavera\SG100\Mapas\App\testeIP.pdf");
                 PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
                 PriEngine.Platform.Mapas.JanelaPrincipal = 0;
                 PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";

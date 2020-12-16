@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using StdPlatBS100;
@@ -24,13 +25,43 @@ namespace TRTv10.Integration
 
         #region metodos publicos
 
-        public static void PrintInvoice()
+        public static void PrintInvoice(string tipoDoc, string serie, int numDoc)
         {
-            var reportTemplate = "GCPVLS01";
+            var reportTemplate = "";
+
+            if (tipoDoc == "REQ" || tipoDoc == "RQA")
+            {
+                reportTemplate = "TRT_REQ";
+            } 
+            else if (tipoDoc == "FA" || tipoDoc == "ND")
+            {
+                reportTemplate = "TRT_FA";
+            }
+            else if (tipoDoc == "FR")
+            {
+                reportTemplate = "TRT_FR";
+            }
+            else if (tipoDoc == "RI")
+            {
+                reportTemplate = "TRT_RI";
+            }
+            else if (tipoDoc == "NC")
+            {
+                reportTemplate = "TRT_NC";
+            }
+            else if (tipoDoc == "COT")
+            {
+                reportTemplate = "TRT_SIM";
+            }
+            else
+            {
+                reportTemplate = "GCPVLS01";
+            }
+
             try
             {
                 // Alterar esta selection formula.
-                var strSelFormula = $"{{CabecDoc.TipoDoc}}='REQ' and {{CabecDoc.Serie}} = '2020' AND {{CabecDoc.NumDoc}}={Convert.ToString(1)}";
+                var strSelFormula = $"{{CabecDoc.TipoDoc}}='{tipoDoc}' and {{CabecDoc.Serie}} = '{serie}' AND {{CabecDoc.NumDoc}}={Convert.ToString(numDoc)}";
                 PriEngine.Platform.Mapas.Inicializar("VND");
                 var strFormula = new StringBuilder();
                 strFormula.Append($"StringVar Nome:='{PriEngine.Engine.Contexto.IDNome}';");
@@ -50,8 +81,10 @@ namespace TRTv10.Integration
                 var strParametros = new StringBuilder();
                 PriEngine.Platform.Mapas.SetFormula("InicializaParametros", strParametros.ToString());
                 PriEngine.Platform.Mapas.Destino = 0;
-                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, "C:\\Program Files\\PRIMAVERA\\SG100\\Mapas\\LP\\GCP");
+                string fileName = string.Format("{0}_{1}_{2}.pdf", tipoDoc, numDoc, serie);
+                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
                 PriEngine.Platform.Mapas.ImprimeListagem(reportTemplate, "Invoice", "P", 1, "N", strSelFormula, 0, false, true);
+                System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
             }
             catch (Exception ex)
             {
