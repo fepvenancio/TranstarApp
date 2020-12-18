@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using StdPlatBS100;
@@ -106,7 +105,6 @@ namespace TRTv10.Integration
 
             MessageBox.Show(item);
             return erpDoc;
-
         }
 
         public string ExisteReq(string simulacao, string documento)
@@ -361,6 +359,7 @@ namespace TRTv10.Integration
 
                 PriEngine.Engine.Vendas.Documentos.Actualiza(docVenda, ref avisos);
 
+                PrintInvoice(docVenda.Tipodoc, docVenda.Serie, docVenda.NumDoc);
                 NumDoc = 0;
             }
             catch (Exception ex)

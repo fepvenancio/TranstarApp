@@ -99,7 +99,6 @@ namespace TRTv10.User_Interface
                             }
 
                             PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
-                            IntegraPrimavera.PrintInvoice();
                             Close();
                         }
                     }
