@@ -134,7 +134,7 @@ namespace TRTv10.User_Interface
             this.dgvDocumentosRI.ReadOnly = true;
             this.dgvDocumentosRI.Size = new System.Drawing.Size(998, 171);
             this.dgvDocumentosRI.TabIndex = 6;
-            this.dgvDocumentosRI.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDocumentosRI_CellContentClick);
+            this.dgvDocumentosRI.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDocumentosRI_CellContentClick);
             // 
             // cmsVND
             // 
@@ -173,7 +173,7 @@ namespace TRTv10.User_Interface
             this.cbPROCliente.Name = "cbPROCliente";
             this.cbPROCliente.Size = new System.Drawing.Size(181, 29);
             this.cbPROCliente.TabIndex = 7;
-            this.cbPROCliente.Leave += new System.EventHandler(this.cbPROCliente_Leave);
+            this.cbPROCliente.Leave += new System.EventHandler(this.CbPROCliente_Leave);
             // 
             // FrmProcesso
             // 

@@ -26,7 +26,7 @@ namespace TRTv10.Integration
 
         public static void PrintInvoice(string tipoDoc, string serie, int numDoc)
         {
-            var reportTemplate = "";
+            string reportTemplate;
 
             if (tipoDoc == "REQ" || tipoDoc == "RQA")
             {
@@ -478,14 +478,12 @@ namespace TRTv10.Integration
                                         $" WHERE CDU_Documento = '{documento}' AND CDU_Serie = '{serie}' ", sqlCon, transaction))
             {
                 //sqlCon.Open();
-                using (SqlDataReader reader = sqlCmd.ExecuteReader())
+                using SqlDataReader reader = sqlCmd.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    if (reader.HasRows)
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            ultNum = reader.GetInt32(reader.GetOrdinal("NumDoc"));
-                        }
+                        ultNum = reader.GetInt32(reader.GetOrdinal("NumDoc"));
                     }
                 }
             }
@@ -505,16 +503,14 @@ namespace TRTv10.Integration
                                                       $"WHERE CDU_Documento = '{documento}' AND CDU_Serie = '{serie}' AND CDU_Numero = {numDoc} ", sqlCon, transaction))
             {
                 //sqlCon.Open();
-                using (SqlDataReader reader = sqlCmd.ExecuteReader())
+                using SqlDataReader reader = sqlCmd.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    if (reader.HasRows)
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            idDoc = reader.GetGuid(reader.GetOrdinal("Id"));
-                            cliente = reader.GetString(reader.GetOrdinal("Cliente"));
-                            nome = reader.GetString(reader.GetOrdinal("Nome"));
-                        }
+                        idDoc = reader.GetGuid(reader.GetOrdinal("Id"));
+                        cliente = reader.GetString(reader.GetOrdinal("Cliente"));
+                        nome = reader.GetString(reader.GetOrdinal("Nome"));
                     }
                 }
             }
@@ -719,7 +715,7 @@ namespace TRTv10.Integration
 
             var query = sql.ToString();
 
-            //PriEngine.Engine.DSO.ExecuteSQL(query);
+            PriEngine.Engine.DSO.ExecuteSQL(query);
         }
 
         #endregion

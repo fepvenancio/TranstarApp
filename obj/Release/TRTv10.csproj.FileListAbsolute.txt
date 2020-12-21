@@ -26,3 +26,19 @@ C:\Users\filip\Desktop\TranstarApp\TranstarApp\obj\Release\TRTv10.csproj.Generat
 C:\Users\filip\Desktop\TranstarApp\TranstarApp\obj\Release\TRTv10.csproj.CoreCompileInputs.cache
 C:\Users\filip\Desktop\TranstarApp\TranstarApp\obj\Release\TRTv10.exe
 C:\Users\filip\Desktop\TranstarApp\TranstarApp\obj\Release\TRTv10.pdb
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\bin\Release\TRTv10.exe.config
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\bin\Release\TRTv10.exe
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\bin\Release\TRTv10.pdb
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.csprojAssemblyReference.cache
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.exe.config
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.Properties.Resources.resources
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.User_Interface.FrmAprovacoes.resources
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.User_Interface.FrmExplorer.resources
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.User_Interface.FrmLogin.resources
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.User_Interface.FrmProcesso.resources
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.User_Interface.FrmRecibo.resources
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.User_Interface.FrmServicos.resources
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.csproj.GenerateResource.cache
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.csproj.CoreCompileInputs.cache
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.exe
+C:\Users\filip\OneDrive\Ambiente de Trabalho\TranstarApp\TranstarApp\obj\Release\TRTv10.pdb

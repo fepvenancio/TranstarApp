@@ -841,7 +841,7 @@ namespace TRTv10.User_Interface
             var lstExiste = PriEngine.Engine.Consulta(
                 $"SELECT * FROM TDU_TRT_ItemsServicos WHERE CDU_Processo = '{cbSERNumSimulacao.Text}'");
 
-            if (!lstExiste.Vazia() || lstExiste.Valor(0).ToString() != "")
+            if (!lstExiste.Vazia())
             {
                 CarregaServicos();
                 PopulaGrelha(cbSERNumSimulacao.Text);

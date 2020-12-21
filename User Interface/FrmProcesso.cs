@@ -42,7 +42,7 @@ namespace TRTv10.User_Interface
             {
                 if (cbPROCliente.Text == "")
                 {
-                    var query = $"SELECT CDU_Codigo FROM [dbo].[TDU_TRT_Processo]";
+                    var query = $"SELECT CDU_Codigo FROM [dbo].[TDU_TRT_Processo] WHERE CDU_Codigo NOT LIKE 'COT%'";
 
                     var lstPesquisa = PriEngine.Engine.Consulta(query);
 
@@ -60,7 +60,7 @@ namespace TRTv10.User_Interface
                 else
                 {
                     cbPRONumProcesso.Items.Clear();
-                    var query = $"SELECT CDU_Codigo FROM [dbo].[TDU_TRT_Processo] WHERE CDU_Cliente = '{cbPROCliente.Text}'";
+                    var query = $"SELECT CDU_Codigo FROM [dbo].[TDU_TRT_Processo] WHERE CDU_Cliente = '{cbPROCliente.Text}' AND CDU_Codigo NOT LIKE 'COT%'";
                     var lstPesquisa = PriEngine.Engine.Consulta(query);
 
                     if (!lstPesquisa.Vazia())
@@ -106,7 +106,7 @@ namespace TRTv10.User_Interface
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cbPROCliente_Leave(object sender, EventArgs e)
+        private void CbPROCliente_Leave(object sender, EventArgs e)
         {
             ActualizaDadosProcesso();
         }
@@ -121,7 +121,7 @@ namespace TRTv10.User_Interface
             ActualizaDadosProcesso();
         }
 
-        private void dgvDocumentosRI_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvDocumentosRI_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
@@ -244,7 +244,7 @@ namespace TRTv10.User_Interface
                 sql.Append("INNER JOIN TDU_TRT_LinhasDocumentos L ");
                 sql.Append("ON C.CDU_Id = L.CDU_IdDoc ");
                 sql.Append($"WHERE CDU_Processo = {processo} ");
-                sql.Append("AND CDU_Documento <> 'RI' ");
+                sql.Append("AND CDU_Documento <> 'RI' AND CDU_Documento <> 'FS' ");
                 sql.Append("GROUP BY CDU_Processo, CDU_Nome, CDU_Documento, CDU_Numero, CDU_Serie");
 
                 var query = sql.ToString();
