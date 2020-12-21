@@ -19,7 +19,7 @@ namespace TRTv10.User_Interface
         #region variaveis
 
         private int _numSimulacao;
-
+        private bool _camposValidados;
         #endregion
 
         #region Metodos de Inicializaçao
@@ -170,9 +170,29 @@ namespace TRTv10.User_Interface
             }
         }
 
+        /// <summary>
+        /// Preenche os valores da combobox cbSERAviaoNavio
+        /// </summary>
+        public void ActualizaDadosTransporte()
+        {
+            cbSERAviaoNavio.Items.Add("Avião");
+            cbSERAviaoNavio.Items.Add("Rodoviário");
+            cbSERAviaoNavio.Items.Add("Marítimo");
+        }
+
         #endregion
 
         #region Metodos de Criaçao / Update
+
+        /// <summary>
+        /// Serve para validar se para criar X documentos os campos essenciais estao preenchidos.
+        /// </summary>
+        private void ValidaCamposObrigatorios()
+        {
+            _camposValidados = false || cbSERMoeda.Text != "" && txtSERVCIF.Text != "" && txtSERVAduaneiro.Text != "" &&
+                txtSERCambio.Text != "" && txtSERTipoMercadoria.Text != "";
+        }
+
 
         /// <summary>
         ///     Carrega os valores da ComboBox Operaçao
@@ -286,7 +306,7 @@ namespace TRTv10.User_Interface
                     sqlCmdLin.Parameters.AddWithValue("@BLCartaPorte", txtSERBLCartaPorte.Text);
                     sqlCmdLin.Parameters.AddWithValue("@NumVolumes", txtSERNumVolumes.Text);
                     sqlCmdLin.Parameters.AddWithValue("@Peso", txtSERPeso.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@AviaoNavio", txtSERAviaoNavio.Text);
+                    sqlCmdLin.Parameters.AddWithValue("@AviaoNavio", cbSERAviaoNavio.Text);
                     sqlCmdLin.Parameters.AddWithValue("@Manifesto", txtSERManifesto.Text);
                     sqlCmdLin.Parameters.AddWithValue("@NumDAR", txtSERNumDAR.Text);
                     sqlCmdLin.Parameters.AddWithValue("@ValorDAR", txtSERValorDAR.Text);
@@ -339,7 +359,7 @@ namespace TRTv10.User_Interface
                 sqlCmdLin.Parameters.AddWithValue("@BLCartaPorte", txtSERBLCartaPorte.Text);
                 sqlCmdLin.Parameters.AddWithValue("@NumVolumes", txtSERNumVolumes.Text);
                 sqlCmdLin.Parameters.AddWithValue("@Peso", txtSERPeso.Text);
-                sqlCmdLin.Parameters.AddWithValue("@AviaoNavio", txtSERAviaoNavio.Text);
+                sqlCmdLin.Parameters.AddWithValue("@AviaoNavio", cbSERAviaoNavio.Text);
                 sqlCmdLin.Parameters.AddWithValue("@Manifesto", txtSERManifesto.Text);
                 sqlCmdLin.Parameters.AddWithValue("@NumDAR", txtSERNumDAR.Text);
                 sqlCmdLin.Parameters.AddWithValue("@ValorDAR", txtSERValorDAR.Text);
@@ -440,7 +460,7 @@ namespace TRTv10.User_Interface
                 txtSERBLCartaPorte.Text = lstPesquisa.Valor(9).ToString();
                 txtSERNumVolumes.Text = lstPesquisa.Valor(10).ToString();
                 txtSERPeso.Text = lstPesquisa.Valor(11).ToString();
-                txtSERAviaoNavio.Text = lstPesquisa.Valor(12).ToString();
+                cbSERAviaoNavio.Text = lstPesquisa.Valor(12).ToString();
                 txtSERManifesto.Text = lstPesquisa.Valor(13).ToString();
                 txtSERNumDAR.Text = lstPesquisa.Valor(14).ToString();
                 txtSERValorDAR.Text = lstPesquisa.Valor(15).ToString();
@@ -480,7 +500,7 @@ namespace TRTv10.User_Interface
             txtSERBLCartaPorte.Text = "";
             txtSERNumVolumes.Text = "";
             txtSERPeso.Text = "";
-            txtSERAviaoNavio.Text = "";
+            cbSERAviaoNavio.Text = "";
             txtSERManifesto.Text = "";
             txtSERNumDAR.Text = "";
             txtSERValorDAR.Text = "";
@@ -510,105 +530,115 @@ namespace TRTv10.User_Interface
         /// <param name="simulacao"></param>
         private void ImprimeSimulacao()
         {
-            int numerador = 0;
-            string codProcesso;
-            string fileName = "";
- 
-            if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
-            {
-                codProcesso = cbSERNumSimulacao.Text;
-                PriEngine.Platform.Mapas.Inicializar("BAS");
-                PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                numerador = list.Length + 1;
-                fileName = string.Format("{0}_{1}.pdf", codProcesso, numerador);
-                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                PriEngine.Platform.Mapas.JanelaPrincipal = 0;
-                PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
-                PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
-                System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-            }
-            if (cbSEROperacao.Text == @"Requisição de fundos")
-            {
-                codProcesso = cbSERNumSimulacao.Text; //alterar para REQ
-                PriEngine.Platform.Mapas.Inicializar("BAS");
-                PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                numerador = list.Length + 1;
-                fileName = $"{codProcesso}_{numerador}.pdf";
-                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                PriEngine.Platform.Mapas.JanelaPrincipal = 0;
-                PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
-                PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
-                System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-            }
+            ValidaCamposObrigatorios();
 
-            if (cbSEROperacao.Text == @"Factura de Serviços" && cbSERNumSimulacao.Text != "")
+            if (_camposValidados is true)
             {
-                bool valida = false;
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-                //Validar se a FS ja existe
-                string sqlDocExiste = $"SELECT Tipodoc, NumDoc, Serie FROM CabecDoc WHERE TipoDoc = 'FS' AND Requisicao = '{cbSERNumSimulacao.Text}'";
-                StdBELista lstDocExiste = PriEngine.Engine.Consulta(sqlDocExiste);
-
-                if (lstDocExiste.Vazia())
+                int numerador = 0;
+                string codProcesso;
+                string fileName = "";
+     
+                if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
                 {
-                    if (cbSEREntidade.Text != "" || cbSEREntidade.Text != @"VD")
+                    codProcesso = cbSERNumSimulacao.Text;
+                    PriEngine.Platform.Mapas.Inicializar("BAS");
+                    PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+                    var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+                    numerador = list.Length + 1;
+                    fileName = string.Format("{0}_{1}.pdf", codProcesso, numerador);
+                    PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                    PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+                    PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
+                    PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
+                    System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                }
+                if (cbSEROperacao.Text == @"Requisição de fundos")
+                {
+                    codProcesso = cbSERNumSimulacao.Text; //alterar para REQ
+                    PriEngine.Platform.Mapas.Inicializar("BAS");
+                    PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+                    var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+                    numerador = list.Length + 1;
+                    fileName = $"{codProcesso}_{numerador}.pdf";
+                    PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                    PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+                    PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
+                    PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
+                    System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                }
+
+                if (cbSEROperacao.Text == @"Factura de Serviços" && cbSERNumSimulacao.Text != "")
+                {
+                    bool valida = false;
+                    var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                    //Validar se a FS ja existe
+                    string sqlDocExiste = $"SELECT Tipodoc, NumDoc, Serie FROM CabecDoc WHERE TipoDoc = 'FS' AND Requisicao = '{cbSERNumSimulacao.Text}'";
+                    StdBELista lstDocExiste = PriEngine.Engine.Consulta(sqlDocExiste);
+
+                    if (lstDocExiste.Vazia())
                     {
-                        var documento = "FS";
-                        var processoFS = cbSERNumSimulacao.Text;
-                        var serie = DateTime.Now.Year.ToString();
-                        var vendas = new IntegraPrimavera();
-                        var idOrig = Guid.NewGuid();
-                        var idLin = Guid.NewGuid();
-
-                        using (var sqlCon = new SqlConnection(connectionString))
+                        if (cbSEREntidade.Text != "" || cbSEREntidade.Text != @"VD")
                         {
-                            sqlCon.Open();
+                            var documento = "FS";
+                            var processoFS = cbSERNumSimulacao.Text;
+                            var serie = DateTime.Now.Year.ToString();
+                            var vendas = new IntegraPrimavera();
+                            var idOrig = Guid.NewGuid();
+                            var idLin = Guid.NewGuid();
 
-                            using (var transaction = sqlCon.BeginTransaction())
+                            using (var sqlCon = new SqlConnection(connectionString))
                             {
-                                vendas.CriaProcesso(processoFS, processoFS, sqlCon, transaction);
-                                vendas.CriaDocumento(documento, serie, DateTime.Now, processoFS, processoFS,
-                                    sqlCon, transaction, idOrig, idLin, "", 0);
+                                sqlCon.Open();
+
+                                using (var transaction = sqlCon.BeginTransaction())
+                                {
+                                    vendas.CriaProcesso(processoFS, processoFS, sqlCon, transaction);
+                                    vendas.CriaDocumento(documento, serie, DateTime.Now, processoFS, processoFS,
+                                        sqlCon, transaction, idOrig, idLin, "", 0);
+                                    transaction.Commit();
+                                }
+
+                                sqlCon.Close();
+                            }
+
+                            using (var sqlCon = new SqlConnection(connectionString))
+                            {
+                                sqlCon.Open();
+
+                                using var transaction = sqlCon.BeginTransaction();
+                                vendas.CriaDocumentoErp(documento, cbSEREntidade.Text, DateTime.Now, Convert.ToDouble(txtSERCambio.Text), serie,
+                                    processoFS);
                                 transaction.Commit();
                             }
 
-                            sqlCon.Close();
+                            PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
+                            Close();
                         }
-
-                        using (var sqlCon = new SqlConnection(connectionString))
+                        else
                         {
-                            sqlCon.Open();
-
-                            using var transaction = sqlCon.BeginTransaction();
-                            vendas.CriaDocumentoErp(documento, cbSEREntidade.Text, DateTime.Now, Convert.ToDouble(txtSERCambio.Text), serie,
-                                processoFS);
-                            transaction.Commit();
+                            PriEngine.Platform.Dialogos.MostraAviso(
+                                "O cliente não deve ser nulo ou VD, altere o cliente por favor. ");
                         }
 
-                        PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
-                        Close();
-                    }
-                    else
-                    {
-                        PriEngine.Platform.Dialogos.MostraAviso(
-                            "O cliente não deve ser nulo ou VD, altere o cliente por favor. ");
                     }
 
+                    codProcesso = cbSERNumSimulacao.Text; //alterar para FS
+                    PriEngine.Platform.Mapas.Inicializar("BAS");
+                    PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+                    var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+                    numerador = list.Length + 1;
+                    fileName = $"{codProcesso}_{numerador}.pdf";
+                    PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                    PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+                    PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
+                    PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
+                    System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
                 }
-
-                codProcesso = cbSERNumSimulacao.Text; //alterar para FS
-                PriEngine.Platform.Mapas.Inicializar("BAS");
-                PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                numerador = list.Length + 1;
-                fileName = $"{codProcesso}_{numerador}.pdf";
-                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                PriEngine.Platform.Mapas.JanelaPrincipal = 0;
-                PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
-                PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
-                System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            }
+            else
+            {
+                PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: Moeda, Valor CIF, Valor Aduaneiro, " +
+                                                        "Câmbio, Tipo de Mercadoria e Data de Entrada ");
             }
         }
         

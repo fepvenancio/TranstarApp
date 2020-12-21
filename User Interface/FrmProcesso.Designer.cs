@@ -32,9 +32,9 @@ namespace TRTv10.User_Interface
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvDocumentosVND = new System.Windows.Forms.DataGridView();
             this.dgvDocumentoVNDLin = new System.Windows.Forms.DataGridView();
             this.cbPRONumProcesso = new System.Windows.Forms.ComboBox();
@@ -45,6 +45,7 @@ namespace TRTv10.User_Interface
             this.criarReqInternaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsREC = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.criarReciboToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbPROCliente = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDocumentosVND)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDocumentoVNDLin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDocumentosRI)).BeginInit();
@@ -57,8 +58,8 @@ namespace TRTv10.User_Interface
             this.dgvDocumentosVND.AllowUserToAddRows = false;
             this.dgvDocumentosVND.AllowUserToDeleteRows = false;
             this.dgvDocumentosVND.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvDocumentosVND.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvDocumentosVND.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvDocumentosVND.BackgroundColor = System.Drawing.Color.White;
             this.dgvDocumentosVND.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDocumentosVND.Location = new System.Drawing.Point(39, 330);
@@ -76,8 +77,8 @@ namespace TRTv10.User_Interface
             this.dgvDocumentoVNDLin.AllowUserToAddRows = false;
             this.dgvDocumentoVNDLin.AllowUserToDeleteRows = false;
             this.dgvDocumentoVNDLin.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvDocumentoVNDLin.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvDocumentoVNDLin.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvDocumentoVNDLin.BackgroundColor = System.Drawing.Color.White;
             this.dgvDocumentoVNDLin.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDocumentoVNDLin.Location = new System.Drawing.Point(39, 571);
@@ -123,8 +124,8 @@ namespace TRTv10.User_Interface
             this.dgvDocumentosRI.AllowUserToAddRows = false;
             this.dgvDocumentosRI.AllowUserToDeleteRows = false;
             this.dgvDocumentosRI.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvDocumentosRI.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvDocumentosRI.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvDocumentosRI.BackgroundColor = System.Drawing.Color.White;
             this.dgvDocumentosRI.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDocumentosRI.Location = new System.Drawing.Point(38, 76);
@@ -154,20 +155,32 @@ namespace TRTv10.User_Interface
             this.cmsREC.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.criarReciboToolStripMenuItem});
             this.cmsREC.Name = "cmsREC";
-            this.cmsREC.Size = new System.Drawing.Size(139, 26);
+            this.cmsREC.Size = new System.Drawing.Size(220, 26);
             // 
             // criarReciboToolStripMenuItem
             // 
             this.criarReciboToolStripMenuItem.Name = "criarReciboToolStripMenuItem";
-            this.criarReciboToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.criarReciboToolStripMenuItem.Text = "Criar Recibo";
+            this.criarReciboToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.criarReciboToolStripMenuItem.Text = "Criar Pagamento de Cliente";
             this.criarReciboToolStripMenuItem.Click += new System.EventHandler(this.CriarReciboToolStripMenuItem_Click);
+            // 
+            // cbPROCliente
+            // 
+            this.cbPROCliente.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPROCliente.FormattingEnabled = true;
+            this.cbPROCliente.Location = new System.Drawing.Point(655, 22);
+            this.cbPROCliente.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbPROCliente.Name = "cbPROCliente";
+            this.cbPROCliente.Size = new System.Drawing.Size(181, 29);
+            this.cbPROCliente.TabIndex = 7;
+            this.cbPROCliente.Leave += new System.EventHandler(this.cbPROCliente_Leave);
             // 
             // FrmProcesso
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 770);
+            this.Controls.Add(this.cbPROCliente);
             this.Controls.Add(this.dgvDocumentosRI);
             this.Controls.Add(this.lblVND);
             this.Controls.Add(this.lblRI);
@@ -203,5 +216,7 @@ namespace TRTv10.User_Interface
         private System.Windows.Forms.Label lblVND;
 
         #endregion
+
+        private System.Windows.Forms.ComboBox cbPROCliente;
     }
 }

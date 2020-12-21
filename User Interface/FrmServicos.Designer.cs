@@ -60,7 +60,6 @@
             this.lblSERManifesto = new System.Windows.Forms.Label();
             this.txtSERManifesto = new System.Windows.Forms.TextBox();
             this.lblAviaoNavio = new System.Windows.Forms.Label();
-            this.txtSERAviaoNavio = new System.Windows.Forms.TextBox();
             this.lblSERVDar = new System.Windows.Forms.Label();
             this.txtSERValorDAR = new System.Windows.Forms.TextBox();
             this.lblDataSaida = new System.Windows.Forms.Label();
@@ -95,13 +94,14 @@
             this.txtSERTipoMercadoria = new System.Windows.Forms.TextBox();
             this.lblSERTipoMercadoria = new System.Windows.Forms.Label();
             this.txtSERProcesso = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize) (this.dataGridViewSER)).BeginInit();
+            this.cbSERAviaoNavio = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSER)).BeginInit();
             this.SuspendLayout();
             // 
             // lblSERTipoServ
             // 
             this.lblSERTipoServ.AutoSize = true;
-            this.lblSERTipoServ.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERTipoServ.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERTipoServ.Location = new System.Drawing.Point(27, 82);
             this.lblSERTipoServ.Name = "lblSERTipoServ";
             this.lblSERTipoServ.Size = new System.Drawing.Size(99, 17);
@@ -110,7 +110,7 @@
             // 
             // cbSERCod
             // 
-            this.cbSERCod.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cbSERCod.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSERCod.FormattingEnabled = true;
             this.cbSERCod.Location = new System.Drawing.Point(166, 79);
             this.cbSERCod.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -122,7 +122,7 @@
             // lblSERCambio
             // 
             this.lblSERCambio.AutoSize = true;
-            this.lblSERCambio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERCambio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERCambio.Location = new System.Drawing.Point(27, 313);
             this.lblSERCambio.Name = "lblSERCambio";
             this.lblSERCambio.Size = new System.Drawing.Size(53, 17);
@@ -131,7 +131,7 @@
             // 
             // txtSERCambio
             // 
-            this.txtSERCambio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERCambio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERCambio.Location = new System.Drawing.Point(166, 309);
             this.txtSERCambio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERCambio.Name = "txtSERCambio";
@@ -141,7 +141,7 @@
             // lblSEROperacao
             // 
             this.lblSEROperacao.AutoSize = true;
-            this.lblSEROperacao.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSEROperacao.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSEROperacao.Location = new System.Drawing.Point(28, 115);
             this.lblSEROperacao.Name = "lblSEROperacao";
             this.lblSEROperacao.Size = new System.Drawing.Size(66, 17);
@@ -150,7 +150,7 @@
             // 
             // cbSEROperacao
             // 
-            this.cbSEROperacao.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cbSEROperacao.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSEROperacao.FormattingEnabled = true;
             this.cbSEROperacao.Location = new System.Drawing.Point(166, 112);
             this.cbSEROperacao.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -161,7 +161,7 @@
             // 
             // cbSERNumSimulacao
             // 
-            this.cbSERNumSimulacao.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cbSERNumSimulacao.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSERNumSimulacao.FormattingEnabled = true;
             this.cbSERNumSimulacao.Location = new System.Drawing.Point(1175, 22);
             this.cbSERNumSimulacao.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -173,7 +173,7 @@
             // lblSERCliente
             // 
             this.lblSERCliente.AutoSize = true;
-            this.lblSERCliente.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERCliente.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERCliente.Location = new System.Drawing.Point(28, 151);
             this.lblSERCliente.Name = "lblSERCliente";
             this.lblSERCliente.Size = new System.Drawing.Size(47, 17);
@@ -182,7 +182,7 @@
             // 
             // cbSEREntidade
             // 
-            this.cbSEREntidade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cbSEREntidade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSEREntidade.FormattingEnabled = true;
             this.cbSEREntidade.Location = new System.Drawing.Point(166, 148);
             this.cbSEREntidade.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -194,7 +194,7 @@
             // lblSERData
             // 
             this.lblSERData.AutoSize = true;
-            this.lblSERData.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERData.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERData.Location = new System.Drawing.Point(27, 508);
             this.lblSERData.Name = "lblSERData";
             this.lblSERData.Size = new System.Drawing.Size(35, 17);
@@ -215,7 +215,13 @@
             this.dataGridViewSER.AllowUserToDeleteRows = false;
             this.dataGridViewSER.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewSER.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewSER.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {this.txtItem, this.txtValoresSimulacao, this.txtIVASimulacao, this.txtProcesso, this.txtDescricao, this.txtData});
+            this.dataGridViewSER.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.txtItem,
+            this.txtValoresSimulacao,
+            this.txtIVASimulacao,
+            this.txtProcesso,
+            this.txtDescricao,
+            this.txtData});
             this.dataGridViewSER.Location = new System.Drawing.Point(670, 79);
             this.dataGridViewSER.Name = "dataGridViewSER";
             this.dataGridViewSER.Size = new System.Drawing.Size(645, 544);
@@ -263,7 +269,7 @@
             // 
             this.bntSERImprimir.BackColor = System.Drawing.SystemColors.HotTrack;
             this.bntSERImprimir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bntSERImprimir.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.bntSERImprimir.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bntSERImprimir.ForeColor = System.Drawing.Color.White;
             this.bntSERImprimir.Location = new System.Drawing.Point(30, 22);
             this.bntSERImprimir.Name = "bntSERImprimir";
@@ -276,7 +282,7 @@
             // lblSERNumVolumes
             // 
             this.lblSERNumVolumes.AutoSize = true;
-            this.lblSERNumVolumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERNumVolumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERNumVolumes.Location = new System.Drawing.Point(363, 379);
             this.lblSERNumVolumes.Name = "lblSERNumVolumes";
             this.lblSERNumVolumes.Size = new System.Drawing.Size(80, 17);
@@ -285,7 +291,7 @@
             // 
             // txtSERNumVolumes
             // 
-            this.txtSERNumVolumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERNumVolumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERNumVolumes.Location = new System.Drawing.Point(503, 376);
             this.txtSERNumVolumes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERNumVolumes.Name = "txtSERNumVolumes";
@@ -295,7 +301,7 @@
             // lvlSERCIF
             // 
             this.lvlSERCIF.AutoSize = true;
-            this.lvlSERCIF.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lvlSERCIF.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvlSERCIF.Location = new System.Drawing.Point(27, 247);
             this.lvlSERCIF.Name = "lvlSERCIF";
             this.lvlSERCIF.Size = new System.Drawing.Size(59, 17);
@@ -304,7 +310,7 @@
             // 
             // txtSERVCIF
             // 
-            this.txtSERVCIF.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERVCIF.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERVCIF.Location = new System.Drawing.Point(166, 243);
             this.txtSERVCIF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERVCIF.Name = "txtSERVCIF";
@@ -314,7 +320,7 @@
             // lblSERVAduaneiro
             // 
             this.lblSERVAduaneiro.AutoSize = true;
-            this.lblSERVAduaneiro.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERVAduaneiro.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERVAduaneiro.Location = new System.Drawing.Point(27, 279);
             this.lblSERVAduaneiro.Name = "lblSERVAduaneiro";
             this.lblSERVAduaneiro.Size = new System.Drawing.Size(102, 17);
@@ -323,7 +329,7 @@
             // 
             // txtSERVAduaneiro
             // 
-            this.txtSERVAduaneiro.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERVAduaneiro.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERVAduaneiro.Location = new System.Drawing.Point(166, 276);
             this.txtSERVAduaneiro.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERVAduaneiro.Name = "txtSERVAduaneiro";
@@ -333,7 +339,7 @@
             // lblVNDObs
             // 
             this.lblVNDObs.AutoSize = true;
-            this.lblVNDObs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblVNDObs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVNDObs.Location = new System.Drawing.Point(27, 601);
             this.lblVNDObs.Name = "lblVNDObs";
             this.lblVNDObs.Size = new System.Drawing.Size(84, 17);
@@ -342,7 +348,7 @@
             // 
             // txtSERObs
             // 
-            this.txtSERObs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERObs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERObs.Location = new System.Drawing.Point(166, 598);
             this.txtSERObs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERObs.Multiline = true;
@@ -353,7 +359,7 @@
             // lblSERNumDAR
             // 
             this.lblSERNumDAR.AutoSize = true;
-            this.lblSERNumDAR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERNumDAR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERNumDAR.Location = new System.Drawing.Point(363, 280);
             this.lblSERNumDAR.Name = "lblSERNumDAR";
             this.lblSERNumDAR.Size = new System.Drawing.Size(56, 17);
@@ -362,7 +368,7 @@
             // 
             // txtSERNumDAR
             // 
-            this.txtSERNumDAR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERNumDAR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERNumDAR.Location = new System.Drawing.Point(503, 277);
             this.txtSERNumDAR.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERNumDAR.Name = "txtSERNumDAR";
@@ -372,7 +378,7 @@
             // lblSERManifesto
             // 
             this.lblSERManifesto.AutoSize = true;
-            this.lblSERManifesto.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERManifesto.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERManifesto.Location = new System.Drawing.Point(363, 247);
             this.lblSERManifesto.Name = "lblSERManifesto";
             this.lblSERManifesto.Size = new System.Drawing.Size(66, 17);
@@ -381,7 +387,7 @@
             // 
             // txtSERManifesto
             // 
-            this.txtSERManifesto.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERManifesto.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERManifesto.Location = new System.Drawing.Point(503, 244);
             this.txtSERManifesto.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERManifesto.Name = "txtSERManifesto";
@@ -391,26 +397,17 @@
             // lblAviaoNavio
             // 
             this.lblAviaoNavio.AutoSize = true;
-            this.lblAviaoNavio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblAviaoNavio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAviaoNavio.Location = new System.Drawing.Point(363, 214);
             this.lblAviaoNavio.Name = "lblAviaoNavio";
             this.lblAviaoNavio.Size = new System.Drawing.Size(135, 17);
             this.lblAviaoNavio.TabIndex = 52;
             this.lblAviaoNavio.Text = "Avião/Navio/Ref Tran.";
             // 
-            // txtSERAviaoNavio
-            // 
-            this.txtSERAviaoNavio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.txtSERAviaoNavio.Location = new System.Drawing.Point(503, 211);
-            this.txtSERAviaoNavio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtSERAviaoNavio.Name = "txtSERAviaoNavio";
-            this.txtSERAviaoNavio.Size = new System.Drawing.Size(151, 25);
-            this.txtSERAviaoNavio.TabIndex = 51;
-            // 
             // lblSERVDar
             // 
             this.lblSERVDar.AutoSize = true;
-            this.lblSERVDar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERVDar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERVDar.Location = new System.Drawing.Point(363, 313);
             this.lblSERVDar.Name = "lblSERVDar";
             this.lblSERVDar.Size = new System.Drawing.Size(67, 17);
@@ -419,7 +416,7 @@
             // 
             // txtSERValorDAR
             // 
-            this.txtSERValorDAR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERValorDAR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERValorDAR.Location = new System.Drawing.Point(503, 310);
             this.txtSERValorDAR.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERValorDAR.Name = "txtSERValorDAR";
@@ -429,7 +426,7 @@
             // lblDataSaida
             // 
             this.lblDataSaida.AutoSize = true;
-            this.lblDataSaida.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblDataSaida.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDataSaida.Location = new System.Drawing.Point(363, 445);
             this.lblDataSaida.Name = "lblDataSaida";
             this.lblDataSaida.Size = new System.Drawing.Size(90, 17);
@@ -439,7 +436,7 @@
             // lblDataEntrada
             // 
             this.lblDataEntrada.AutoSize = true;
-            this.lblDataEntrada.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblDataEntrada.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDataEntrada.Location = new System.Drawing.Point(363, 414);
             this.lblDataEntrada.Name = "lblDataEntrada";
             this.lblDataEntrada.Size = new System.Drawing.Size(103, 17);
@@ -449,7 +446,7 @@
             // lblDataChegada
             // 
             this.lblDataChegada.AutoSize = true;
-            this.lblDataChegada.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblDataChegada.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDataChegada.Location = new System.Drawing.Point(28, 539);
             this.lblDataChegada.Name = "lblDataChegada";
             this.lblDataChegada.Size = new System.Drawing.Size(91, 17);
@@ -459,7 +456,7 @@
             // lblDataDU
             // 
             this.lblDataDU.AutoSize = true;
-            this.lblDataDU.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblDataDU.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDataDU.Location = new System.Drawing.Point(363, 475);
             this.lblDataDU.Name = "lblDataDU";
             this.lblDataDU.Size = new System.Drawing.Size(57, 17);
@@ -501,7 +498,7 @@
             // lblSERNumDU
             // 
             this.lblSERNumDU.AutoSize = true;
-            this.lblSERNumDU.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERNumDU.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERNumDU.Location = new System.Drawing.Point(363, 346);
             this.lblSERNumDU.Name = "lblSERNumDU";
             this.lblSERNumDU.Size = new System.Drawing.Size(49, 17);
@@ -510,7 +507,7 @@
             // 
             // txtSERDU
             // 
-            this.txtSERDU.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERDU.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERDU.Location = new System.Drawing.Point(503, 343);
             this.txtSERDU.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERDU.Name = "txtSERDU";
@@ -520,7 +517,7 @@
             // lblSERPorteBL
             // 
             this.lblSERPorteBL.AutoSize = true;
-            this.lblSERPorteBL.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERPorteBL.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERPorteBL.Location = new System.Drawing.Point(27, 411);
             this.lblSERPorteBL.Name = "lblSERPorteBL";
             this.lblSERPorteBL.Size = new System.Drawing.Size(119, 17);
@@ -529,7 +526,7 @@
             // 
             // txtSERBLCartaPorte
             // 
-            this.txtSERBLCartaPorte.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERBLCartaPorte.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERBLCartaPorte.Location = new System.Drawing.Point(166, 408);
             this.txtSERBLCartaPorte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERBLCartaPorte.Name = "txtSERBLCartaPorte";
@@ -539,7 +536,7 @@
             // lblSERReferencia
             // 
             this.lblSERReferencia.AutoSize = true;
-            this.lblSERReferencia.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERReferencia.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERReferencia.Location = new System.Drawing.Point(28, 473);
             this.lblSERReferencia.Name = "lblSERReferencia";
             this.lblSERReferencia.Size = new System.Drawing.Size(86, 17);
@@ -548,7 +545,7 @@
             // 
             // txtSERReferencia
             // 
-            this.txtSERReferencia.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERReferencia.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERReferencia.Location = new System.Drawing.Point(166, 470);
             this.txtSERReferencia.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERReferencia.Name = "txtSERReferencia";
@@ -558,7 +555,7 @@
             // lblSERPeso
             // 
             this.lblSERPeso.AutoSize = true;
-            this.lblSERPeso.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERPeso.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERPeso.Location = new System.Drawing.Point(363, 505);
             this.lblSERPeso.Name = "lblSERPeso";
             this.lblSERPeso.Size = new System.Drawing.Size(84, 17);
@@ -567,7 +564,7 @@
             // 
             // txtSERPeso
             // 
-            this.txtSERPeso.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERPeso.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERPeso.Location = new System.Drawing.Point(503, 502);
             this.txtSERPeso.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERPeso.Name = "txtSERPeso";
@@ -577,7 +574,7 @@
             // lblSERMoeda
             // 
             this.lblSERMoeda.AutoSize = true;
-            this.lblSERMoeda.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERMoeda.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERMoeda.Location = new System.Drawing.Point(27, 214);
             this.lblSERMoeda.Name = "lblSERMoeda";
             this.lblSERMoeda.Size = new System.Drawing.Size(98, 17);
@@ -586,7 +583,7 @@
             // 
             // cbSERMoeda
             // 
-            this.cbSERMoeda.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cbSERMoeda.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSERMoeda.FormattingEnabled = true;
             this.cbSERMoeda.Location = new System.Drawing.Point(166, 211);
             this.cbSERMoeda.Name = "cbSERMoeda";
@@ -596,7 +593,7 @@
             // lblSERCNCA
             // 
             this.lblSERCNCA.AutoSize = true;
-            this.lblSERCNCA.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERCNCA.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERCNCA.Location = new System.Drawing.Point(27, 345);
             this.lblSERCNCA.Name = "lblSERCNCA";
             this.lblSERCNCA.Size = new System.Drawing.Size(42, 17);
@@ -605,7 +602,7 @@
             // 
             // txtSERCNCA
             // 
-            this.txtSERCNCA.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERCNCA.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERCNCA.Location = new System.Drawing.Point(166, 342);
             this.txtSERCNCA.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERCNCA.Name = "txtSERCNCA";
@@ -615,7 +612,7 @@
             // lblSERDUP
             // 
             this.lblSERDUP.AutoSize = true;
-            this.lblSERDUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERDUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERDUP.Location = new System.Drawing.Point(27, 379);
             this.lblSERDUP.Name = "lblSERDUP";
             this.lblSERDUP.Size = new System.Drawing.Size(33, 17);
@@ -624,7 +621,7 @@
             // 
             // txtSERDUP
             // 
-            this.txtSERDUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERDUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERDUP.Location = new System.Drawing.Point(166, 375);
             this.txtSERDUP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERDUP.Name = "txtSERDUP";
@@ -634,7 +631,7 @@
             // lblSERRUP
             // 
             this.lblSERRUP.AutoSize = true;
-            this.lblSERRUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERRUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERRUP.Location = new System.Drawing.Point(27, 442);
             this.lblSERRUP.Name = "lblSERRUP";
             this.lblSERRUP.Size = new System.Drawing.Size(32, 17);
@@ -643,7 +640,7 @@
             // 
             // txtSERRUP
             // 
-            this.txtSERRUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERRUP.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERRUP.Location = new System.Drawing.Point(166, 439);
             this.txtSERRUP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERRUP.Name = "txtSERRUP";
@@ -654,7 +651,7 @@
             // 
             this.btnSERLimpar.BackColor = System.Drawing.SystemColors.HotTrack;
             this.btnSERLimpar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSERLimpar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSERLimpar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSERLimpar.ForeColor = System.Drawing.Color.White;
             this.btnSERLimpar.Location = new System.Drawing.Point(151, 22);
             this.btnSERLimpar.Name = "btnSERLimpar";
@@ -668,7 +665,7 @@
             // 
             this.BtnSERAnula.BackColor = System.Drawing.SystemColors.HotTrack;
             this.BtnSERAnula.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnSERAnula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.BtnSERAnula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSERAnula.ForeColor = System.Drawing.Color.White;
             this.BtnSERAnula.Location = new System.Drawing.Point(1058, 22);
             this.BtnSERAnula.Name = "BtnSERAnula";
@@ -681,7 +678,7 @@
             // txtSERNomeCliente
             // 
             this.txtSERNomeCliente.Enabled = false;
-            this.txtSERNomeCliente.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERNomeCliente.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERNomeCliente.Location = new System.Drawing.Point(166, 180);
             this.txtSERNomeCliente.Name = "txtSERNomeCliente";
             this.txtSERNomeCliente.Size = new System.Drawing.Size(488, 25);
@@ -691,7 +688,7 @@
             // 
             this.txtSERRequisicao.BackColor = System.Drawing.SystemColors.Control;
             this.txtSERRequisicao.Enabled = false;
-            this.txtSERRequisicao.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERRequisicao.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERRequisicao.Location = new System.Drawing.Point(272, 22);
             this.txtSERRequisicao.Name = "txtSERRequisicao";
             this.txtSERRequisicao.Size = new System.Drawing.Size(149, 33);
@@ -702,7 +699,7 @@
             // txtSERValidaData
             // 
             this.txtSERValidaData.BackColor = System.Drawing.SystemColors.Control;
-            this.txtSERValidaData.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERValidaData.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERValidaData.Location = new System.Drawing.Point(485, 22);
             this.txtSERValidaData.Name = "txtSERValidaData";
             this.txtSERValidaData.Size = new System.Drawing.Size(120, 33);
@@ -712,7 +709,7 @@
             // 
             // txtSERTipoMercadoria
             // 
-            this.txtSERTipoMercadoria.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERTipoMercadoria.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERTipoMercadoria.Location = new System.Drawing.Point(166, 565);
             this.txtSERTipoMercadoria.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERTipoMercadoria.Name = "txtSERTipoMercadoria";
@@ -722,7 +719,7 @@
             // lblSERTipoMercadoria
             // 
             this.lblSERTipoMercadoria.AutoSize = true;
-            this.lblSERTipoMercadoria.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSERTipoMercadoria.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSERTipoMercadoria.Location = new System.Drawing.Point(27, 568);
             this.lblSERTipoMercadoria.Name = "lblSERTipoMercadoria";
             this.lblSERTipoMercadoria.Size = new System.Drawing.Size(125, 17);
@@ -733,7 +730,7 @@
             // 
             this.txtSERProcesso.BackColor = System.Drawing.SystemColors.Control;
             this.txtSERProcesso.Enabled = false;
-            this.txtSERProcesso.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSERProcesso.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSERProcesso.Location = new System.Drawing.Point(427, 22);
             this.txtSERProcesso.Name = "txtSERProcesso";
             this.txtSERProcesso.Size = new System.Drawing.Size(52, 33);
@@ -741,12 +738,22 @@
             this.txtSERProcesso.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtSERProcesso.Visible = false;
             // 
+            // cbSERAviaoNavio
+            // 
+            this.cbSERAviaoNavio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSERAviaoNavio.FormattingEnabled = true;
+            this.cbSERAviaoNavio.Location = new System.Drawing.Point(503, 212);
+            this.cbSERAviaoNavio.Name = "cbSERAviaoNavio";
+            this.cbSERAviaoNavio.Size = new System.Drawing.Size(151, 25);
+            this.cbSERAviaoNavio.TabIndex = 93;
+            // 
             // FrmServicos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 653);
+            this.Controls.Add(this.cbSERAviaoNavio);
             this.Controls.Add(this.txtSERProcesso);
             this.Controls.Add(this.lblSERTipoMercadoria);
             this.Controls.Add(this.txtSERTipoMercadoria);
@@ -784,7 +791,6 @@
             this.Controls.Add(this.lblSERManifesto);
             this.Controls.Add(this.txtSERManifesto);
             this.Controls.Add(this.lblAviaoNavio);
-            this.Controls.Add(this.txtSERAviaoNavio);
             this.Controls.Add(this.lblSERVDar);
             this.Controls.Add(this.txtSERValorDAR);
             this.Controls.Add(this.lblVNDObs);
@@ -808,7 +814,7 @@
             this.Controls.Add(this.txtSERCambio);
             this.Controls.Add(this.lblSERTipoServ);
             this.Controls.Add(this.cbSERCod);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmServicos";
@@ -816,9 +822,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Serviços";
             this.Load += new System.EventHandler(this.FrmServicos_Load);
-            ((System.ComponentModel.ISupportInitialize) (this.dataGridViewSER)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSER)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.Button bntSERImprimir;
@@ -866,7 +873,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn txtItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn txtIVASimulacao;
         private System.Windows.Forms.DataGridViewTextBoxColumn txtProcesso;
-        private System.Windows.Forms.TextBox txtSERAviaoNavio;
         private System.Windows.Forms.TextBox txtSERBLCartaPorte;
         private System.Windows.Forms.TextBox txtSERCambio;
         private System.Windows.Forms.TextBox txtSERCNCA;
@@ -890,5 +896,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn txtValoresSimulacao;
 
         #endregion
+
+        private System.Windows.Forms.ComboBox cbSERAviaoNavio;
     }
 }

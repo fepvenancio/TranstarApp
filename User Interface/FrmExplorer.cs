@@ -26,6 +26,8 @@ namespace TRTv10.User_Interface
             _frmServicos.ActualizaDadosClientes();
             _frmServicos.ActualizaDadosMoedas();
             _frmServicos.NumeroSimulacao();
+            _frmServicos.ActualizaDadosTransporte();
+            _frmProcesso.ActualizaDadosClientes();
             _frmServicos.dataGridViewSER.Columns[0].Width = 300;
             _frmServicos.dataGridViewSER.Columns[1].Width = 100;
             _frmServicos.dataGridViewSER.Columns[2].Width = 150;

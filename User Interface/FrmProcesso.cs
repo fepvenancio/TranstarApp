@@ -14,22 +14,62 @@ namespace TRTv10.User_Interface
     {
         #region metodos
 
+        public void ActualizaDadosClientes()
+        {
+            var sql = new StringBuilder();
+
+            sql.Append("SELECT Cliente ");
+            sql.Append("FROM [dbo].[Clientes] ");
+
+            var query = sql.ToString();
+
+            var lstPesquisa = PriEngine.Engine.Consulta(query);
+
+            if (!lstPesquisa.Vazia())
+            {
+                cbPROCliente.Items.Clear();
+
+                while (!lstPesquisa.NoFim())
+                {
+                    cbPROCliente.Items.Add(item: lstPesquisa.Valor(0));
+                    lstPesquisa.Seguinte();
+                }
+            }
+        }
         public void ActualizaDadosProcesso()
         {
             try
             {
-                var query = $"SELECT CDU_Codigo FROM [dbo].[TDU_TRT_Processo]";
+                if (cbPROCliente.Text == "")
+                {
+                    var query = $"SELECT CDU_Codigo FROM [dbo].[TDU_TRT_Processo]";
 
-                var lstPesquisa = PriEngine.Engine.Consulta(query);
+                    var lstPesquisa = PriEngine.Engine.Consulta(query);
 
-                if (!lstPesquisa.Vazia())
+                    if (!lstPesquisa.Vazia())
+                    {
+                        cbPRONumProcesso.Items.Clear();
+
+                        while (!lstPesquisa.NoFim())
+                        {
+                            cbPRONumProcesso.Items.Add(item: lstPesquisa.Valor(0));
+                            lstPesquisa.Seguinte();
+                        }
+                    }
+                }
+                else
                 {
                     cbPRONumProcesso.Items.Clear();
+                    var query = $"SELECT CDU_Codigo FROM [dbo].[TDU_TRT_Processo] WHERE CDU_Cliente = '{cbPROCliente.Text}'";
+                    var lstPesquisa = PriEngine.Engine.Consulta(query);
 
-                    while (!lstPesquisa.NoFim())
+                    if (!lstPesquisa.Vazia())
                     {
-                        cbPRONumProcesso.Items.Add(item: lstPesquisa.Valor(0));
-                        lstPesquisa.Seguinte();
+                        while (!lstPesquisa.NoFim())
+                        {
+                            cbPRONumProcesso.Items.Add(item: lstPesquisa.Valor(0));
+                            lstPesquisa.Seguinte();
+                        }
                     }
                 }
             }
@@ -53,10 +93,22 @@ namespace TRTv10.User_Interface
 
         #region form
 
-        
+        /// <summary>
+        /// Form load
+        /// </summary>
         public FrmProcesso()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Caso seja selecionado um cliente ele actualiza a lista de processos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbPROCliente_Leave(object sender, EventArgs e)
+        {
+            ActualizaDadosProcesso();
         }
 
         /// <summary>
