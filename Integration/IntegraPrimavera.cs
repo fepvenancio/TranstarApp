@@ -202,6 +202,11 @@ namespace TRTv10.Integration
                 LinhasDocRqa(artigo, precUnit, sqlCon, transaction);
             else
                 LinhasDoc(idLin, idOrig, sqlCon, transaction);
+
+            if (documento == "RI")
+            {
+                PrintInvoice(documento, serie, NumDoc);
+            }
         }
 
         public void CriaItemsServico(string processo, string tipoServ, string operacao)
