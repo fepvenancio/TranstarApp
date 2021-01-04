@@ -90,6 +90,45 @@ namespace TRTv10.Integration
                 throw new Exception("Error while printing the document. n" + ex.Message);
             }
         }
+        public void ImprimeDocVendas(string tipoDoc, string serie, int numDoc)
+        {
+            string reportTemplate;
+            
+            if (tipoDoc == "REQ" || tipoDoc == "RQA")
+            {
+                reportTemplate = "TRT_REQ";
+            } 
+            else if (tipoDoc == "FA" || tipoDoc == "ND")
+            {
+                reportTemplate = "TRT_FA";
+            }
+            else if (tipoDoc == "FR")
+            {
+                reportTemplate = "TRT_FR";
+            }
+            else if (tipoDoc == "RI")
+            {
+                reportTemplate = "TRT_RI";
+            }
+            else if (tipoDoc == "NC")
+            {
+                reportTemplate = "TRT_NC";
+            }
+            else if (tipoDoc == "COT")
+            {
+                reportTemplate = "TRT_SIM";
+            }
+            else
+            {
+                reportTemplate = "GCPVLS01";
+            }
+
+            // reportTemplate = "TRT_FR";
+            string fileName = string.Format("{0}_{1}_{2}.pdf", tipoDoc, numDoc, serie);
+            PriEngine.Engine.Vendas.Documentos.ImprimeDocumento(tipoDoc, serie, numDoc, "000", 1, reportTemplate, true, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+        }
+
 
         public string ItemDocumento(string item)
         {
@@ -359,7 +398,8 @@ namespace TRTv10.Integration
 
                 PriEngine.Engine.Vendas.Documentos.Actualiza(docVenda, ref avisos);
 
-                PrintInvoice(docVenda.Tipodoc, docVenda.Serie, docVenda.NumDoc);
+                //PrintInvoice(docVenda.Tipodoc, docVenda.Serie, docVenda.NumDoc);
+                ImprimeDocVendas(docVenda.Tipodoc, docVenda.Serie, docVenda.NumDoc);
                 NumDoc = 0;
             }
             catch (Exception ex)
