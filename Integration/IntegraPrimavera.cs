@@ -19,6 +19,8 @@ namespace TRTv10.Integration
 
         public static int NumDoc { get; set; }
 
+        public static bool Imprime { get; set; }
+
         private Guid IdDoc { get; set; }
 
         #endregion
@@ -518,6 +520,7 @@ namespace TRTv10.Integration
                 $"UPDATE TDU_TRT_Serie  SET CDU_Numerador = '{NumDoc}' WHERE CDU_Documento = '{documento}' AND CDU_PreDefinido = 1 ",
                 sqlCon) {Connection = sqlCon, Transaction = transaction};
             sqlUp.ExecuteNonQuery();
+            Imprime = true;
         }
 
         private int UltimoNumDoc(string documento, string serie, SqlConnection sqlCon, SqlTransaction transaction)
