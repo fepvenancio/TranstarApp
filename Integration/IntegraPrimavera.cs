@@ -17,7 +17,7 @@ namespace TRTv10.Integration
     {
         #region variaveis
 
-        public int NumDoc { get; set; }
+        public static int NumDoc { get; set; }
 
         private Guid IdDoc { get; set; }
 
@@ -518,12 +518,6 @@ namespace TRTv10.Integration
                 $"UPDATE TDU_TRT_Serie  SET CDU_Numerador = '{NumDoc}' WHERE CDU_Documento = '{documento}' AND CDU_PreDefinido = 1 ",
                 sqlCon) {Connection = sqlCon, Transaction = transaction};
             sqlUp.ExecuteNonQuery();
-
-            if (documento == "RI")
-            {
-                FrmProcesso _frmProcesso = new FrmProcesso();
-                _frmProcesso.NumDoc = NumDoc;
-            }
         }
 
         private int UltimoNumDoc(string documento, string serie, SqlConnection sqlCon, SqlTransaction transaction)

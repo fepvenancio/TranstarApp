@@ -442,6 +442,8 @@ namespace TRTv10.User_Interface
                 PopulaGrelhaVnd(cbPRONumProcesso.Text);
                 PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
                 sqlCon.Close();
+                int numDoc = IntegraPrimavera.NumDoc;
+                IntegraPrimavera.PrintInvoice(documento, serie, numDoc);
             }
             catch (Exception ex)
             {
