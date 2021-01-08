@@ -70,8 +70,11 @@ namespace TRTv10.Integration
 
             try
             {
+                string strSelFormula;
+                strSelFormula = tipoDoc == "RI" ? $"{{TDU_TRT_CabecDocumentos.CDU_DOCUMENTO}}='{tipoDoc}' and {{TDU_TRT_CabecDocumentos.CDU_SERIE}} = '{serie}' AND {{TDU_TRT_CabecDocumentos.CDU_NUMERO}}=6" 
+                    : $"{{CabecDoc.TipoDoc}}='{tipoDoc}' and {{CabecDoc.Serie}} = '{serie}' AND {{CabecDoc.NumDoc}}={Convert.ToString(numDoc)}";
+
                 // Alterar esta selection formula.
-                var strSelFormula = $"{{CabecDoc.TipoDoc}}='{tipoDoc}' and {{CabecDoc.Serie}} = '{serie}' AND {{CabecDoc.NumDoc}}={Convert.ToString(numDoc)}";
                 PriEngine.Platform.Mapas.Inicializar("VND");
                 var strFormula = new StringBuilder();
                 strFormula.Append($"StringVar Nome:='{PriEngine.Engine.Contexto.IDNome}';");
