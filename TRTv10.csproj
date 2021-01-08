@@ -239,6 +239,12 @@
     <Compile Include="User Interface\FrmLogin.Designer.cs">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="User Interface\FrmMovBancario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmMovBancario.Designer.cs">
+      <DependentUpon>FrmMovBancario.cs</DependentUpon>
+    </Compile>
     <Compile Include="User Interface\FrmProcesso.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -298,6 +304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmMovBancario.resx">
+      <DependentUpon>FrmMovBancario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmProcesso.resx">
       <DependentUpon>FrmProcesso.cs</DependentUpon>

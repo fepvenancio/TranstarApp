@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using StdPlatBS100;
 using TesBE100;
 using TRTv10.Engine;
+using TRTv10.User_Interface;
 using VndBE100;
 
 namespace TRTv10.Integration
@@ -27,34 +28,42 @@ namespace TRTv10.Integration
         public static void PrintInvoice(string tipoDoc, string serie, int numDoc)
         {
             string reportTemplate;
+            string titulo;
 
             if (tipoDoc == "REQ" || tipoDoc == "RQA")
             {
                 reportTemplate = "TRT_REQ";
+                titulo = "Requisição";
             } 
             else if (tipoDoc == "FA" || tipoDoc == "ND")
             {
                 reportTemplate = "TRT_FA";
+                titulo = "Factura";
             }
             else if (tipoDoc == "FR")
             {
                 reportTemplate = "TRT_FR";
+                titulo = "Factura Recibo";
             }
             else if (tipoDoc == "RI")
             {
                 reportTemplate = "TRT_RI";
+                titulo = "Requisição Interna";
             }
             else if (tipoDoc == "NC")
             {
                 reportTemplate = "TRT_NC";
+                titulo = "Nota de Crédito";
             }
             else if (tipoDoc == "COT")
             {
                 reportTemplate = "TRT_SIM";
+                titulo = "Cotação";
             }
             else
             {
                 reportTemplate = "GCPVLS01";
+                titulo = "Doc. Venda";
             }
 
             try
@@ -82,7 +91,7 @@ namespace TRTv10.Integration
                 PriEngine.Platform.Mapas.Destino = 0;
                 string fileName = string.Format("{0}_{1}_{2}.pdf", tipoDoc, numDoc, serie);
                 PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                PriEngine.Platform.Mapas.ImprimeListagem(reportTemplate, "Invoice", "P", 1, "N", strSelFormula, 0, false, true);
+                PriEngine.Platform.Mapas.ImprimeListagem(reportTemplate, titulo, "P", 1, "N", strSelFormula, 0, false, true);
                 System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
             }
             catch (Exception ex)
@@ -202,11 +211,6 @@ namespace TRTv10.Integration
                 LinhasDocRqa(artigo, precUnit, sqlCon, transaction);
             else
                 LinhasDoc(idLin, idOrig, sqlCon, transaction);
-
-            if (documento == "RI")
-            {
-                PrintInvoice(documento, serie, NumDoc);
-            }
         }
 
         public void CriaItemsServico(string processo, string tipoServ, string operacao)
@@ -514,6 +518,12 @@ namespace TRTv10.Integration
                 $"UPDATE TDU_TRT_Serie  SET CDU_Numerador = '{NumDoc}' WHERE CDU_Documento = '{documento}' AND CDU_PreDefinido = 1 ",
                 sqlCon) {Connection = sqlCon, Transaction = transaction};
             sqlUp.ExecuteNonQuery();
+
+            if (documento == "RI")
+            {
+                FrmProcesso _frmProcesso = new FrmProcesso();
+                _frmProcesso.NumDoc = NumDoc;
+            }
         }
 
         private int UltimoNumDoc(string documento, string serie, SqlConnection sqlCon, SqlTransaction transaction)

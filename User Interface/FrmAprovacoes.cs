@@ -12,6 +12,12 @@ namespace TRTv10.User_Interface
 {
     public partial class FrmAprovacoes : Form
     {
+        #region variaveis
+
+        private FrmMovBancario _frmMovBancario;
+        
+        #endregion
+
         #region form
 
         public FrmAprovacoes()
@@ -409,6 +415,10 @@ namespace TRTv10.User_Interface
                         if (aprovacao.ToString() == "False")
                         {
                             bit = 1;
+                            _frmMovBancario = new FrmMovBancario();
+                            _frmMovBancario.ErpContasBancarias();
+                            _frmMovBancario.ErpMovBancarios();
+                            _frmMovBancario.Show();
                         }
                     
                         if (aprovacao.ToString() == "True")
