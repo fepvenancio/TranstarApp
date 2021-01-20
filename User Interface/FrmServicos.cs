@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using StdBE100;
 using StdPlatBS100;
@@ -736,47 +737,59 @@ namespace TRTv10.User_Interface
                     using var sqlCon = new SqlConnection(connectionString: connectionString);
                     sqlCon.Open();
                     var dgvRow = dataGridViewSER.CurrentRow;
-                    var sqlCmd = new SqlCommand(cmdText: "STP_TRT_GrelhaSER_Edit", connection: sqlCon)
+                    var valSim = (double)dgvRow.Cells[columnName: "txtValoresSimulacao"].Value; 
+                    var patternAlphabetic = @"([a-zA-Z])+";
+                    var patternNumeric = @"([0-9])+";
+                    var regex = new Regex(patternNumeric);
+                    var match = regex.Match(patternAlphabetic);
+                    if (match.Success) 
                     {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@Processo",
-                        value: dgvRow.Cells[columnName: "txtProcesso"].Value == DBNull.Value
-                            ? ""
-                            : dgvRow.Cells[columnName: "txtProcesso"].Value.ToString());
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@Item",
-                        value: dgvRow.Cells[columnName: "txtItem"].Value == DBNull.Value
-                            ? ""
-                            : dgvRow.Cells[columnName: "txtItem"].Value.ToString());
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@ValorSim",
-                        value: Convert.ToDouble(
-                            value: dgvRow.Cells[columnName: "txtValoresSimulacao"].Value == DBNull.Value
-                                ? 0
-                                : dgvRow.Cells[columnName: "txtValoresSimulacao"].Value));
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@Descricao",
-                        value: dgvRow.Cells[columnName: "txtDescricao"].Value == DBNull.Value
-                            ? ""
-                            : dgvRow.Cells[columnName: "txtDescricao"].Value.ToString());
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@Data",
-                        value: dgvRow.Cells[columnName: "txtData"].Value == DBNull.Value
-                            ? ""
-                            : dgvRow.Cells[columnName: "txtData"].Value.ToString());
-
-                    double valorIva;
-                    var item = dgvRow.Cells[columnName: "txtItem"].Value.ToString();
-                    var query = @"SELECT CDU_IVA " + "FROM TDU_TRT_Items WHERE CDU_Nome = '" + item + "'";
-
-                    var lstItem = PriEngine.Engine.Consulta(strQuery: query);
-
-                    if (lstItem.Valor(vntCol: 0).ToString() == "False")
-                        valorIva = 0;
+                        PriEngine.Platform.Dialogos.MostraAviso("Deve escrever números e nao letras!");
+                    }
                     else
-                        valorIva = Convert.ToInt32(value: dgvRow.Cells[columnName: "txtValoresSimulacao"].Value) * 0.14;
+                    {
+                        var sqlCmd = new SqlCommand(cmdText: "STP_TRT_GrelhaSER_Edit", connection: sqlCon)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Processo",
+                            value: dgvRow.Cells[columnName: "txtProcesso"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtProcesso"].Value.ToString());
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Item",
+                            value: dgvRow.Cells[columnName: "txtItem"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtItem"].Value.ToString());
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@ValorSim",
+                            value: Convert.ToDouble(
+                                value: dgvRow.Cells[columnName: "txtValoresSimulacao"].Value == DBNull.Value
+                                    ? 0
+                                    : dgvRow.Cells[columnName: "txtValoresSimulacao"].Value));
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Descricao",
+                            value: dgvRow.Cells[columnName: "txtDescricao"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtDescricao"].Value.ToString());
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Data",
+                            value: dgvRow.Cells[columnName: "txtData"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtData"].Value.ToString());
 
-                    var value = Convert.ToDouble(value: valorIva);
-                    sqlCmd.Parameters.AddWithValue(parameterName: "@ValorIVASim",
-                        value: value);
-                    sqlCmd.ExecuteNonQuery();
+                        double valorIva;
+                        var item = dgvRow.Cells[columnName: "txtItem"].Value.ToString();
+                        var query = @"SELECT CDU_IVA " + "FROM TDU_TRT_Items WHERE CDU_Nome = '" + item + "'";
+
+                        var lstItem = PriEngine.Engine.Consulta(strQuery: query);
+
+                        if (lstItem.Valor(vntCol: 0).ToString() == "False")
+                            valorIva = 0;
+                        else
+                            valorIva = Convert.ToInt32(value: dgvRow.Cells[columnName: "txtValoresSimulacao"].Value) * 0.14;
+
+                        var value = Convert.ToDouble(value: valorIva);
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@ValorIVASim",
+                            value: value);
+                        sqlCmd.ExecuteNonQuery();
+                    }
                 }
                 catch
                 {
@@ -796,6 +809,7 @@ namespace TRTv10.User_Interface
                     frmTransporte.Show(owner: this);
                 }
         }
+
 
         #endregion
 
