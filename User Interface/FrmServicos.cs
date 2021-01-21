@@ -336,11 +336,19 @@ namespace TRTv10.User_Interface
         /// </summary>
         private void UpdateSimulacao()
         {
+            //confirma as datas como datas a serem inseridas no SQL - Formataçao
             DateTime data = dtpSERDataDU.Value;
             DateTime dataChegada = dtpSERDataDU.Value;
             DateTime dataEntrada= dtpSERDataDU.Value;
             DateTime dataSaida = dtpSERDataDU.Value;
             DateTime dataDu = dtpSERDataDU.Value;
+
+            //troca as virgulas por pontos para serem inseridos no SQL - Formatacao
+            IntegraPrimavera.validaNumeros(txtSERVCIF);
+            IntegraPrimavera.validaNumeros(txtSERVAduaneiro);
+            IntegraPrimavera.validaNumeros(txtSERCambio);
+            IntegraPrimavera.validaNumeros(txtSERValorDAR);
+
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             using SqlConnection sqlCon = new SqlConnection(connectionString);
             sqlCon.Open();

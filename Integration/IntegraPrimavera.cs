@@ -26,6 +26,19 @@ namespace TRTv10.Integration
 
         #region metodos publicos
 
+        /// <summary>
+        /// Recebe uma TextBox e altera o texto da mesma, ou seja, caso a textbox tenha uma virgula
+        /// ele altera para um ponto Ex. 1000,10 -> 1000.10 para cumprir com a formataçao do SQL.
+        /// </summary>
+        /// <param name="sender"></param>
+        public static void validaNumeros(object sender)
+        {
+            var textBox = ((TextBox) sender);
+            StringBuilder altText = new StringBuilder(textBox.Text);
+            altText.Replace(",", ".");
+            textBox.Text = altText.ToString();
+        }
+
         public static void PrintInvoice(string tipoDoc, string serie, int numDoc)
         {
             string reportTemplate;
