@@ -559,14 +559,14 @@ namespace TRTv10.User_Interface
                 sql.Append(", U.CDU_DataDU, U.CDU_DUP, U.CDU_CNCA, U.CDU_Obs, U.CDU_RUP, C.Nome, U.CDU_TipoMercadoria ");
                 sql.Append(", U.CDU_Codigo ");
                 sql.Append("FROM TDU_TRT_ItemsServicos I ");
+                sql.Append("INNER JOIN TDU_TRT_Processo U ");
+                sql.Append("ON I.CDU_Processo = U.CDU_Codigo ");
                 sql.Append("INNER JOIN TDU_TRT_TiposServico S  ");
                 sql.Append("ON I.CDU_TipoServ = S.CDU_Codigo ");
                 sql.Append("INNER JOIN TDU_TRT_Items T ");
                 sql.Append("ON T.CDU_Nome = I.CDU_Items ");
                 sql.Append("INNER JOIN Clientes C ");
                 sql.Append("ON C.Cliente = U.CDU_Cliente ");
-                sql.Append("INNER JOIN TDU_TRT_Processo U ");
-                sql.Append("ON I.CDU_Processo = U.CDU_Processo ");
                 sql.Append("WHERE I.CDU_Processo = '" + cbSERNumSimulacao.Text + "' ");
                 sql.Append("ORDER By T.CDU_Posicao");
             }
