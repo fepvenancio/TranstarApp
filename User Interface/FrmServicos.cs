@@ -192,8 +192,17 @@ namespace TRTv10.User_Interface
         {
             var sql = new StringBuilder();
 
-            sql.Append("SELECT Max(Convert(int, CDU_Codigo)) ");
-            sql.Append("FROM [dbo].[TDU_TRT_Simulacao] ");
+            if (chkSERRequisicao.Checked)
+            {
+                sql.Append("SELECT Max(Convert(int, CDU_Codigo)) ");
+                sql.Append("FROM [dbo].[TDU_TRT_Processo] ");
+            }
+            else
+            {
+                sql.Append("SELECT Max(Convert(int, CDU_Codigo)) ");
+                sql.Append("FROM [dbo].[TDU_TRT_Simulacao] ");
+            }
+            
 
             var query = sql.ToString();
 
@@ -201,12 +210,24 @@ namespace TRTv10.User_Interface
 
             if (lstPesquisa.Vazia() || lstPesquisa.Valor(0).ToString() == "")
             {
-                cbSERNumSimulacao.Text = @"COT1";
+                if (chkSERCotacao.Checked)
+                {
+                    cbSERNumSimulacao.Text = @"COT1";
+                }
             }
             else
             {
                 int numSimulacao = Convert.ToInt32(lstPesquisa.Valor(0)) + 1;
-                cbSERNumSimulacao.Text = @"COT" + numSimulacao;
+
+                if (chkSERCotacao.Checked)
+                {
+                    cbSERNumSimulacao.Text = @"COT" + numSimulacao;
+                }
+                else
+                {
+                    cbSERNumSimulacao.Text = numSimulacao.ToString();
+                }
+                
             }
         }
 
@@ -528,27 +549,50 @@ namespace TRTv10.User_Interface
         {
             var sql = new StringBuilder();
 
-            sql.Append("SELECT TOP(1) S.CDU_Nome, I.CDU_Operacao, U.CDU_Cliente, U.CDU_Data, U.CDU_Cambio ");
-            sql.Append(", U.CDU_Moeda, U.CDU_Referencia, U.CDU_ValorCIF ");
-            sql.Append(", U.CDU_ValorAduaneiro, U.CDU_BLCartaPorte, U.CDU_NumVolumes, U.CDU_Peso ");
-            sql.Append(", U.CDU_AviaoNavio, U.CDU_Manifesto, U.CDU_NumDAR, U.CDU_ValorDAR ");
-            sql.Append(", U.CDU_DU, U.CDU_DataChegada, U.CDU_DataEntrada, U.CDU_DataSaida ");
-            sql.Append(", U.CDU_DataDU, U.CDU_DUP, U.CDU_CNCA, U.CDU_Obs, U.CDU_RUP, C.Nome, U.CDU_TipoMercadoria ");
-            sql.Append(", P.CDU_Codigo ");
-            sql.Append("FROM TDU_TRT_ItemsServicos I ");
-            sql.Append("INNER JOIN TDU_TRT_TiposServico S  ");
-            sql.Append("ON I.CDU_TipoServ = S.CDU_Codigo ");
-            sql.Append("INNER JOIN TDU_TRT_Simulacao U ");
-            sql.Append("ON U.CDU_Nome = I.CDU_Processo ");
-            sql.Append("INNER JOIN TDU_TRT_Items T ");
-            sql.Append("ON T.CDU_Nome = I.CDU_Items ");
-            sql.Append("INNER JOIN Clientes C ");
-            sql.Append("ON C.Cliente = U.CDU_Cliente ");
-            sql.Append("LEFT JOIN TDU_TRT_Processo P ");
-            sql.Append("ON P.CDU_NumSimulacao = I.CDU_Processo ");
-            sql.Append("WHERE I.CDU_Processo = '" + cbSERNumSimulacao.Text + "' ");
-            sql.Append("ORDER By T.CDU_Posicao");
-
+            if(chkSERRequisicao.Checked)
+            {
+                sql.Append("SELECT TOP(1) S.CDU_Nome, I.CDU_Operacao, U.CDU_Cliente, U.CDU_Data, U.CDU_Cambio ");
+                sql.Append(", U.CDU_Moeda, U.CDU_Referencia, U.CDU_ValorCIF ");
+                sql.Append(", U.CDU_ValorAduaneiro, U.CDU_BLCartaPorte, U.CDU_NumVolumes, U.CDU_Peso ");
+                sql.Append(", U.CDU_AviaoNavio, U.CDU_Manifesto, U.CDU_NumDAR, U.CDU_ValorDAR ");
+                sql.Append(", U.CDU_DU, U.CDU_DataChegada, U.CDU_DataEntrada, U.CDU_DataSaida ");
+                sql.Append(", U.CDU_DataDU, U.CDU_DUP, U.CDU_CNCA, U.CDU_Obs, U.CDU_RUP, C.Nome, U.CDU_TipoMercadoria ");
+                sql.Append(", U.CDU_Codigo ");
+                sql.Append("FROM TDU_TRT_ItemsServicos I ");
+                sql.Append("INNER JOIN TDU_TRT_TiposServico S  ");
+                sql.Append("ON I.CDU_TipoServ = S.CDU_Codigo ");
+                sql.Append("INNER JOIN TDU_TRT_Items T ");
+                sql.Append("ON T.CDU_Nome = I.CDU_Items ");
+                sql.Append("INNER JOIN Clientes C ");
+                sql.Append("ON C.Cliente = U.CDU_Cliente ");
+                sql.Append("INNER JOIN TDU_TRT_Processo U ");
+                sql.Append("ON I.CDU_Processo = U.CDU_Processo ");
+                sql.Append("WHERE I.CDU_Processo = '" + cbSERNumSimulacao.Text + "' ");
+                sql.Append("ORDER By T.CDU_Posicao");
+            }
+            else
+            {
+                sql.Append("SELECT TOP(1) S.CDU_Nome, I.CDU_Operacao, U.CDU_Cliente, U.CDU_Data, U.CDU_Cambio ");
+                sql.Append(", U.CDU_Moeda, U.CDU_Referencia, U.CDU_ValorCIF ");
+                sql.Append(", U.CDU_ValorAduaneiro, U.CDU_BLCartaPorte, U.CDU_NumVolumes, U.CDU_Peso ");
+                sql.Append(", U.CDU_AviaoNavio, U.CDU_Manifesto, U.CDU_NumDAR, U.CDU_ValorDAR ");
+                sql.Append(", U.CDU_DU, U.CDU_DataChegada, U.CDU_DataEntrada, U.CDU_DataSaida ");
+                sql.Append(", U.CDU_DataDU, U.CDU_DUP, U.CDU_CNCA, U.CDU_Obs, U.CDU_RUP, C.Nome, U.CDU_TipoMercadoria ");
+                sql.Append(", P.CDU_Codigo ");
+                sql.Append("FROM TDU_TRT_ItemsServicos I ");
+                sql.Append("INNER JOIN TDU_TRT_TiposServico S  ");
+                sql.Append("ON I.CDU_TipoServ = S.CDU_Codigo ");
+                sql.Append("INNER JOIN TDU_TRT_Simulacao U ");
+                sql.Append("ON U.CDU_Nome = I.CDU_Processo ");
+                sql.Append("INNER JOIN TDU_TRT_Items T ");
+                sql.Append("ON T.CDU_Nome = I.CDU_Items ");
+                sql.Append("INNER JOIN Clientes C ");
+                sql.Append("ON C.Cliente = U.CDU_Cliente ");
+                sql.Append("LEFT JOIN TDU_TRT_Processo P ");
+                sql.Append("ON P.CDU_NumSimulacao = I.CDU_Processo ");
+                sql.Append("WHERE I.CDU_Processo = '" + cbSERNumSimulacao.Text + "' ");
+                sql.Append("ORDER By T.CDU_Posicao");
+            }
             var query = sql.ToString();
 
             StdBELista lstPesquisa = PriEngine.Engine.Consulta(query);
@@ -626,7 +670,15 @@ namespace TRTv10.User_Interface
             txtSERProcesso.Text = "";
             txtSERValidaData.Text = "";
 
-            ActualizaDadosSimulacao();
+            if (chkSERRequisicao.Checked)
+            {
+                ActualizaDadosProcesso();
+            }
+            else
+            {
+                ActualizaDadosSimulacao();
+            }
+            
             NumeroSimulacao();
             LimpaGrelha();
         }
