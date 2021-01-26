@@ -217,13 +217,13 @@ namespace TRTv10.Integration
             Processo(processo, simulacao, sqlCon, transaction);
         }
 
-        public void CriaDocumento(string documento, string serie, DateTime data, string processo, string simulacao,
+        public void CriaDocumento(string documento, string serie, DateTime data, string processo, string cotacao,
             SqlConnection sqlCon, SqlTransaction transaction, Guid idOrig, Guid idLin, string artigo, double precUnit)
         {
             CabecDoc(documento, serie, data, processo, sqlCon, transaction);
 
             if (documento == "REQ" || documento == "FS")
-                LinhasDocReq(simulacao, sqlCon, transaction);
+                LinhasDocReq(cotacao, sqlCon, transaction);
             else if(documento == "RQA")
                 LinhasDocRqa(artigo, precUnit, sqlCon, transaction);
             else
@@ -597,7 +597,7 @@ namespace TRTv10.Integration
             sqlCmdIn.ExecuteNonQuery();
         }
 
-        private void LinhasDocReq(string simulacao, SqlConnection sqlCon, SqlTransaction transaction)
+        private void LinhasDocReq(string cotacao, SqlConnection sqlCon, SqlTransaction transaction)
         {
             var sql = new StringBuilder();
             var i = 1;
@@ -606,7 +606,7 @@ namespace TRTv10.Integration
             sql.Append("FROM TDU_TRT_ItemsServicos S ");
             sql.Append("INNER JOIN TDU_TRT_Items I ");
             sql.Append("ON S.CDU_Items = I.CDU_Nome ");
-            sql.Append($"WHERE S.CDU_Processo = '{simulacao}' ");
+            sql.Append($"WHERE S.CDU_Processo = '{cotacao}' ");
             sql.Append("AND S.CDU_ValoresSimulacao > 0 ");
 
             var query = sql.ToString();
@@ -769,6 +769,7 @@ namespace TRTv10.Integration
         private void ItemsServicos(string processo, string tipoServ, string operacao)
         {
             var sql = new StringBuilder();
+            string likeTipoServ = "%" + tipoServ + "%";
 
             sql.Append($"INSERT INTO [dbo].[TDU_TRT_ItemsServicos] ");
             sql.Append("([CDU_Id] ");
@@ -777,7 +778,7 @@ namespace TRTv10.Integration
             sql.Append(",[CDU_Operacao] ");
             sql.Append(",[CDU_Processo]) ");
             sql.Append($" SELECT NewId(), CDU_Nome, '{tipoServ}', '{operacao}', '{processo}' ");
-            sql.Append($"FROM TDU_TRT_Items WHERE CDU_TipoServ LIKE '{tipoServ}'");
+            sql.Append($"FROM TDU_TRT_Items WHERE CDU_TipoServ LIKE '{likeTipoServ}'");
             sql.Append("Order By CDU_Posicao");
 
             var query = sql.ToString();

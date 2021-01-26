@@ -135,7 +135,7 @@ namespace TRTv10.User_Interface
             // 
             this.txtSERFRMTPProcesso.Enabled = false;
             this.txtSERFRMTPProcesso.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSERFRMTPProcesso.Location = new System.Drawing.Point(12, 85);
+            this.txtSERFRMTPProcesso.Location = new System.Drawing.Point(15, 92);
             this.txtSERFRMTPProcesso.Name = "txtSERFRMTPProcesso";
             this.txtSERFRMTPProcesso.Size = new System.Drawing.Size(454, 43);
             this.txtSERFRMTPProcesso.TabIndex = 50;
@@ -145,7 +145,7 @@ namespace TRTv10.User_Interface
             // 
             this.txtSERFRMTipoProcExistente.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSERFRMTipoProcExistente.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSERFRMTipoProcExistente.Location = new System.Drawing.Point(143, 98);
+            this.txtSERFRMTipoProcExistente.Location = new System.Drawing.Point(156, 42);
             this.txtSERFRMTipoProcExistente.Name = "txtSERFRMTipoProcExistente";
             this.txtSERFRMTipoProcExistente.Size = new System.Drawing.Size(292, 26);
             this.txtSERFRMTipoProcExistente.TabIndex = 52;
@@ -156,7 +156,7 @@ namespace TRTv10.User_Interface
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(478, 218);
+            this.ClientSize = new System.Drawing.Size(478, 211);
             this.Controls.Add(this.txtSERFRMTipoProcExistente);
             this.Controls.Add(this.txtSERFRMTPProcesso);
             this.Controls.Add(this.panel3);

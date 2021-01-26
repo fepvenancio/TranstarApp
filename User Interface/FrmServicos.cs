@@ -21,6 +21,9 @@ namespace TRTv10.User_Interface
 
         private int _numSimulacao;
         private bool _camposValidados;
+        public string ValProcReq;
+        private bool _criaReq;
+
         #endregion
 
         #region Metodos de Inicializaçao
@@ -392,6 +395,65 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        ///     Faz update a tabela Processo, isto e utilizado em Requisiçoes sem Cotaçao.
+        /// </summary>
+        private void UpdateProcesso(string processo)
+        {
+            //confirma as datas como datas a serem inseridas no SQL - Formataçao
+            DateTime data = dtpSERDataDU.Value;
+            DateTime dataChegada = dtpSERDataDU.Value;
+            DateTime dataEntrada= dtpSERDataDU.Value;
+            DateTime dataSaida = dtpSERDataDU.Value;
+            DateTime dataDu = dtpSERDataDU.Value;
+
+            //troca as virgulas por pontos para serem inseridos no SQL - Formatacao
+            IntegraPrimavera.validaNumeros(txtSERVCIF);
+            IntegraPrimavera.validaNumeros(txtSERVAduaneiro);
+            IntegraPrimavera.validaNumeros(txtSERCambio);
+            IntegraPrimavera.validaNumeros(txtSERValorDAR);
+
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            using SqlConnection sqlCon = new SqlConnection(connectionString);
+            sqlCon.Open();
+            using (var transaction = sqlCon.BeginTransaction())
+            {
+                var sqlCmdLin = new SqlCommand("TDU_TRT_ActualizaProcesso", sqlCon)
+                {
+                    Connection = sqlCon, Transaction = transaction, CommandType = CommandType.StoredProcedure
+                };
+                sqlCmdLin.Parameters.AddWithValue("@Processo", processo);
+                sqlCmdLin.Parameters.AddWithValue("@Cliente", cbSEREntidade.Text);
+                sqlCmdLin.Parameters.AddWithValue("@Moeda", cbSERMoeda.Text);
+                sqlCmdLin.Parameters.AddWithValue("@Referencia", txtSERReferencia.Text);
+                sqlCmdLin.Parameters.AddWithValue("@ValorCIF", txtSERVCIF.Text);
+                sqlCmdLin.Parameters.AddWithValue("@ValorAduaneiro", txtSERVAduaneiro.Text);
+                sqlCmdLin.Parameters.AddWithValue("@Cambio", txtSERCambio.Text);
+                sqlCmdLin.Parameters.AddWithValue("@BLCartaPorte", txtSERBLCartaPorte.Text);
+                sqlCmdLin.Parameters.AddWithValue("@Peso", txtSERPeso.Text);
+                sqlCmdLin.Parameters.AddWithValue("@AviaoNavio", cbSERAviaoNavio.Text);
+                sqlCmdLin.Parameters.AddWithValue("@Manifesto", txtSERManifesto.Text);
+                sqlCmdLin.Parameters.AddWithValue("@NumDAR", txtSERNumDAR.Text);
+                sqlCmdLin.Parameters.AddWithValue("@ValorDAR", txtSERValorDAR.Text);
+                sqlCmdLin.Parameters.AddWithValue("@DU", txtSERDU.Text);
+                sqlCmdLin.Parameters.AddWithValue("@Data", data.ToString("MM/dd/yyyy"));
+                sqlCmdLin.Parameters.AddWithValue("@DataChegada", dataChegada.ToString("MM/dd/yyyy")); 
+                sqlCmdLin.Parameters.AddWithValue("@DataEntrada", dataEntrada.ToString("MM/dd/yyyy"));
+                sqlCmdLin.Parameters.AddWithValue("@DataSaida", dataSaida.ToString("MM/dd/yyyy"));
+                sqlCmdLin.Parameters.AddWithValue("@DataDU", dataDu.ToString("MM/dd/yyyy"));
+                sqlCmdLin.Parameters.AddWithValue("@DUP", txtSERDUP.Text);
+                sqlCmdLin.Parameters.AddWithValue("@CNCA", txtSERCNCA.Text);
+                sqlCmdLin.Parameters.AddWithValue("@RUP", txtSERRUP.Text);
+                sqlCmdLin.Parameters.AddWithValue("@NumCot", "directo");
+                sqlCmdLin.Parameters.AddWithValue("@Obs", txtSERObs.Text);
+                sqlCmdLin.Parameters.AddWithValue("@NumVolumes", txtSERNumVolumes.Text);
+                sqlCmdLin.ExecuteNonQuery();
+
+                transaction.Commit();
+            }
+            sqlCon.Close();
+        }
+
+        /// <summary>
         ///     Cria o registo na tabela ItemsServiços
         /// </summary>
         private void CriaServicos()
@@ -543,9 +605,9 @@ namespace TRTv10.User_Interface
 
             if (_camposValidados is true)
             {
-                int numerador = 0;
+                int numerador;
                 string codProcesso;
-                string fileName = "";
+                string fileName = string.Empty;
      
                 if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
                 {
@@ -563,7 +625,51 @@ namespace TRTv10.User_Interface
                 }
                 if (cbSEROperacao.Text == @"Requisição de fundos")
                 {
-                    codProcesso = cbSERNumSimulacao.Text; //alterar para REQ
+                    var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                    codProcesso = cbSERNumSimulacao.Text;
+
+                    if (_criaReq)
+                    {
+                        codProcesso = ValProcReq;
+                        var documento = "REQ";
+                        var serie = DateTime.Now.Year.ToString();
+                        var vendas = new IntegraPrimavera();
+                        var cliente = cbSEREntidade.Text;
+                        var cambio = Convert.ToDouble(txtSERCambio.Text);
+                        var idOrig = Guid.NewGuid();
+                        var idLin = Guid.NewGuid();
+
+                        UpdateProcesso(codProcesso);
+
+                        using (var sqlCon = new SqlConnection(connectionString))
+                        {
+                            sqlCon.Open();
+
+                            using var transaction = sqlCon.BeginTransaction();
+                            vendas.CriaDocumento(documento, serie, DateTime.Now, codProcesso, codProcesso,
+                                sqlCon, transaction, idOrig, idLin, "", 0);
+                            transaction.Commit();
+                        }
+
+                        Close();
+
+                        using (var sqlCon = new SqlConnection(connectionString))
+                        {
+                            sqlCon.Open();
+
+                            using var transaction = sqlCon.BeginTransaction();
+                            vendas.CriaDocumentoErp(documento, cliente, DateTime.Now, cambio, serie,
+                                codProcesso);
+                            transaction.Commit();
+                        }
+
+                        PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
+                        Close();
+
+                        _criaReq = false;
+                    }
+
+                    
                     PriEngine.Platform.Mapas.Inicializar("BAS");
                     PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
                     var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
@@ -680,7 +786,7 @@ namespace TRTv10.User_Interface
         ///     Carrega os valores da Tabela Items Serviços para a grelha
         /// </summary>
         /// <param name="processo"></param>
-        private void PopulaGrelha(string processo)
+        public void PopulaGrelha(string processo)
         {
             try
             {
@@ -804,8 +910,14 @@ namespace TRTv10.User_Interface
                     //"Evita erro ao inicializar";
                 }
 
-
-            PopulaGrelha(processo: cbSERNumSimulacao.Text);
+            if (ValProcReq != string.Empty)
+            {
+                PopulaGrelha(ValProcReq);
+            }
+            else
+            {
+                PopulaGrelha(cbSERNumSimulacao.Text);
+            }
 
             var dgvRowTransport = dataGridViewSER.CurrentRow;
             // ReSharper disable once InvertIf
@@ -817,7 +929,6 @@ namespace TRTv10.User_Interface
                     frmTransporte.Show(owner: this);
                 }
         }
-
 
         #endregion
 
@@ -976,32 +1087,51 @@ namespace TRTv10.User_Interface
             {
                 if (txtSERRequisicao.Text == "")
                 {
-                    var dialogResult = MessageBox.Show(@"Pretende converter uma simulação em requisição?",
+                    var dialogResult = MessageBox.Show(@"Pretende converter uma cotação numa requisição?",
                         @"Cria Requisições", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
+
+                    try
                     {
-                        var frmRequisicao = new FrmRequisicao(cbSEREntidade.Text, dtpSERData.Value,
-                            Convert.ToDouble(txtSERCambio.Text), cbSERNumSimulacao.Text);
-                        frmRequisicao.Show(this);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            var frmRequisicao = new FrmRequisicao(cbSEREntidade.Text, dtpSERData.Value,
+                                Convert.ToDouble(txtSERCambio.Text), cbSERNumSimulacao.Text);
+                            frmRequisicao.Show(this);
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            var criaReqDialog = MessageBox.Show(@"Pretende criar uma nova requisição?",
+                                @"Cria Requisições", MessageBoxButtons.YesNo);
+                            try
+                            {
+                                if (criaReqDialog == DialogResult.Yes)
+                                {
+                                    var tipoServ = string.Empty;
+                                    var strTipoServ =
+                                        $"SELECT CDU_Codigo FROM TDU_TRT_TiposServico WHERE CDU_Nome = '{cbSERCod.Text}'";
+                                    var lstTipoServ = PriEngine.Engine.Consulta(strTipoServ);
+
+                                    if (!lstTipoServ.Vazia()) tipoServ = Convert.ToString(lstTipoServ.Valor(0));
+                                    using var frmTp = new FrmTipoProcesso(tipoServ, cbSEROperacao.Text);
+                                    frmTp.ShowDialog(this);
+                                    ValProcReq = frmTp.ProcessoReq;
+                                }
+
+                                if (ValProcReq != string.Empty)
+                                {
+                                    PopulaGrelha(ValProcReq);
+                                    _criaReq = true;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar a Requisição {ex.Message}");
+                            }
+                        }
                     }
-                    else if (dialogResult == DialogResult.No)
+                    catch(Exception ex)
                     {
-                        try
-                        {
-                            var tipoServ = string.Empty;
-                            var strTipoServ =
-                                $"SELECT CDU_Codigo FROM TDU_TRT_TiposServico WHERE CDU_Nome = '{cbSERCod.Text}'";
-                            var lstTipoServ = PriEngine.Engine.Consulta(strTipoServ);
-
-                            if (!lstTipoServ.Vazia()) tipoServ = "%" + lstTipoServ.Valor(0) + "%";
-
-                            var frmTipoProcesso = new FrmTipoProcesso(tipoServ, cbSEROperacao.Text);
-                            frmTipoProcesso.Show(this);
-                        }
-                        catch (Exception ex)
-                        {
-                            PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar a Requisição {ex.Message}");
-                        }
+                        PriEngine.Platform.Dialogos.MostraAviso($"Erro ao gerar a requisiçao: {ex.Message}");
                     }
                 }
                 else
@@ -1048,7 +1178,6 @@ namespace TRTv10.User_Interface
 
         private void FrmServicos_Load(object sender, EventArgs e)
         {
-
         }
 
         private void BntSERImprimir_Click(object sender, EventArgs e)

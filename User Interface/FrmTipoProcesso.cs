@@ -67,10 +67,10 @@ namespace TRTv10.User_Interface
                 {
                     vendas.CriaProcesso(ProcessoReq, simulacao, sqlCon, transaction);
                     vendas.CriaItemsServico(ProcessoReq, TipoServ, Operacao);
+                    
                     transaction.Commit();
                 }
 
-                PriEngine.Platform.Dialogos.MostraAviso(@"Documento criado com sucesso.");
                 Close();
             }
             catch (Exception ex)
