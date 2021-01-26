@@ -119,6 +119,42 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        ///     Se houver cliente selecionado vai buscar os codigos dos processos existentes
+        ///     desse cliente, caso contrario, vai buscar todos os numeros de processo.
+        /// </summary>
+        public void ActualizaDadosProcesso()
+        {
+            var sql = new StringBuilder();
+
+            if (cbSEREntidade.Text == "")
+            {
+                sql.Append("SELECT CDU_Codigo ");
+                sql.Append("FROM [dbo].[TDU_TRT_Processo] ");
+            }
+            else
+            {
+                sql.Append("SELECT CDU_Codigo ");
+                sql.Append("FROM [dbo].[TDU_TRT_Processo] ");
+                sql.Append("WHERE CDU_Cliente = '" + cbSEREntidade.Text + "' ");
+            }
+
+            var query = sql.ToString();
+
+            var lstPesquisa = PriEngine.Engine.Consulta(query);
+
+            if (!lstPesquisa.Vazia())
+            {
+                cbSERNumSimulacao.Items.Clear();
+
+                while (!lstPesquisa.NoFim())
+                {
+                    cbSERNumSimulacao.Items.Add(item: lstPesquisa.Valor(0));
+                    lstPesquisa.Seguinte();
+                }
+            }
+        }
+
+        /// <summary>
         ///     Carrega o codigo dos Tipos de Serviços na combobox da tabela TiposServico
         /// </summary>
         public void ActualizaDadosServ()
@@ -1210,6 +1246,18 @@ namespace TRTv10.User_Interface
             {
                 PriEngine.Platform.Dialogos.MostraAviso("Erro ao limpar o serviço: " + ex.Message);
             }
+        }
+
+        private void chkSERCotacao_CheckedChanged(object sender, EventArgs e)
+        {
+            chkSERRequisicao.Checked = !chkSERCotacao.Checked;
+            ActualizaDadosSimulacao();
+        }
+        
+        private void chkSERRequisicao_CheckedChanged(object sender, EventArgs e)
+        {
+            chkSERCotacao.Checked = !chkSERRequisicao.Checked;
+            ActualizaDadosProcesso();
         }
 
         #endregion

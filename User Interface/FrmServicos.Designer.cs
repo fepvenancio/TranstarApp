@@ -95,6 +95,8 @@
             this.lblSERTipoMercadoria = new System.Windows.Forms.Label();
             this.txtSERProcesso = new System.Windows.Forms.TextBox();
             this.cbSERAviaoNavio = new System.Windows.Forms.ComboBox();
+            this.chkSERCotacao = new System.Windows.Forms.CheckBox();
+            this.chkSERRequisicao = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSER)).BeginInit();
             this.SuspendLayout();
             // 
@@ -163,7 +165,7 @@
             // 
             this.cbSERNumSimulacao.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSERNumSimulacao.FormattingEnabled = true;
-            this.cbSERNumSimulacao.Location = new System.Drawing.Point(1175, 22);
+            this.cbSERNumSimulacao.Location = new System.Drawing.Point(1173, 19);
             this.cbSERNumSimulacao.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbSERNumSimulacao.Name = "cbSERNumSimulacao";
             this.cbSERNumSimulacao.Size = new System.Drawing.Size(137, 38);
@@ -747,12 +749,37 @@
             this.cbSERAviaoNavio.Size = new System.Drawing.Size(151, 25);
             this.cbSERAviaoNavio.TabIndex = 93;
             // 
+            // chkSERCotacao
+            // 
+            this.chkSERCotacao.AutoSize = true;
+            this.chkSERCotacao.Location = new System.Drawing.Point(806, 30);
+            this.chkSERCotacao.Name = "chkSERCotacao";
+            this.chkSERCotacao.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.chkSERCotacao.Size = new System.Drawing.Size(81, 21);
+            this.chkSERCotacao.TabIndex = 94;
+            this.chkSERCotacao.Text = "Cotações";
+            this.chkSERCotacao.UseVisualStyleBackColor = true;
+            this.chkSERCotacao.CheckedChanged += new System.EventHandler(this.chkSERCotacao_CheckedChanged);
+            // 
+            // chkSERRequisicao
+            // 
+            this.chkSERRequisicao.AutoSize = true;
+            this.chkSERRequisicao.Location = new System.Drawing.Point(919, 30);
+            this.chkSERRequisicao.Name = "chkSERRequisicao";
+            this.chkSERRequisicao.Size = new System.Drawing.Size(96, 21);
+            this.chkSERRequisicao.TabIndex = 95;
+            this.chkSERRequisicao.Text = "Requisições";
+            this.chkSERRequisicao.UseVisualStyleBackColor = true;
+            this.chkSERRequisicao.CheckedChanged += new System.EventHandler(this.chkSERRequisicao_CheckedChanged);
+            // 
             // FrmServicos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 653);
+            this.Controls.Add(this.chkSERRequisicao);
+            this.Controls.Add(this.chkSERCotacao);
             this.Controls.Add(this.cbSERAviaoNavio);
             this.Controls.Add(this.txtSERProcesso);
             this.Controls.Add(this.lblSERTipoMercadoria);
@@ -898,5 +925,7 @@
         #endregion
 
         private System.Windows.Forms.ComboBox cbSERAviaoNavio;
+        private System.Windows.Forms.CheckBox chkSERCotacao;
+        private System.Windows.Forms.CheckBox chkSERRequisicao;
     }
 }
