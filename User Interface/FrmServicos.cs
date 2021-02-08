@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StdBE100;
+using StdPlatBS100;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,8 +10,6 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using StdBE100;
-using StdPlatBS100;
 using TRTv10.Engine;
 using TRTv10.Integration;
 
@@ -20,6 +20,7 @@ namespace TRTv10.User_Interface
         #region variaveis
 
         private int _numSimulacao;
+        private string _numProcesso;
         private bool _camposValidados;
         public string ValProcReq;
         private bool _criaReq;
@@ -86,8 +87,9 @@ namespace TRTv10.User_Interface
         ///     Se houver cliente selecionado vai buscar os codigos de simulação existentes
         ///     desse cliente, caso contrario, vai buscar todos os numeros de simulaçao.
         /// </summary>
-        public void ActualizaDadosSimulacao()
+        public void ActualizaListaNumSimulacao()
         {
+            cbSERNumSimulacao.Items.Clear();
             var sql = new StringBuilder();
 
             if (cbSEREntidade.Text == "")
@@ -108,8 +110,6 @@ namespace TRTv10.User_Interface
 
             if (!lstPesquisa.Vazia())
             {
-                cbSERNumSimulacao.Items.Clear();
-
                 while (!lstPesquisa.NoFim())
                 {
                     cbSERNumSimulacao.Items.Add(item: lstPesquisa.Valor(0));
@@ -124,6 +124,7 @@ namespace TRTv10.User_Interface
         /// </summary>
         public void ActualizaDadosProcesso()
         {
+            cbSERNumSimulacao.Items.Clear();
             var sql = new StringBuilder();
 
             if (cbSEREntidade.Text == "")
@@ -144,8 +145,6 @@ namespace TRTv10.User_Interface
 
             if (!lstPesquisa.Vazia())
             {
-                cbSERNumSimulacao.Items.Clear();
-
                 while (!lstPesquisa.NoFim())
                 {
                     cbSERNumSimulacao.Items.Add(item: lstPesquisa.Valor(0));
@@ -202,7 +201,6 @@ namespace TRTv10.User_Interface
                 sql.Append("SELECT Max(Convert(int, CDU_Codigo)) ");
                 sql.Append("FROM [dbo].[TDU_TRT_Simulacao] ");
             }
-            
 
             var query = sql.ToString();
 
@@ -214,6 +212,10 @@ namespace TRTv10.User_Interface
                 {
                     cbSERNumSimulacao.Text = @"COT1";
                 }
+                else
+                {
+                    cbSERNumSimulacao.Text = "";
+                }
             }
             else
             {
@@ -222,12 +224,11 @@ namespace TRTv10.User_Interface
                 if (chkSERCotacao.Checked)
                 {
                     cbSERNumSimulacao.Text = @"COT" + numSimulacao;
-                }
+                }/*
                 else
                 {
                     cbSERNumSimulacao.Text = numSimulacao.ToString();
-                }
-                
+                }*/
             }
         }
 
@@ -236,29 +237,70 @@ namespace TRTv10.User_Interface
         /// </summary>
         public void ActualizaDadosTransporte()
         {
+            cbSERAviaoNavio.Items.Clear();
+            cbSERAviaoNavio.Items.Add("Marítimo");
             cbSERAviaoNavio.Items.Add("Avião");
             cbSERAviaoNavio.Items.Add("Rodoviário");
-            cbSERAviaoNavio.Items.Add("Marítimo");
         }
 
         #endregion
 
         #region Metodos de Criaçao / Update
 
+        private void ActualizaCbNumDoc()
+        {
+            cbSERNumDoc.Items.Clear();
+            Motores motores = new Motores();
+            string documento = motores.DevolveDocumento(cbSEROperacao.Text);
+            string query;
+
+            if (chkSERRequisicao.Checked is true)
+            {
+                query = $"SELECT CDU_Numero FROM TDU_TRT_Processo WHERE CDU_Documento = '{documento}' AND CDU_Codigo = '{cbSERNumSimulacao.Text}'";
+            }
+            else
+            {
+                query = $"SELECT CDU_Numero FROM TDU_TRT_Simulacao WHERE CDU_Documento = 'COT' AND CDU_Nome = '{cbSERNumSimulacao.Text}'";
+            }
+
+            StdBELista lstQ = PriEngine.Engine.Consulta(query);
+
+            if (!lstQ.Vazia())
+            {
+                while (!lstQ.NoFim())
+                {
+                    cbSERNumDoc.Items.Add(lstQ.Valor(0));
+                    lstQ.Seguinte();
+                }
+            }
+            else
+            {
+                cbSERNumDoc.Items.Add(1);   
+            }
+
+            cbSERNumDoc.Text = cbSERNumDoc.Items[cbSERNumDoc.Items.Count - 1].ToString();
+        }
+
         /// <summary>
         /// Serve para validar se para criar X documentos os campos essenciais estao preenchidos.
         /// </summary>
         private void ValidaCamposObrigatorios()
         {
-            _camposValidados = false || cbSERMoeda.Text != "" && txtSERVCIF.Text != "" && txtSERVAduaneiro.Text != "" &&
-                txtSERCambio.Text != "" && txtSERTipoMercadoria.Text != "";
+            _camposValidados = false || cbSERCod.Text != ""
+                && cbSEROperacao.Text != ""
+                && cbSEREntidade.Text != ""
+                && cbSERMoeda.Text != ""
+                && txtSERVCIF.Text != ""
+                && txtSERVAduaneiro.Text != ""
+                && txtSERCambio.Text != ""
+                && txtSERTipoMercadoria.Text != ""
+                && cbSERAviaoNavio.Text != "";
         }
-
 
         /// <summary>
         ///     Carrega os valores da ComboBox Operaçao
         /// </summary>
-        private void ActualizaOperacoes()
+        public void ActualizaCbOperacoes()
         {
             cbSEROperacao.Items.Clear();
 
@@ -266,12 +308,15 @@ namespace TRTv10.User_Interface
             {
                 cbSEROperacao.Items.Add("Cotação");
                 cbSEROperacao.Items.Add("Requisição de fundos");
+                cbSEROperacao.Items.Add("Requisição de fundos adicional");
             }
             else if (cbSERCod.Text == @"Licenciamento Fact/DUP")
             {
                 cbSEROperacao.Items.Add("Cotação");
                 cbSEROperacao.Items.Add("Requisição de fundos");
+                cbSEROperacao.Items.Add("Requisição de fundos adicional");
                 cbSEROperacao.Items.Add("Factura de Serviços");
+
             }
             else if (cbSERCod.Text == @"Outros Serviços")
             {
@@ -282,8 +327,128 @@ namespace TRTv10.User_Interface
             {
                 cbSEROperacao.Items.Add("Cotação");
                 cbSEROperacao.Items.Add("Requisição de fundos");
+                cbSEROperacao.Items.Add("Requisição de fundos adicional");
                 cbSEROperacao.Items.Add("Factura de Serviços");
             }
+        }
+
+        /* Obsuleto
+        /// <summary>
+        /// Caso exista REQ ele carrega na combobox operaçao a
+        /// possibilidade de fazer requisiçoes de fundos adicional
+        /// </summary>
+        private void ActualizaOperacoesRQA()
+        {
+            ActualizaOperacoes();
+            Motores motores = new Motores();
+            string reqNum;
+
+            if (cbSERNumSimulacao.Text != "")
+            {
+                reqNum = motores.ExisteDoc(cbSERNumSimulacao.Text, DevolveDoc(cbSEROperacao.Text));
+
+                if (reqNum != "vazio")
+                {
+                    if (cbSERCod.Text != @"Outros Serviços")
+                    {
+                        cbSEROperacao.Items.Add("Requisição de fundos adicional");
+                    }
+                }
+            }
+        }
+        */
+
+        /// <summary>
+        /// Valida se o processo existe na tabela dos itemsServiços
+        /// </summary>
+        /// <returns></returns>
+        private bool ExisteItensServicos()
+        {
+            string sqlQ = $"SELECT CDU_Processo FROM TDU_TRT_ItemsServicos WHERE CDU_Processo = '{cbSERNumSimulacao.Text}' ";
+            StdBELista lstQ = PriEngine.Engine.Consulta(sqlQ);
+            bool verdadeiro = false;
+
+            if (!lstQ.Vazia())
+            {
+                verdadeiro = true;
+            }
+
+            return verdadeiro;
+        }
+
+        /// <summary>
+        /// Valida se o processo existe e foi criado
+        /// </summary>
+        /// <returns></returns>
+        private bool ExisteProcesso()
+        {
+            string sqlQ = $"SELECT CDU_Codigo FROM TDU_TRT_Processo WHERE CDU_Codigo = '{cbSERNumSimulacao.Text}'";
+            StdBELista lstQ = PriEngine.Engine.Consulta(sqlQ);
+            bool verdadeiro = false;
+
+            if (!lstQ.Vazia())
+            {
+                verdadeiro = true;
+            }
+
+            return verdadeiro;
+        }
+
+        /// <summary>
+        /// Corre querys no SQL
+        /// </summary>
+        /// <param name="query"></param>
+        private void QueryDelete(string query)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+                connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Anula processos na BD
+        /// </summary>
+        private void AnulaProcesso()
+        {
+            string sqlQ = $"SELECT CDU_Codigo FROM TDU_TRT_Processo WHERE CDU_Codigo = '{cbSERNumSimulacao.Text}'";
+            StdBELista lstQ = PriEngine.Engine.Consulta(sqlQ);
+
+            if (!lstQ.Vazia() && cbSERNumSimulacao.Text != "")
+            {
+                StringBuilder sqlQDelServicos = new StringBuilder();
+                string delProc = lstQ.Valor(0);
+                bool existeItens = ExisteItensServicos();
+                bool existeProc = ExisteProcesso();
+                string qDelProc = $"DELETE FROM TDU_TRT_Processo WHERE CDU_Codigo = '{delProc}'";
+                string qDelItens = $"DELETE FROM TDU_TRT_ItemsServicos WHERE CDU_Processo = '{delProc}'";
+
+                if (existeItens is true)
+                {
+                    if (existeProc is false)
+                    {
+                        QueryDelete(qDelItens);
+                        QueryDelete(qDelProc);
+                    }
+                }
+                else
+                {
+                    if (existeProc is true)
+                    {
+                        QueryDelete(qDelProc);
+                    }
+                }
+
+                ActualizaListaNumSimulacao();
+                NumeroSimulacao();
+                LimpaGrelha();
+            }
+
         }
 
         /// <summary>
@@ -315,79 +480,13 @@ namespace TRTv10.User_Interface
 
                 //PriEngine.Engine.DSO.ExecuteSQL(query);
 
-                ActualizaDadosSimulacao();
+                ActualizaListaNumSimulacao();
                 NumeroSimulacao();
                 LimpaGrelha();
             }
             else
             {
                 PriEngine.Platform.Dialogos.MostraAviso("A cotação que pretende apagar não existe.");
-            }
-        }
-
-        /// <summary>
-        ///     Valida qual o numero da ultima simulação criada, adiciona 1 e cria na BD tabela Simulaçao a mesma
-        /// </summary>
-        private void CriaSimulacao()
-        {
-            if (cbSERNumSimulacao.Text != "")
-            {
-                int numSimulacao;
-                DateTime data = dtpSERDataDU.Value;
-                DateTime dataChegada = dtpSERDataDU.Value;
-                DateTime dataEntrada= dtpSERDataDU.Value;
-                DateTime dataSaida = dtpSERDataDU.Value;
-                DateTime dataDu = dtpSERDataDU.Value;
-
-                var strSimulacao = $"SELECT Max(Convert(int, CDU_Codigo)) FROM TDU_TRT_Simulacao";
-                var lstSimulacao = PriEngine.Engine.Consulta(strSimulacao);
-
-                if (lstSimulacao.Vazia() || lstSimulacao.Valor(0).ToString() == "")
-                    _numSimulacao = 1;
-                else
-                    _numSimulacao = Convert.ToInt32(lstSimulacao.Valor(0)) + 1;
-
-                var nomeSimulacao = "COT" + _numSimulacao;
-                numSimulacao = Convert.ToInt32(_numSimulacao);
-
-                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-                
-                using (var sqlCon = new SqlConnection(connectionString))
-                {
-                    SqlCommand sqlCmdLin = new SqlCommand("TDU_TRT_InsereSimulacao", sqlCon);
-                    sqlCmdLin.CommandType = CommandType.StoredProcedure;
-                    sqlCmdLin.Parameters.AddWithValue("@numSimulacao", numSimulacao);
-                    sqlCmdLin.Parameters.AddWithValue("@nomeSimulacao", nomeSimulacao);
-                    sqlCmdLin.Parameters.AddWithValue("@Cliente", cbSEREntidade.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Moeda", cbSERMoeda.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Referencia", txtSERReferencia.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@ValorCIF", txtSERVCIF.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@ValorAduaneiro", txtSERVAduaneiro.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Cambio", txtSERCambio.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@BLCartaPorte", txtSERBLCartaPorte.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@NumVolumes", txtSERNumVolumes.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Peso", txtSERPeso.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@AviaoNavio", cbSERAviaoNavio.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Manifesto", txtSERManifesto.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@NumDAR", txtSERNumDAR.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@ValorDAR", txtSERValorDAR.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@DU", txtSERDU.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Data", data.ToString("MM/dd/yyyy"));
-                    sqlCmdLin.Parameters.AddWithValue("@DataChegada", dataChegada.ToString("MM/dd/yyyy")); 
-                    sqlCmdLin.Parameters.AddWithValue("@DataEntrada", dataEntrada.ToString("MM/dd/yyyy"));
-                    sqlCmdLin.Parameters.AddWithValue("@DataSaida", dataSaida.ToString("MM/dd/yyyy"));
-                    sqlCmdLin.Parameters.AddWithValue("@DataDU", dataDu.ToString("MM/dd/yyyy"));
-                    sqlCmdLin.Parameters.AddWithValue("@DUP", txtSERDUP.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@CNCA", txtSERCNCA.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Operacao", cbSEROperacao.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@Obs", txtSERObs.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@TipoMercadoria", txtSERTipoMercadoria.Text);
-                    sqlCmdLin.Parameters.AddWithValue("@RUP", txtSERRUP.Text);
-
-                    sqlCon.Open();
-                    sqlCmdLin.ExecuteNonQuery();
-                    sqlCon.Close();
-                }
             }
         }
 
@@ -511,38 +610,6 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
-        ///     Cria o registo na tabela ItemsServiços
-        /// </summary>
-        private void CriaServicos()
-        {
-            var tipoServ = string.Empty;
-
-            var strTipoServ = $"SELECT CDU_Codigo FROM TDU_TRT_TiposServico WHERE CDU_Nome = '{cbSERCod.Text}'";
-            var lstTipoServ = PriEngine.Engine.Consulta(strTipoServ);
-
-            if (!lstTipoServ.Vazia()) tipoServ = "%" + lstTipoServ.Valor(0) + "%";
-            
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            using SqlConnection sqlCon = new SqlConnection(connectionString);
-            sqlCon.Open();
-            using (var transaction = sqlCon.BeginTransaction())
-            {
-                var sqlCmdLin = new SqlCommand("TDU_TRT_InsereItemsServicos", sqlCon)
-                {
-                    Connection = sqlCon, Transaction = transaction, CommandType = CommandType.StoredProcedure
-                };
-                sqlCmdLin.Parameters.AddWithValue("@TipoServ", lstTipoServ.Valor(0));
-                sqlCmdLin.Parameters.AddWithValue("@Operacao", cbSEROperacao.Text);
-                sqlCmdLin.Parameters.AddWithValue("@Processo", cbSERNumSimulacao.Text);
-                sqlCmdLin.Parameters.AddWithValue("@TipoServL", tipoServ);
-
-                sqlCmdLin.ExecuteNonQuery();
-                transaction.Commit();
-                sqlCon.Close();
-            }
-        }
-
-        /// <summary>
         ///     Ao escolherem um numero de simulaçao ele carrega os dados do SQL para a Form
         /// </summary>
         private void CarregaServicos()
@@ -557,7 +624,7 @@ namespace TRTv10.User_Interface
                 sql.Append(", U.CDU_AviaoNavio, U.CDU_Manifesto, U.CDU_NumDAR, U.CDU_ValorDAR ");
                 sql.Append(", U.CDU_DU, U.CDU_DataChegada, U.CDU_DataEntrada, U.CDU_DataSaida ");
                 sql.Append(", U.CDU_DataDU, U.CDU_DUP, U.CDU_CNCA, U.CDU_Obs, U.CDU_RUP, C.Nome, U.CDU_TipoMercadoria ");
-                sql.Append(", U.CDU_Codigo ");
+                sql.Append(", U.CDU_Codigo, U.CDU_Numero ");
                 sql.Append("FROM TDU_TRT_ItemsServicos I ");
                 sql.Append("INNER JOIN TDU_TRT_Processo U ");
                 sql.Append("ON I.CDU_Processo = U.CDU_Codigo ");
@@ -578,7 +645,7 @@ namespace TRTv10.User_Interface
                 sql.Append(", U.CDU_AviaoNavio, U.CDU_Manifesto, U.CDU_NumDAR, U.CDU_ValorDAR ");
                 sql.Append(", U.CDU_DU, U.CDU_DataChegada, U.CDU_DataEntrada, U.CDU_DataSaida ");
                 sql.Append(", U.CDU_DataDU, U.CDU_DUP, U.CDU_CNCA, U.CDU_Obs, U.CDU_RUP, C.Nome, U.CDU_TipoMercadoria ");
-                sql.Append(", P.CDU_Codigo ");
+                sql.Append(", P.CDU_Codigo, U.CDU_Numero ");
                 sql.Append("FROM TDU_TRT_ItemsServicos I ");
                 sql.Append("INNER JOIN TDU_TRT_TiposServico S  ");
                 sql.Append("ON I.CDU_TipoServ = S.CDU_Codigo ");
@@ -627,20 +694,18 @@ namespace TRTv10.User_Interface
                 txtSERNomeCliente.Text = lstPesquisa.Valor(25).ToString();
                 txtSERTipoMercadoria.Text = lstPesquisa.Valor(26).ToString();
                 txtSERProcesso.Text  = lstPesquisa.Valor(27).ToString();
-            }
-            else
-            {
-                LimpaServicos();
+                cbSERNumDoc.Text = lstPesquisa.Valor(28).ToString();
             }
         }
 
         /// <summary>
         ///     Limpa todos os valores da Form
         /// </summary>
-        private void LimpaServicos()
+        public void LimpaServicos()
         {
             cbSERCod.Text = "";
             cbSEROperacao.Text = "";
+            cbSERNumDoc.Text = "";
             cbSEREntidade.Text = "";
             dtpSERData.Text = "";
             txtSERCambio.Text = "";
@@ -666,9 +731,8 @@ namespace TRTv10.User_Interface
             txtSERRUP.Text = "";
             txtSERNomeCliente.Text = "";
             txtSERTipoMercadoria.Text = "";
-            txtSERRequisicao.Text = "";
-            txtSERProcesso.Text = "";
-            txtSERValidaData.Text = "";
+            
+            LimpaTxtDataEReq();
 
             if (chkSERRequisicao.Checked)
             {
@@ -676,11 +740,82 @@ namespace TRTv10.User_Interface
             }
             else
             {
-                ActualizaDadosSimulacao();
+                ActualizaListaNumSimulacao();
             }
+        }
+
+        public void LimpaServicosCServico()
+        {
+            cbSEROperacao.Text = "";
+            cbSEREntidade.Text = "";
+            cbSERNumDoc.Text = "";
+            dtpSERData.Text = "";
+            txtSERCambio.Text = "";
+            cbSERMoeda.Text = "";
+            txtSERReferencia.Text = "";
+            txtSERVCIF.Text = "";
+            txtSERVAduaneiro.Text = "";
+            txtSERBLCartaPorte.Text = "";
+            txtSERNumVolumes.Text = "";
+            txtSERPeso.Text = "";
+            cbSERAviaoNavio.Text = "";
+            txtSERManifesto.Text = "";
+            txtSERNumDAR.Text = "";
+            txtSERValorDAR.Text = "";
+            txtSERDU.Text = "";
+            dtpSERDataChegada.Text = "";
+            dtpSERDataEntrada.Text = "";
+            dtpSERDataSaida.Text = "";
+            dtpSERDataDU.Text = "";
+            txtSERDUP.Text = "";
+            txtSERCNCA.Text = "";
+            txtSERObs.Text = "";
+            txtSERRUP.Text = "";
+            txtSERNomeCliente.Text = "";
+            txtSERTipoMercadoria.Text = "";
             
-            NumeroSimulacao();
-            LimpaGrelha();
+            LimpaTxtDataEReq();
+
+            if (chkSERRequisicao.Checked)
+            {
+                ActualizaDadosProcesso();
+            }
+            else
+            {
+                ActualizaListaNumSimulacao();
+            }
+        }
+
+        public void LimpaTxtDataEReq()
+        {
+            txtSERRequisicao.Text = "";
+            txtSERRequisicao.BackColor = FrmServicos.DefaultBackColor;
+            txtSERRequisicao.Visible = false;
+            txtSERProcesso.Text = "";
+            txtSERProcesso.BackColor = FrmServicos.DefaultBackColor;
+            txtSERProcesso.Visible = false;
+            txtSERValidaData.Text = "";
+            txtSERValidaData.BackColor = FrmServicos.DefaultBackColor;
+            txtSERValidaData.Visible = false;
+        }
+
+        /// <summary>
+        /// Modelo de impressao dos mapas cotaçao
+        /// </summary>
+        /// <param name="processo"></param>
+        /// <param name="documento"></param>
+        private void EnviaImpressao(string processo, string documento, string docName)
+        {
+            PriEngine.Platform.Mapas.Inicializar("BAS");
+            PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+            var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+            int numerador = list.Length + 1;
+            string fileName = string.Format("{0}_{1}_{2}.pdf", processo, documento, numerador);
+            PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+            PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{processo}'";
+            PriEngine.Platform.Mapas.ImprimeListagem($"TRT_SIM", docName);
+            System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
         }
 
         /// <summary>
@@ -693,23 +828,16 @@ namespace TRTv10.User_Interface
 
             if (_camposValidados is true)
             {
-                int numerador;
                 string codProcesso;
-                string fileName = string.Empty;
-     
+
                 if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
                 {
                     codProcesso = cbSERNumSimulacao.Text;
-                    PriEngine.Platform.Mapas.Inicializar("BAS");
-                    PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                    var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                    numerador = list.Length + 1;
-                    fileName = string.Format("{0}_{1}.pdf", codProcesso, numerador);
-                    PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                    PriEngine.Platform.Mapas.JanelaPrincipal = 0;
-                    PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
-                    PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
-                    System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                    string documento = "COT";
+                    string docName = "Cotação";
+
+                    EnviaImpressao(codProcesso, documento, docName);
+
                 }
                 if (cbSEROperacao.Text == @"Requisição de fundos")
                 {
@@ -757,22 +885,41 @@ namespace TRTv10.User_Interface
                         _criaReq = false;
                     }
 
-                    
-                    PriEngine.Platform.Mapas.Inicializar("BAS");
-                    PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                    var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                    numerador = list.Length + 1;
-                    fileName = $"{codProcesso}_{numerador}.pdf";
-                    PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                    PriEngine.Platform.Mapas.JanelaPrincipal = 0;
-                    PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
-                    PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
-                    System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                    //imprimir
                 }
+                if (cbSEROperacao.Text == @"Requisição de fundos adicional")
+                {
+                    var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                    
+                    if (_criaReq)
+                    {
+                        codProcesso = cbSERNumSimulacao.Text;
+                        var documento = "RQA";
+                        var serie = DateTime.Now.Year.ToString();
+                        var vendas = new IntegraPrimavera();
+                        var cliente = cbSEREntidade.Text;
+                        var cambio = Convert.ToDouble(txtSERCambio.Text);
 
+                        UpdateProcesso(codProcesso);
+
+                        using (var sqlCon = new SqlConnection(connectionString))
+                        {
+                            sqlCon.Open();
+
+                            using var transaction = sqlCon.BeginTransaction();
+                            vendas.CriaDocumentoErp(documento, cliente, DateTime.Now, cambio, serie,
+                                codProcesso);
+                            transaction.Commit();
+                        }
+
+                        PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
+                    }
+
+                    
+                    //Imprimir
+                }
                 if (cbSEROperacao.Text == @"Factura de Serviços" && cbSERNumSimulacao.Text != "")
                 {
-                    bool valida = false;
                     var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
                     //Validar se a FS ja existe
                     string sqlDocExiste = $"SELECT Tipodoc, NumDoc, Serie FROM CabecDoc WHERE TipoDoc = 'FS' AND Requisicao = '{cbSERNumSimulacao.Text}'";
@@ -825,17 +972,7 @@ namespace TRTv10.User_Interface
 
                     }
 
-                    codProcesso = cbSERNumSimulacao.Text; //alterar para FS
-                    PriEngine.Platform.Mapas.Inicializar("BAS");
-                    PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                    var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                    numerador = list.Length + 1;
-                    fileName = $"{codProcesso}_{numerador}.pdf";
-                    PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                    PriEngine.Platform.Mapas.JanelaPrincipal = 0;
-                    PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_ItemsServicos.CDU_Processo}} = '{codProcesso}'";
-                    PriEngine.Platform.Mapas.ImprimeListagem("TRT_SIM", "Simulação de Custos");
-                    System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                    //Imprimir
                 }
             }
             else
@@ -844,16 +981,61 @@ namespace TRTv10.User_Interface
                                                         "Câmbio, Tipo de Mercadoria e Data de Entrada ");
             }
         }
-        
-        /// <summary>
-        ///     Baseado no cliente escolhido le o ERP e vai Buscar o nome do Cliente para preencher
-        ///     no campo do Nome.
-        /// </summary>
-        private void NomeCliente()
-        {
-            var cliente = cbSEREntidade.Text;
 
-            if (cliente != "") txtSERNomeCliente.Text = PriEngine.Engine.Base.Clientes.DaNome(cliente);
+        public string DevolveDoc(string documento)
+        {
+            if (cbSEROperacao.Text == "Cotação")
+            {
+                documento = "COT";
+                return documento;
+            }
+            if (cbSEROperacao.Text == "Requisição de fundos")
+            {
+                documento = "REQ";
+                return documento;
+            }
+            if (cbSEROperacao.Text == "Requisição de fundos adicional")
+            {
+                documento = "RQA";
+                return documento;
+            }
+            if (cbSEROperacao.Text == "Factura de Serviços")
+            {
+                documento = "FS";
+                return documento;
+            }
+            
+            documento = "REQ";
+            return documento;
+            
+        }
+
+        public Guid DevolveIdDoc()
+        {
+            if (cbSERNumSimulacao.Text != "")
+            {
+                Motores motores = new Motores();
+                string documento = motores.DevolveDocumento(cbSEROperacao.Text);
+                string query;
+
+                if (documento == "COT")
+                {
+                    query = $"SELECT CDU_id FROM TDU_TRT_Simulacao WHERE CDU_Nome = '{cbSERNumSimulacao.Text}' ";
+                }
+                else
+                {
+                    query = $"SELECT CDU_id FROM TDU_TRT_Processo WHERE CDU_Codigo = '{cbSERNumSimulacao.Text}' AND CDU_Documento = '{documento}' " +
+                            $"AND CDU_Numero = '{cbSERNumDoc.Text}'";
+                }
+
+                StdBELista lstQ = PriEngine.Engine.Consulta(query);
+                if (!lstQ.Vazia()) 
+                {
+                    return lstQ.Valor(0);
+                }
+            }
+            
+            return Guid.Empty;
         }
 
         #endregion
@@ -863,7 +1045,7 @@ namespace TRTv10.User_Interface
         /// <summary>
         ///     Limpa os valores da grelha
         /// </summary>
-        private void LimpaGrelha()
+        public void LimpaGrelha()
         {
             var dt = (DataTable) dataGridViewSER.DataSource;
             if (dt != null)
@@ -876,48 +1058,60 @@ namespace TRTv10.User_Interface
         /// <param name="processo"></param>
         public void PopulaGrelha(string processo)
         {
+            var p = processo;
+            var idDoc = DevolveIdDoc();
+
             try
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"]
-                    .ConnectionString;
-
-                using var sqlCon = new SqlConnection(connectionString);
-                var sql = new StringBuilder();
-
-                if (cbSERNumSimulacao.Text != "")
+                if (idDoc != Guid.Empty)
                 {
+                    var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+                    using var sqlCon = new SqlConnection(connectionString);
+                    var sql = new StringBuilder();
+
                     sql.Append("SELECT S.CDU_Items, S.CDU_ValoresSimulacao, S.CDU_IVASimulacao ");
                     sql.Append(", S.CDU_Processo, S.CDU_Descricao, S.CDU_Data ");
                     sql.Append("FROM TDU_TRT_ItemsServicos S ");
                     sql.Append("INNER JOIN TDU_TRT_Items I ");
                     sql.Append("ON S.CDU_Items = I.CDU_Nome ");
-                    sql.Append("WHERE CDU_Processo = '" + processo + "' ");
+
+                    if (cbSERNumSimulacao.Text != "")
+                    {
+                        sql.Append($"WHERE CDU_Processo = '{processo}' ");
+                        sql.Append($"AND CDU_idDoc = '{idDoc}' ");
+                    }
+                    else
+                    {
+                        sql.Append("WHERE CDU_Processo = '0' ");
+                    }
+
                     sql.Append("ORDER BY I.CDU_Posicao ");
+                    var query = sql.ToString();
+
+                    try
+                    {
+                        sqlCon.Open();
+                        var sqlDa = new SqlDataAdapter(query, sqlCon);
+                        var dtbl = new DataTable();
+                        sqlDa.Fill(dtbl);
+                        dataGridViewSER.DataSource = dtbl;
+                        dataGridViewSER.Columns[0].Width = 300;
+                        dataGridViewSER.Columns[1].Width = 100;
+                        dataGridViewSER.Columns[2].Width = 100;
+                        dataGridViewSER.Columns[3].Width = 100;
+                        dataGridViewSER.Columns[4].Width = 200;
+                        dataGridViewSER.Columns[5].Width = 150;
+                    }
+                    catch
+                    {
+                        PriEngine.Platform.Dialogos.MostraAviso("Documento sem linhas");
+                    }
                 }
                 else
                 {
-                    sql.Append("SELECT S.CDU_Items, S.CDU_ValoresSimulacao, S.CDU_IVASimulacao ");
-                    sql.Append(", S.CDU_Processo, S.CDU_Descricao, S.CDU_Data ");
-                    sql.Append("FROM TDU_TRT_ItemsServicos S ");
-                    sql.Append("INNER JOIN TDU_TRT_Items I ");
-                    sql.Append("ON S.CDU_Items = I.CDU_Nome ");
-                    sql.Append("WHERE CDU_Processo = '0' ");
-                    sql.Append("ORDER BY I.CDU_Posicao ");
+                    PriEngine.Platform.Diagnosticos.TraceMessage("Deve escolher um número de documento");
                 }
-
-                var query = sql.ToString();
-
-                sqlCon.Open();
-                var sqlDa = new SqlDataAdapter(query, sqlCon);
-                var dtbl = new DataTable();
-                sqlDa.Fill(dtbl);
-                dataGridViewSER.DataSource = dtbl;
-                dataGridViewSER.Columns[0].Width = 300;
-                dataGridViewSER.Columns[1].Width = 100;
-                dataGridViewSER.Columns[2].Width = 100;
-                dataGridViewSER.Columns[3].Width = 100;
-                dataGridViewSER.Columns[4].Width = 200;
-                dataGridViewSER.Columns[5].Width = 150;
             }
             catch
             {
@@ -930,7 +1124,9 @@ namespace TRTv10.User_Interface
         /// </summary>
         private void GravaDadosGrelha()
         {
-            if (txtSERRequisicao.Text == "")
+            if (chkSERCotacao.Checked is true)
+            {
+                if (txtSERRequisicao.Text != "") return;
                 try
                 {
                     var connectionString = ConfigurationManager.ConnectionStrings[name: "ConnectionString"].ConnectionString;
@@ -944,6 +1140,7 @@ namespace TRTv10.User_Interface
                     var patternNumeric = @"([0-9])+";
                     var regex = new Regex(patternNumeric);
                     var match = regex.Match(patternAlphabetic);
+                        
                     if (match.Success) 
                     {
                         PriEngine.Platform.Dialogos.MostraAviso("Deve escrever números e nao letras!");
@@ -998,24 +1195,101 @@ namespace TRTv10.User_Interface
                     //"Evita erro ao inicializar";
                 }
 
-            if (ValProcReq != string.Empty)
-            {
-                PopulaGrelha(ValProcReq);
-            }
-            else
-            {
+                var dgvRowTransport = dataGridViewSER.CurrentRow;
+                // ReSharper disable once InvertIf
+                if (dgvRowTransport != null && dgvRowTransport.Cells[columnName: "txtItem"].Value.ToString() == "TRANSPORTE + IVA")
+                    // ReSharper disable once InvertIf
+                    if (Convert.ToInt32(value: dgvRowTransport.Cells[columnName: "txtValoresSimulacao"].Value) > 0)
+                    {
+                        var frmTransporte = new FrmTransporte(processo: cbSERNumSimulacao.Text);
+                        frmTransporte.Show(owner: this);
+                    }
+
                 PopulaGrelha(cbSERNumSimulacao.Text);
             }
-
-            var dgvRowTransport = dataGridViewSER.CurrentRow;
-            // ReSharper disable once InvertIf
-            if (dgvRowTransport != null && dgvRowTransport.Cells[columnName: "txtItem"].Value.ToString() == "TRANSPORTE + IVA")
-                // ReSharper disable once InvertIf
-                if (Convert.ToInt32(value: dgvRowTransport.Cells[columnName: "txtValoresSimulacao"].Value) > 0)
+            else if (cbSEROperacao.Text == "Requisição de fundos adicional" && chkSERRequisicao.Checked is true)
+            {
+                if (txtSERRequisicao.Text != "") return;
+                try
                 {
-                    var frmTransporte = new FrmTransporte(processo: cbSERNumSimulacao.Text);
-                    frmTransporte.Show(owner: this);
+                    var connectionString = ConfigurationManager.ConnectionStrings[name: "ConnectionString"].ConnectionString;
+
+                    if (dataGridViewSER.CurrentRow == null) return;
+                    using var sqlCon = new SqlConnection(connectionString: connectionString);
+                    sqlCon.Open();
+                    var dgvRow = dataGridViewSER.CurrentRow;
+                    var valSim = (double)dgvRow.Cells[columnName: "txtValoresSimulacao"].Value; 
+                    var patternAlphabetic = @"([a-zA-Z])+";
+                    var patternNumeric = @"([0-9])+";
+                    var regex = new Regex(patternNumeric);
+                    var match = regex.Match(patternAlphabetic);
+                        
+                    if (match.Success) 
+                    {
+                        PriEngine.Platform.Dialogos.MostraAviso("Deve escrever números e nao letras!");
+                    }
+                    else
+                    {
+                        var sqlCmd = new SqlCommand(cmdText: "STP_TRT_GrelhaSER_Edit", connection: sqlCon)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Processo",
+                            value: dgvRow.Cells[columnName: "txtProcesso"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtProcesso"].Value.ToString());
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Item",
+                            value: dgvRow.Cells[columnName: "txtItem"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtItem"].Value.ToString());
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@ValorSim",
+                            value: Convert.ToDouble(
+                                value: dgvRow.Cells[columnName: "txtValoresSimulacao"].Value == DBNull.Value
+                                    ? 0
+                                    : dgvRow.Cells[columnName: "txtValoresSimulacao"].Value));
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Descricao",
+                            value: dgvRow.Cells[columnName: "txtDescricao"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtDescricao"].Value.ToString());
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@Data",
+                            value: dgvRow.Cells[columnName: "txtData"].Value == DBNull.Value
+                                ? ""
+                                : dgvRow.Cells[columnName: "txtData"].Value.ToString());
+
+                        double valorIva;
+                        var item = dgvRow.Cells[columnName: "txtItem"].Value.ToString();
+                        var query = @"SELECT CDU_IVA " + "FROM TDU_TRT_Items WHERE CDU_Nome = '" + item + "'";
+
+                        var lstItem = PriEngine.Engine.Consulta(strQuery: query);
+
+                        if (lstItem.Valor(vntCol: 0).ToString() == "False")
+                            valorIva = 0;
+                        else
+                            valorIva = Convert.ToInt32(value: dgvRow.Cells[columnName: "txtValoresSimulacao"].Value) * 0.14;
+
+                        var value = Convert.ToDouble(value: valorIva);
+                        sqlCmd.Parameters.AddWithValue(parameterName: "@ValorIVASim",
+                            value: value);
+                        sqlCmd.ExecuteNonQuery();
+                    }
                 }
+                catch
+                {
+                    //"Evita erro ao inicializar";
+                }
+
+                var dgvRowTransport = dataGridViewSER.CurrentRow;
+                // ReSharper disable once InvertIf
+                if (dgvRowTransport != null && dgvRowTransport.Cells[columnName: "txtItem"].Value.ToString() == "TRANSPORTE + IVA")
+                    // ReSharper disable once InvertIf
+                    if (Convert.ToInt32(value: dgvRowTransport.Cells[columnName: "txtValoresSimulacao"].Value) > 0)
+                    {
+                        var frmTransporte = new FrmTransporte(processo: cbSERNumSimulacao.Text);
+                        frmTransporte.Show(owner: this);
+                    }
+
+                PopulaGrelha(cbSERNumSimulacao.Text);
+            }
         }
 
         #endregion
@@ -1028,6 +1302,17 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        /// Ao fechar a form limpa a form e a grelha
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void FrmServicosClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LimpaGrelha();
+            LimpaServicos();
+        }
+
+        /// <summary>
         ///     Anula a simulação escolhida, limpa os campos e carrega os numeros da simulaçao novamente.
         /// </summary>
         /// <param name="sender"></param>
@@ -1036,9 +1321,18 @@ namespace TRTv10.User_Interface
         {
             try
             {
-                AnulaSimulacao();
-                LimpaServicos();
-                ActualizaDadosSimulacao();
+                if (chkSERCotacao.Checked)
+                {
+                    AnulaSimulacao();
+                    LimpaServicos();
+                    ActualizaListaNumSimulacao();
+                }
+                else
+                {
+                    AnulaProcesso();
+                    LimpaServicos();
+                    ActualizaDadosProcesso();
+                }
             }
             catch (Exception ex)
             {
@@ -1057,44 +1351,56 @@ namespace TRTv10.User_Interface
         /// <param name="e"></param>
         private void CbSERNumSimulacao_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var simulacao = cbSERNumSimulacao.Text;
-
-            var lstExiste = PriEngine.Engine.Consulta(
-                $"SELECT * FROM TDU_TRT_ItemsServicos WHERE CDU_Processo = '{cbSERNumSimulacao.Text}'");
-
-            if (!lstExiste.Vazia())
+            if (cbSERNumSimulacao.Text != "")
             {
+                ActualizaCbNumDoc();
+                LimpaTxtDataEReq();
+                var simulacao = cbSERNumSimulacao.Text;
+
+                
+                Motores motores = new Motores();
+
+                string numReq;
+                string documento;    
+                
+                if (cbSEROperacao.Text != "")
+                {
+                    documento = DevolveDoc(cbSEROperacao.Text);
+                    numReq = motores.ExisteDoc(simulacao, documento);
+                }
+                else
+                {
+                    documento = "REQ";
+                    numReq = motores.ExisteDoc(simulacao, documento);
+                }
+
+                if (numReq != "vazio" && documento == "REQ")
+                {
+                    txtSERRequisicao.Text = numReq;
+                    txtSERRequisicao.Visible = true;
+                }
+                else
+                {
+                    txtSERRequisicao.Text = "";
+                    txtSERRequisicao.Visible = false;
+                }
+
+                var difDatas = (DateTime.Now.Date - Convert.ToDateTime(dtpSERData.Text)).TotalDays;
+                if (difDatas > 0)
+                {
+                    txtSERValidaData.Text = difDatas.ToString(CultureInfo.InvariantCulture);
+                    txtSERValidaData.Visible = true;
+
+                    if (difDatas > 15)
+                        txtSERValidaData.BackColor = Color.Red;
+                    else
+                        txtSERValidaData.BackColor = Color.Green;
+                }
+
+                ActualizaCbOperacoes();
+                LimpaGrelha();
                 CarregaServicos();
                 PopulaGrelha(cbSERNumSimulacao.Text);
-                cbSERNumSimulacao.Text = simulacao;
-            }
-
-            var documento = "REQ";
-            var vendas = new IntegraPrimavera();
-
-            var numReq = vendas.ExisteReq(simulacao, documento);
-
-            if (numReq != "vazio")
-            {
-                txtSERRequisicao.Text = numReq;
-                txtSERRequisicao.Visible = true;
-            }
-            else
-            {
-                txtSERRequisicao.Text = "";
-                txtSERRequisicao.Visible = false;
-            }
-
-            var difDatas = (DateTime.Now.Date - Convert.ToDateTime(dtpSERData.Text)).TotalDays;
-            if (difDatas > 0)
-            {
-                txtSERValidaData.Text = difDatas.ToString(CultureInfo.InvariantCulture);
-                txtSERValidaData.Visible = true;
-
-                if (difDatas > 15)
-                    txtSERValidaData.BackColor = Color.Red;
-                else
-                    txtSERValidaData.BackColor = Color.Green;
             }
         }
 
@@ -1105,8 +1411,8 @@ namespace TRTv10.User_Interface
         /// <param name="e"></param>
         private void CbSEREntidade_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ActualizaDadosSimulacao();
-            NomeCliente();
+            var motores = new Motores();
+            txtSERNomeCliente.Text = motores.GetNomeCliente(cbSEREntidade.Text);
         }
 
         private void DataGridViewSER_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1120,7 +1426,24 @@ namespace TRTv10.User_Interface
         /// <param name="e"></param>
         private void DataGridViewSER_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            GravaDadosGrelha();
+            Motores motores = new Motores();
+
+            if (chkSERCotacao.Checked is true)
+            {
+                var existeREQ = motores.ExisteDoc(cbSERNumSimulacao.Text, "REQ");
+                if (existeREQ == "vazio")
+                {
+                    GravaDadosGrelha();
+                }
+                else
+                {
+                    PopulaGrelha(cbSERNumSimulacao.Text);
+                }
+            }
+            else
+            {
+                PopulaGrelha(cbSERNumSimulacao.Text);
+            }
         }
 
         /// <summary>
@@ -1131,128 +1454,49 @@ namespace TRTv10.User_Interface
         private void CbSERCod_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbSERCod.BackColor = Color.White;
-            ActualizaOperacoes();
         }
 
         /// <summary>
-        ///     Caso a opçao seja cotaçao ele cria logo uma simulaçao e fica a espera que sejam
-        ///     preenchidos os valores. Caso seja requisiçao ele chama uma messagebox de confirmaçao
-        ///     e depois um form para atribuir o tipo de processo, o numero do processo e criar tanto
-        ///     nas nossas tabelas TDU_TRT como no ERP Primavera.
-        ///     Se a opçao for factura de serviços cria nas nossas tabelas e no ERP, o processo nao existe
-        ///     nestes casos.
+        /// Muda o visto para cotações e faz update.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CbSEROperacao_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
+            if (cbSEROperacao.Text == "Requisição de fundos adicional")
             {
-                try
-                {
-                    var lstExiste = PriEngine.Engine.Consulta(
-                        $"SELECT CDU_Processo FROM TDU_TRT_ItemsServicos WHERE CDU_Processo = '{cbSERNumSimulacao.Text}'");
-
-                    if (!lstExiste.Vazia())
-                    {
-                        CarregaServicos();
-                    }
-                    else
-                    {
-                        CriaSimulacao();
-                        CriaServicos();
-                    }
-
-                    PopulaGrelha(cbSERNumSimulacao.Text);
-                    ActualizaDadosSimulacao();
-                }
-                catch (Exception ex)
-                {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o serviço, {ex.Message}");
-                }
+                LimpaGrelha();
+                LimpaTxtDataEReq();
             }
-            else if (cbSEROperacao.Text == @"Requisição de fundos")
+            else if (cbSEROperacao.Text == "Requisição de fundos")
             {
-                if (txtSERRequisicao.Text == "")
-                {
-                    var dialogResult = MessageBox.Show(@"Pretende converter uma cotação numa requisição?",
-                        @"Cria Requisições", MessageBoxButtons.YesNo);
-
-                    try
-                    {
-                        if (dialogResult == DialogResult.Yes)
-                        {
-                            var frmRequisicao = new FrmRequisicao(cbSEREntidade.Text, dtpSERData.Value,
-                                Convert.ToDouble(txtSERCambio.Text), cbSERNumSimulacao.Text);
-                            frmRequisicao.Show(this);
-                        }
-                        else if (dialogResult == DialogResult.No)
-                        {
-                            var criaReqDialog = MessageBox.Show(@"Pretende criar uma nova requisição?",
-                                @"Cria Requisições", MessageBoxButtons.YesNo);
-                            try
-                            {
-                                if (criaReqDialog == DialogResult.Yes)
-                                {
-                                    var tipoServ = string.Empty;
-                                    var strTipoServ =
-                                        $"SELECT CDU_Codigo FROM TDU_TRT_TiposServico WHERE CDU_Nome = '{cbSERCod.Text}'";
-                                    var lstTipoServ = PriEngine.Engine.Consulta(strTipoServ);
-
-                                    if (!lstTipoServ.Vazia()) tipoServ = Convert.ToString(lstTipoServ.Valor(0));
-                                    using var frmTp = new FrmTipoProcesso(tipoServ, cbSEROperacao.Text);
-                                    frmTp.ShowDialog(this);
-                                    ValProcReq = frmTp.ProcessoReq;
-                                }
-
-                                if (ValProcReq != string.Empty)
-                                {
-                                    PopulaGrelha(ValProcReq);
-                                    _criaReq = true;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar a Requisição {ex.Message}");
-                            }
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        PriEngine.Platform.Dialogos.MostraAviso($"Erro ao gerar a requisiçao: {ex.Message}");
-                    }
-                }
-                else
-                {
-                    FrmRqa frmRqa = new FrmRqa(Convert.ToDouble(txtSERCambio.Text), dtpSERData.Value, 
-                        txtSERNomeCliente.Text, txtSERProcesso.Text, cbSERNumSimulacao.Text);
-                    frmRqa.Show(this);
-                }
+                chkSERRequisicao.Checked = true;
             }
-            else if (cbSEROperacao.Text == @"Factura de Serviços")
+            else if (cbSEROperacao.Text == "Cotação")
             {
-                try
-                {
-                    var lstExiste = PriEngine.Engine.Consulta(
-                        $"SELECT CDU_Processo FROM TDU_TRT_ItemsServicos WHERE CDU_Processo = '{cbSERNumSimulacao.Text}'");
+                chkSERCotacao.Checked = true;
+            }
+        }
 
-                    if (!lstExiste.Vazia())
-                    {
-                        CarregaServicos();
-                    }
-                    else
-                    {
-                        CriaSimulacao();
-                        CriaServicos();
-                    }
+        /// <summary>
+        /// Caso seja uma REQ sem COT ele atribui um numero de processo baseado no
+        /// cbSERAviaoNavio.Text
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbSERAviaoNavio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Motores motores = new Motores();
+            bool isCot = motores.IsCot(cbSERNumSimulacao.Text);
+            
+            if (isCot is false)
+            {
+                cbSERNumSimulacao.Text = "";
+            }
 
-                    PopulaGrelha(cbSERNumSimulacao.Text);
-                    ActualizaDadosSimulacao();
-                }
-                catch (Exception ex)
-                {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o serviço, {ex.Message}");
-                }
+            if (cbSEROperacao.Text == "Requisição de fundos")
+            {
+                cbSERNumSimulacao.Text = motores.GeraNumProcesso(cbSERAviaoNavio.Text);
             }
         }
 
@@ -1291,8 +1535,25 @@ namespace TRTv10.User_Interface
         {
             try
             {
+                txtSERValidaData.BackColor = FrmServicos.DefaultBackColor;
+                txtSERValidaData.Text = string.Empty;
+                txtSERValidaData.Visible = false;
+                txtSERRequisicao.Text = string.Empty;
+                txtSERRequisicao.Visible = false;
+                cbSERNumSimulacao.Text = string.Empty;
                 LimpaServicos();
-                ActualizaDadosSimulacao();
+                LimpaGrelha();
+
+                if (chkSERCotacao.Checked)
+                {
+                    ActualizaListaNumSimulacao();
+                }
+                else
+                {
+                    ActualizaDadosProcesso();
+                }
+
+                NumeroSimulacao();
             }
             catch (Exception ex)
             {
@@ -1302,16 +1563,155 @@ namespace TRTv10.User_Interface
 
         private void chkSERCotacao_CheckedChanged(object sender, EventArgs e)
         {
+            cbSERNumSimulacao.Text = "";
             chkSERRequisicao.Checked = !chkSERCotacao.Checked;
-            ActualizaDadosSimulacao();
+            //LimpaGrelha();
+            //LimpaServicosCServico();
+            ActualizaListaNumSimulacao();
+            NumeroSimulacao();
         }
         
         private void chkSERRequisicao_CheckedChanged(object sender, EventArgs e)
         {
+            cbSERNumSimulacao.Text = "";
             chkSERCotacao.Checked = !chkSERRequisicao.Checked;
+            //LimpaGrelha();
+            //LimpaServicosCServico();
             ActualizaDadosProcesso();
         }
 
-        #endregion
+        private void btnNovo_Click(object sender, EventArgs e)
+        {
+            ValidaCamposObrigatorios();
+            if (cbSERNumSimulacao.Text != "")
+            {
+                if (_camposValidados is true)
+                { 
+                    Motores motores = new Motores();
+
+                    //Vai gravar na tabela simulacao e itemsServiços
+                    if (cbSEROperacao.Text == @"Cotação" && cbSERNumSimulacao.Text != "")
+                    {
+                        motores.CriaCotacao(this);
+                        ActualizaCbNumDoc();
+                        DevolveIdDoc();
+                        PopulaGrelha(cbSERNumSimulacao.Text);
+                    }
+
+                    //Se for nova vai gravar na tabela processos e itemsservicos
+                    //Se for baseada numa cotaçao vai copiar das tabelas simulacao e 
+                    //gravar nas tabelas processos e itemsservicos
+                    //Depois cria na cabecdoc e linhasdoc (TDU_TRT_)
+                    else if (cbSEROperacao.Text == @"Requisição de fundos")
+                    {
+                        string existeCOT = motores.ExisteDoc(cbSERNumSimulacao.Text, "COT");
+                        string existeReq = motores.ExisteDoc(cbSERNumSimulacao.Text, "REQ");
+
+                        Guid idDoc = Guid.NewGuid();
+
+                        if (existeCOT == "vazio" && existeReq == "vazio")
+                        {
+                            chkSERRequisicao.Checked = true;
+                            cbSERNumSimulacao.Text = motores.GeraNumProcesso(cbSERAviaoNavio.Text);
+                            
+                            motores.CriaRequisicao(this, false, "Sem Cotação", idDoc);
+                            motores.CriaDocumento(this, "REQ", idDoc);
+                            PopulaGrelha(cbSERNumSimulacao.Text);
+                        }
+                        else if (existeReq != "vazio")
+                        {
+                            PriEngine.Platform.Dialogos.MostraAviso($"A Requisiçao já existe na base de dados {existeReq}");
+                        }
+                        else if (existeCOT != "vazio")
+                        {
+                            PriEngine.Platform.Dialogos.MostraAviso($"Existe uma cotação - {existeCOT}, deve CONVERTER");
+                        } 
+                    }
+
+                    //Vai gravar na tabela TDU_TRT_CabecDocumentos e ...LinhasDocumentos
+                    else if (cbSEROperacao.Text == @"Requisição de fundos adicional")
+                    {
+                        Guid idDoc = Guid.NewGuid();
+
+                        motores.CriaRequisicaoAdicional(this, false, "RQA", idDoc);
+                        motores.CriaDocumento(this, "RQA", idDoc);
+                        PopulaGrelha(cbSERNumSimulacao.Text);
+                    }
+
+                    //Vai gravar na tabela TDU_TRT_CabecDocumentos e ...LinhasDocumentos
+                    else if ((cbSEROperacao.Text == @"Factura de Serviços")) 
+                    {
+
+                    }
+                }
+                else
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: Tipo de Serviço, Operacao, Cliente, Moeda, Valor CIF, Valor Aduaneiro, " +
+                                                            "Câmbio, Tipo de Mercadoria e Data de Entrada ");
+                }
+            }
+        }
+
+        private void btnConverter_Click(object sender, EventArgs e)
+        {
+            ValidaCamposObrigatorios();
+            try
+            {
+                if (cbSERNumSimulacao.Text != "" && cbSEROperacao.Text == "Cotação")
+                {
+                    string transporte = cbSERAviaoNavio.Text;
+                    string numCot = cbSERNumSimulacao.Text;
+                    Motores motores = new Motores();
+                    string existeCOT = motores.ExisteDoc(numCot, "REQ");
+
+                    if (_camposValidados is true)
+                    {
+                        if (existeCOT == "vazio")
+                        {
+                            var dialogResult = MessageBox.Show(@"Pretende converter uma cotação numa requisição?",
+                                @"Cria Requisições", MessageBoxButtons.YesNo);
+
+                            if (dialogResult != DialogResult.Yes) return;
+                            
+                            chkSERRequisicao.Checked = true;
+                            
+                            cbSERNumSimulacao.Text = motores.GeraNumProcesso(transporte);
+                        
+                            existeCOT = motores.ExisteDoc(numCot, "COT");
+                            string existeReq = motores.ExisteDoc(numCot, "REQ");
+
+                            if (existeCOT != "vazio" && existeReq == "vazio")
+                            {
+                                Guid idDoc = Guid.NewGuid();
+                                motores.CriaRequisicao(this, true, numCot, idDoc);
+                                motores.CriaDocumento(this, "REQ", idDoc);
+
+                                LimpaServicos();
+                                CarregaServicos();
+                                PopulaGrelha(cbSERNumSimulacao.Text);
+                            }
+                        }
+                        else
+                        {
+                            PriEngine.Platform.Dialogos.MostraAviso($"Já existe uma REQ para essa simulação: {existeCOT}" );
+                        }
+                    }
+                    else
+                    {
+                        PriEngine.Platform.Dialogos.MostraAviso("Apenas as cotações podem ser convertidas.");
+                    }
+                }
+                else
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso("Apenas Cotações podem ser convertidas.");
+                }
+
+            }
+            catch(Exception ex)
+            {
+                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao gerar a requisiçao: {ex.Message}");
+            }
+        }
     }
+    #endregion
 }

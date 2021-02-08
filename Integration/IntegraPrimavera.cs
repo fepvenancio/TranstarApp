@@ -2,12 +2,14 @@
 using StdPlatBS100;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using System.Windows.Forms;
 using TesBE100;
 using TRTv10.Engine;
+using TRTv10.User_Interface;
 using VndBE100;
 
 namespace TRTv10.Integration
@@ -155,7 +157,6 @@ namespace TRTv10.Integration
             System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
         }
 
-
         public string ItemDocumento(string item)
         {
             string erpDoc = string.Empty;
@@ -174,11 +175,22 @@ namespace TRTv10.Integration
 
         public string ExisteReq(string simulacao, string documento)
         {
+            String s = simulacao;
             string strDoc;
             var lstReq = new StdBELista();
+            string queryProc = string.Empty;
 
-            var queryProc = "SELECT CDU_Codigo " + " FROM TDU_TRT_Processo WHERE CDU_NumSimulacao = " +
-                            "'" + simulacao + "'";
+            if (s.Substring(0, 3) == "COT")
+            {
+                queryProc = "SELECT CDU_Codigo " + " FROM TDU_TRT_Processo WHERE CDU_NumSimulacao = " +
+                                "'" + simulacao + "'";
+            }
+            else
+            {
+                queryProc = "SELECT CDU_Codigo " + " FROM TDU_TRT_Processo WHERE CDU_Codigo = " +
+                                "'" + simulacao + "'";
+            }
+            
             var lstProc = PriEngine.Engine.Consulta(queryProc);
 
             if (!lstProc.Vazia())
@@ -216,6 +228,8 @@ namespace TRTv10.Integration
         {
             Processo(processo, simulacao, sqlCon, transaction);
         }
+
+        
 
         public void CriaDocumento(string documento, string serie, DateTime data, string processo, string cotacao,
             SqlConnection sqlCon, SqlTransaction transaction, Guid idOrig, Guid idLin, string artigo, double precUnit)
@@ -275,15 +289,6 @@ namespace TRTv10.Integration
             }
 
             return processo;
-        }
-
-        public string NomeCliente(string codCliente)
-        {
-            var nomeCliente = string.Empty;
-
-            if (codCliente != "") nomeCliente = PriEngine.Engine.Base.Clientes.DaNome(codCliente);
-
-            return nomeCliente;
         }
 
         public void ConvertLinhas(Guid idLin, SqlConnection sqlCon, SqlTransaction transaction)

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
+using TRTv10.Integration;
 
 namespace TRTv10.User_Interface
 {
     public partial class FrmExplorer : Form
     {
-        private FrmServicos _frmServicos;
+        private FrmCotacao _frmCotacao;
         private FrmProcesso _frmProcesso;
+        private FrmRequisicoes _frmRequisocoes;
         private FrmAprovacoes _frmAprovacoes;
+        private FrmDocumento _frmDocumento;
 
         public FrmExplorer(string user)
         {
@@ -17,36 +20,50 @@ namespace TRTv10.User_Interface
 
         private void FrmExplorer_Load(object sender, EventArgs e)
         {
-            _frmServicos ??= new FrmServicos();
-            _frmProcesso ??= new FrmProcesso();
-            _frmAprovacoes ??= new FrmAprovacoes();
-
-            _frmServicos.ActualizaDadosSimulacao();
-            _frmServicos.ActualizaDadosServ();
-            _frmServicos.ActualizaDadosClientes();
-            _frmServicos.ActualizaDadosMoedas();
-            _frmServicos.NumeroSimulacao();
-            _frmServicos.ActualizaDadosTransporte();
-            _frmProcesso.ActualizaDadosClientes();
-            _frmServicos.dataGridViewSER.Columns[0].Width = 300;
-            _frmServicos.dataGridViewSER.Columns[1].Width = 100;
-            _frmServicos.dataGridViewSER.Columns[2].Width = 150;
-            _frmServicos.dataGridViewSER.Columns[3].Width = 150;
+            
         }
 
-        private void CriarServiçoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CriarCotacaoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmServicos.ShowDialog();
+            _frmCotacao = new FrmCotacao();
+            _frmCotacao.Show();
         }
 
-        private void ConsultaDeProcessosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExtractoDeProcessosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmProcesso.ShowDialog();
+            _frmProcesso = new FrmProcesso();
+            _frmProcesso.Show();
         }
 
         private void aprovaçõesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            _frmAprovacoes.ShowDialog();
+            _frmAprovacoes = new FrmAprovacoes();
+            _frmAprovacoes.Show();
+        }
+
+        private void serviçosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void requisiçõesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _frmRequisocoes = new FrmRequisicoes();
+            _frmRequisocoes.Show();
+        }
+
+        private void reimpressãoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _frmDocumento = new FrmDocumento();
+            _frmDocumento.DesabilitaBtnConverter(true);
+            _frmDocumento.Show();
+        }
+
+        private void conversãoDeCOTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _frmDocumento = new FrmDocumento();
+            _frmDocumento.DesabilitaBtnConverter(false);
+            _frmDocumento.Show();
         }
     }
 }

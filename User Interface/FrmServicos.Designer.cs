@@ -97,6 +97,9 @@
             this.cbSERAviaoNavio = new System.Windows.Forms.ComboBox();
             this.chkSERCotacao = new System.Windows.Forms.CheckBox();
             this.chkSERRequisicao = new System.Windows.Forms.CheckBox();
+            this.btnNovo = new System.Windows.Forms.Button();
+            this.btnConverter = new System.Windows.Forms.Button();
+            this.cbSERNumDoc = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSER)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,7 +121,7 @@
             this.cbSERCod.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbSERCod.Name = "cbSERCod";
             this.cbSERCod.Size = new System.Drawing.Size(488, 25);
-            this.cbSERCod.TabIndex = 24;
+            this.cbSERCod.TabIndex = 5;
             this.cbSERCod.SelectedIndexChanged += new System.EventHandler(this.CbSERCod_SelectedIndexChanged);
             // 
             // lblSERCambio
@@ -138,7 +141,7 @@
             this.txtSERCambio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERCambio.Name = "txtSERCambio";
             this.txtSERCambio.Size = new System.Drawing.Size(166, 25);
-            this.txtSERCambio.TabIndex = 28;
+            this.txtSERCambio.TabIndex = 12;
             // 
             // lblSEROperacao
             // 
@@ -157,8 +160,8 @@
             this.cbSEROperacao.Location = new System.Drawing.Point(166, 112);
             this.cbSEROperacao.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbSEROperacao.Name = "cbSEROperacao";
-            this.cbSEROperacao.Size = new System.Drawing.Size(488, 25);
-            this.cbSEROperacao.TabIndex = 30;
+            this.cbSEROperacao.Size = new System.Drawing.Size(435, 25);
+            this.cbSEROperacao.TabIndex = 6;
             this.cbSEROperacao.SelectedIndexChanged += new System.EventHandler(this.CbSEROperacao_SelectedIndexChanged);
             // 
             // cbSERNumSimulacao
@@ -169,7 +172,7 @@
             this.cbSERNumSimulacao.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbSERNumSimulacao.Name = "cbSERNumSimulacao";
             this.cbSERNumSimulacao.Size = new System.Drawing.Size(137, 38);
-            this.cbSERNumSimulacao.TabIndex = 32;
+            this.cbSERNumSimulacao.TabIndex = 34;
             this.cbSERNumSimulacao.SelectedIndexChanged += new System.EventHandler(this.CbSERNumSimulacao_SelectedIndexChanged);
             // 
             // lblSERCliente
@@ -190,7 +193,7 @@
             this.cbSEREntidade.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbSEREntidade.Name = "cbSEREntidade";
             this.cbSEREntidade.Size = new System.Drawing.Size(488, 25);
-            this.cbSEREntidade.TabIndex = 33;
+            this.cbSEREntidade.TabIndex = 7;
             this.cbSEREntidade.SelectedIndexChanged += new System.EventHandler(this.CbSEREntidade_SelectedIndexChanged);
             // 
             // lblSERData
@@ -209,7 +212,7 @@
             this.dtpSERData.Location = new System.Drawing.Point(166, 502);
             this.dtpSERData.Name = "dtpSERData";
             this.dtpSERData.Size = new System.Drawing.Size(166, 25);
-            this.dtpSERData.TabIndex = 36;
+            this.dtpSERData.TabIndex = 18;
             // 
             // dataGridViewSER
             // 
@@ -273,10 +276,10 @@
             this.bntSERImprimir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bntSERImprimir.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bntSERImprimir.ForeColor = System.Drawing.Color.White;
-            this.bntSERImprimir.Location = new System.Drawing.Point(30, 22);
+            this.bntSERImprimir.Location = new System.Drawing.Point(120, 22);
             this.bntSERImprimir.Name = "bntSERImprimir";
-            this.bntSERImprimir.Size = new System.Drawing.Size(109, 35);
-            this.bntSERImprimir.TabIndex = 38;
+            this.bntSERImprimir.Size = new System.Drawing.Size(89, 29);
+            this.bntSERImprimir.TabIndex = 2;
             this.bntSERImprimir.Text = "Imprimir";
             this.bntSERImprimir.UseVisualStyleBackColor = false;
             this.bntSERImprimir.Click += new System.EventHandler(this.BntSERImprimir_Click);
@@ -298,7 +301,7 @@
             this.txtSERNumVolumes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERNumVolumes.Name = "txtSERNumVolumes";
             this.txtSERNumVolumes.Size = new System.Drawing.Size(151, 25);
-            this.txtSERNumVolumes.TabIndex = 41;
+            this.txtSERNumVolumes.TabIndex = 27;
             // 
             // lvlSERCIF
             // 
@@ -317,7 +320,7 @@
             this.txtSERVCIF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERVCIF.Name = "txtSERVCIF";
             this.txtSERVCIF.Size = new System.Drawing.Size(166, 25);
-            this.txtSERVCIF.TabIndex = 43;
+            this.txtSERVCIF.TabIndex = 10;
             // 
             // lblSERVAduaneiro
             // 
@@ -336,7 +339,7 @@
             this.txtSERVAduaneiro.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERVAduaneiro.Name = "txtSERVAduaneiro";
             this.txtSERVAduaneiro.Size = new System.Drawing.Size(166, 25);
-            this.txtSERVAduaneiro.TabIndex = 45;
+            this.txtSERVAduaneiro.TabIndex = 11;
             // 
             // lblVNDObs
             // 
@@ -356,7 +359,7 @@
             this.txtSERObs.Multiline = true;
             this.txtSERObs.Name = "txtSERObs";
             this.txtSERObs.Size = new System.Drawing.Size(488, 25);
-            this.txtSERObs.TabIndex = 47;
+            this.txtSERObs.TabIndex = 21;
             // 
             // lblSERNumDAR
             // 
@@ -375,7 +378,7 @@
             this.txtSERNumDAR.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERNumDAR.Name = "txtSERNumDAR";
             this.txtSERNumDAR.Size = new System.Drawing.Size(151, 25);
-            this.txtSERNumDAR.TabIndex = 55;
+            this.txtSERNumDAR.TabIndex = 24;
             // 
             // lblSERManifesto
             // 
@@ -394,7 +397,7 @@
             this.txtSERManifesto.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERManifesto.Name = "txtSERManifesto";
             this.txtSERManifesto.Size = new System.Drawing.Size(151, 25);
-            this.txtSERManifesto.TabIndex = 53;
+            this.txtSERManifesto.TabIndex = 23;
             // 
             // lblAviaoNavio
             // 
@@ -423,7 +426,7 @@
             this.txtSERValorDAR.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERValorDAR.Name = "txtSERValorDAR";
             this.txtSERValorDAR.Size = new System.Drawing.Size(151, 25);
-            this.txtSERValorDAR.TabIndex = 49;
+            this.txtSERValorDAR.TabIndex = 25;
             // 
             // lblDataSaida
             // 
@@ -471,7 +474,7 @@
             this.dtpSERDataChegada.Location = new System.Drawing.Point(166, 533);
             this.dtpSERDataChegada.Name = "dtpSERDataChegada";
             this.dtpSERDataChegada.Size = new System.Drawing.Size(166, 25);
-            this.dtpSERDataChegada.TabIndex = 65;
+            this.dtpSERDataChegada.TabIndex = 19;
             // 
             // dtpSERDataEntrada
             // 
@@ -479,7 +482,7 @@
             this.dtpSERDataEntrada.Location = new System.Drawing.Point(503, 408);
             this.dtpSERDataEntrada.Name = "dtpSERDataEntrada";
             this.dtpSERDataEntrada.Size = new System.Drawing.Size(151, 25);
-            this.dtpSERDataEntrada.TabIndex = 66;
+            this.dtpSERDataEntrada.TabIndex = 28;
             // 
             // dtpSERDataSaida
             // 
@@ -487,7 +490,7 @@
             this.dtpSERDataSaida.Location = new System.Drawing.Point(503, 439);
             this.dtpSERDataSaida.Name = "dtpSERDataSaida";
             this.dtpSERDataSaida.Size = new System.Drawing.Size(151, 25);
-            this.dtpSERDataSaida.TabIndex = 67;
+            this.dtpSERDataSaida.TabIndex = 29;
             // 
             // dtpSERDataDU
             // 
@@ -495,7 +498,7 @@
             this.dtpSERDataDU.Location = new System.Drawing.Point(503, 470);
             this.dtpSERDataDU.Name = "dtpSERDataDU";
             this.dtpSERDataDU.Size = new System.Drawing.Size(151, 25);
-            this.dtpSERDataDU.TabIndex = 68;
+            this.dtpSERDataDU.TabIndex = 30;
             // 
             // lblSERNumDU
             // 
@@ -514,7 +517,7 @@
             this.txtSERDU.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERDU.Name = "txtSERDU";
             this.txtSERDU.Size = new System.Drawing.Size(151, 25);
-            this.txtSERDU.TabIndex = 69;
+            this.txtSERDU.TabIndex = 26;
             // 
             // lblSERPorteBL
             // 
@@ -533,7 +536,7 @@
             this.txtSERBLCartaPorte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERBLCartaPorte.Name = "txtSERBLCartaPorte";
             this.txtSERBLCartaPorte.Size = new System.Drawing.Size(166, 25);
-            this.txtSERBLCartaPorte.TabIndex = 71;
+            this.txtSERBLCartaPorte.TabIndex = 15;
             // 
             // lblSERReferencia
             // 
@@ -552,7 +555,7 @@
             this.txtSERReferencia.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERReferencia.Name = "txtSERReferencia";
             this.txtSERReferencia.Size = new System.Drawing.Size(166, 25);
-            this.txtSERReferencia.TabIndex = 73;
+            this.txtSERReferencia.TabIndex = 17;
             // 
             // lblSERPeso
             // 
@@ -571,7 +574,7 @@
             this.txtSERPeso.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERPeso.Name = "txtSERPeso";
             this.txtSERPeso.Size = new System.Drawing.Size(151, 25);
-            this.txtSERPeso.TabIndex = 75;
+            this.txtSERPeso.TabIndex = 31;
             // 
             // lblSERMoeda
             // 
@@ -590,7 +593,7 @@
             this.cbSERMoeda.Location = new System.Drawing.Point(166, 211);
             this.cbSERMoeda.Name = "cbSERMoeda";
             this.cbSERMoeda.Size = new System.Drawing.Size(166, 25);
-            this.cbSERMoeda.TabIndex = 78;
+            this.cbSERMoeda.TabIndex = 9;
             // 
             // lblSERCNCA
             // 
@@ -609,7 +612,7 @@
             this.txtSERCNCA.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERCNCA.Name = "txtSERCNCA";
             this.txtSERCNCA.Size = new System.Drawing.Size(166, 25);
-            this.txtSERCNCA.TabIndex = 79;
+            this.txtSERCNCA.TabIndex = 13;
             // 
             // lblSERDUP
             // 
@@ -628,7 +631,7 @@
             this.txtSERDUP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERDUP.Name = "txtSERDUP";
             this.txtSERDUP.Size = new System.Drawing.Size(166, 25);
-            this.txtSERDUP.TabIndex = 81;
+            this.txtSERDUP.TabIndex = 14;
             // 
             // lblSERRUP
             // 
@@ -647,7 +650,7 @@
             this.txtSERRUP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERRUP.Name = "txtSERRUP";
             this.txtSERRUP.Size = new System.Drawing.Size(166, 25);
-            this.txtSERRUP.TabIndex = 83;
+            this.txtSERRUP.TabIndex = 16;
             // 
             // btnSERLimpar
             // 
@@ -655,10 +658,10 @@
             this.btnSERLimpar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSERLimpar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSERLimpar.ForeColor = System.Drawing.Color.White;
-            this.btnSERLimpar.Location = new System.Drawing.Point(151, 22);
+            this.btnSERLimpar.Location = new System.Drawing.Point(405, 22);
             this.btnSERLimpar.Name = "btnSERLimpar";
-            this.btnSERLimpar.Size = new System.Drawing.Size(109, 35);
-            this.btnSERLimpar.TabIndex = 85;
+            this.btnSERLimpar.Size = new System.Drawing.Size(89, 29);
+            this.btnSERLimpar.TabIndex = 4;
             this.btnSERLimpar.Text = "Limpar Dados";
             this.btnSERLimpar.UseVisualStyleBackColor = false;
             this.btnSERLimpar.Click += new System.EventHandler(this.BtnSERLimpar_Click);
@@ -669,10 +672,10 @@
             this.BtnSERAnula.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnSERAnula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSERAnula.ForeColor = System.Drawing.Color.White;
-            this.BtnSERAnula.Location = new System.Drawing.Point(1058, 22);
+            this.BtnSERAnula.Location = new System.Drawing.Point(310, 22);
             this.BtnSERAnula.Name = "BtnSERAnula";
-            this.BtnSERAnula.Size = new System.Drawing.Size(109, 35);
-            this.BtnSERAnula.TabIndex = 86;
+            this.BtnSERAnula.Size = new System.Drawing.Size(89, 29);
+            this.BtnSERAnula.TabIndex = 3;
             this.BtnSERAnula.Text = "Anular";
             this.BtnSERAnula.UseVisualStyleBackColor = false;
             this.BtnSERAnula.Click += new System.EventHandler(this.BtnSERAnula_Click);
@@ -684,17 +687,17 @@
             this.txtSERNomeCliente.Location = new System.Drawing.Point(166, 180);
             this.txtSERNomeCliente.Name = "txtSERNomeCliente";
             this.txtSERNomeCliente.Size = new System.Drawing.Size(488, 25);
-            this.txtSERNomeCliente.TabIndex = 87;
+            this.txtSERNomeCliente.TabIndex = 8;
             // 
             // txtSERRequisicao
             // 
             this.txtSERRequisicao.BackColor = System.Drawing.SystemColors.Control;
             this.txtSERRequisicao.Enabled = false;
             this.txtSERRequisicao.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSERRequisicao.Location = new System.Drawing.Point(272, 22);
+            this.txtSERRequisicao.Location = new System.Drawing.Point(588, 24);
             this.txtSERRequisicao.Name = "txtSERRequisicao";
             this.txtSERRequisicao.Size = new System.Drawing.Size(149, 33);
-            this.txtSERRequisicao.TabIndex = 88;
+            this.txtSERRequisicao.TabIndex = 35;
             this.txtSERRequisicao.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtSERRequisicao.Visible = false;
             // 
@@ -702,10 +705,10 @@
             // 
             this.txtSERValidaData.BackColor = System.Drawing.SystemColors.Control;
             this.txtSERValidaData.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSERValidaData.Location = new System.Drawing.Point(485, 22);
+            this.txtSERValidaData.Location = new System.Drawing.Point(801, 23);
             this.txtSERValidaData.Name = "txtSERValidaData";
             this.txtSERValidaData.Size = new System.Drawing.Size(120, 33);
-            this.txtSERValidaData.TabIndex = 89;
+            this.txtSERValidaData.TabIndex = 37;
             this.txtSERValidaData.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtSERValidaData.Visible = false;
             // 
@@ -716,7 +719,7 @@
             this.txtSERTipoMercadoria.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSERTipoMercadoria.Name = "txtSERTipoMercadoria";
             this.txtSERTipoMercadoria.Size = new System.Drawing.Size(488, 25);
-            this.txtSERTipoMercadoria.TabIndex = 90;
+            this.txtSERTipoMercadoria.TabIndex = 20;
             // 
             // lblSERTipoMercadoria
             // 
@@ -733,10 +736,10 @@
             this.txtSERProcesso.BackColor = System.Drawing.SystemColors.Control;
             this.txtSERProcesso.Enabled = false;
             this.txtSERProcesso.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSERProcesso.Location = new System.Drawing.Point(427, 22);
+            this.txtSERProcesso.Location = new System.Drawing.Point(743, 23);
             this.txtSERProcesso.Name = "txtSERProcesso";
             this.txtSERProcesso.Size = new System.Drawing.Size(52, 33);
-            this.txtSERProcesso.TabIndex = 92;
+            this.txtSERProcesso.TabIndex = 36;
             this.txtSERProcesso.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtSERProcesso.Visible = false;
             // 
@@ -747,16 +750,19 @@
             this.cbSERAviaoNavio.Location = new System.Drawing.Point(503, 212);
             this.cbSERAviaoNavio.Name = "cbSERAviaoNavio";
             this.cbSERAviaoNavio.Size = new System.Drawing.Size(151, 25);
-            this.cbSERAviaoNavio.TabIndex = 93;
+            this.cbSERAviaoNavio.TabIndex = 22;
+            this.cbSERAviaoNavio.SelectedIndexChanged += new System.EventHandler(this.CbSERAviaoNavio_SelectedIndexChanged);
             // 
             // chkSERCotacao
             // 
             this.chkSERCotacao.AutoSize = true;
-            this.chkSERCotacao.Location = new System.Drawing.Point(806, 30);
+            this.chkSERCotacao.Checked = true;
+            this.chkSERCotacao.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSERCotacao.Location = new System.Drawing.Point(947, 30);
             this.chkSERCotacao.Name = "chkSERCotacao";
             this.chkSERCotacao.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.chkSERCotacao.Size = new System.Drawing.Size(81, 21);
-            this.chkSERCotacao.TabIndex = 94;
+            this.chkSERCotacao.TabIndex = 32;
             this.chkSERCotacao.Text = "Cotações";
             this.chkSERCotacao.UseVisualStyleBackColor = true;
             this.chkSERCotacao.CheckedChanged += new System.EventHandler(this.chkSERCotacao_CheckedChanged);
@@ -764,13 +770,51 @@
             // chkSERRequisicao
             // 
             this.chkSERRequisicao.AutoSize = true;
-            this.chkSERRequisicao.Location = new System.Drawing.Point(919, 30);
+            this.chkSERRequisicao.Location = new System.Drawing.Point(1060, 30);
             this.chkSERRequisicao.Name = "chkSERRequisicao";
             this.chkSERRequisicao.Size = new System.Drawing.Size(96, 21);
-            this.chkSERRequisicao.TabIndex = 95;
+            this.chkSERRequisicao.TabIndex = 33;
             this.chkSERRequisicao.Text = "Requisições";
             this.chkSERRequisicao.UseVisualStyleBackColor = true;
             this.chkSERRequisicao.CheckedChanged += new System.EventHandler(this.chkSERRequisicao_CheckedChanged);
+            // 
+            // btnNovo
+            // 
+            this.btnNovo.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.btnNovo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNovo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNovo.ForeColor = System.Drawing.Color.White;
+            this.btnNovo.Location = new System.Drawing.Point(25, 22);
+            this.btnNovo.Name = "btnNovo";
+            this.btnNovo.Size = new System.Drawing.Size(89, 29);
+            this.btnNovo.TabIndex = 1;
+            this.btnNovo.Text = "Criar";
+            this.btnNovo.UseVisualStyleBackColor = false;
+            this.btnNovo.Click += new System.EventHandler(this.btnNovo_Click);
+            // 
+            // btnConverter
+            // 
+            this.btnConverter.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.btnConverter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConverter.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConverter.ForeColor = System.Drawing.Color.White;
+            this.btnConverter.Location = new System.Drawing.Point(215, 22);
+            this.btnConverter.Name = "btnConverter";
+            this.btnConverter.Size = new System.Drawing.Size(89, 29);
+            this.btnConverter.TabIndex = 92;
+            this.btnConverter.Text = "Converter";
+            this.btnConverter.UseVisualStyleBackColor = false;
+            this.btnConverter.Click += new System.EventHandler(this.btnConverter_Click);
+            // 
+            // cbSERNumDoc
+            // 
+            this.cbSERNumDoc.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSERNumDoc.FormattingEnabled = true;
+            this.cbSERNumDoc.Location = new System.Drawing.Point(607, 112);
+            this.cbSERNumDoc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbSERNumDoc.Name = "cbSERNumDoc";
+            this.cbSERNumDoc.Size = new System.Drawing.Size(47, 25);
+            this.cbSERNumDoc.TabIndex = 93;
             // 
             // FrmServicos
             // 
@@ -778,6 +822,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 653);
+            this.Controls.Add(this.cbSERNumDoc);
+            this.Controls.Add(this.btnConverter);
+            this.Controls.Add(this.btnNovo);
             this.Controls.Add(this.chkSERRequisicao);
             this.Controls.Add(this.chkSERCotacao);
             this.Controls.Add(this.cbSERAviaoNavio);
@@ -848,6 +895,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Serviços";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmServicosClosing);
             this.Load += new System.EventHandler(this.FrmServicos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSER)).EndInit();
             this.ResumeLayout(false);
@@ -858,17 +906,8 @@
         private System.Windows.Forms.Button bntSERImprimir;
         private System.Windows.Forms.Button BtnSERAnula;
         private System.Windows.Forms.Button btnSERLimpar;
-        private System.Windows.Forms.ComboBox cbSERCod;
-        private System.Windows.Forms.ComboBox cbSEREntidade;
-        private System.Windows.Forms.ComboBox cbSERMoeda;
         public System.Windows.Forms.ComboBox cbSERNumSimulacao;
-        private System.Windows.Forms.ComboBox cbSEROperacao;
         public System.Windows.Forms.DataGridView dataGridViewSER;
-        private System.Windows.Forms.DateTimePicker dtpSERData;
-        private System.Windows.Forms.DateTimePicker dtpSERDataChegada;
-        private System.Windows.Forms.DateTimePicker dtpSERDataDU;
-        private System.Windows.Forms.DateTimePicker dtpSERDataEntrada;
-        private System.Windows.Forms.DateTimePicker dtpSERDataSaida;
         private System.Windows.Forms.Label lblAviaoNavio;
         private System.Windows.Forms.Label lblDataChegada;
         private System.Windows.Forms.Label lblDataDU;
@@ -900,32 +939,43 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn txtItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn txtIVASimulacao;
         private System.Windows.Forms.DataGridViewTextBoxColumn txtProcesso;
-        private System.Windows.Forms.TextBox txtSERBLCartaPorte;
-        private System.Windows.Forms.TextBox txtSERCambio;
-        private System.Windows.Forms.TextBox txtSERCNCA;
-        private System.Windows.Forms.TextBox txtSERDU;
-        private System.Windows.Forms.TextBox txtSERDUP;
-        private System.Windows.Forms.TextBox txtSERManifesto;
-        private System.Windows.Forms.TextBox txtSERNomeCliente;
-        private System.Windows.Forms.TextBox txtSERNumDAR;
-        private System.Windows.Forms.TextBox txtSERNumVolumes;
-        private System.Windows.Forms.TextBox txtSERObs;
-        private System.Windows.Forms.TextBox txtSERPeso;
-        private System.Windows.Forms.TextBox txtSERProcesso;
-        private System.Windows.Forms.TextBox txtSERReferencia;
-        private System.Windows.Forms.TextBox txtSERRequisicao;
-        private System.Windows.Forms.TextBox txtSERRUP;
-        private System.Windows.Forms.TextBox txtSERTipoMercadoria;
-        private System.Windows.Forms.TextBox txtSERVAduaneiro;
-        private System.Windows.Forms.TextBox txtSERValidaData;
-        private System.Windows.Forms.TextBox txtSERValorDAR;
-        private System.Windows.Forms.TextBox txtSERVCIF;
         private System.Windows.Forms.DataGridViewTextBoxColumn txtValoresSimulacao;
 
         #endregion
-
-        private System.Windows.Forms.ComboBox cbSERAviaoNavio;
         private System.Windows.Forms.CheckBox chkSERCotacao;
         private System.Windows.Forms.CheckBox chkSERRequisicao;
+        private System.Windows.Forms.Button btnNovo;
+        public System.Windows.Forms.ComboBox cbSERCod;
+        public System.Windows.Forms.ComboBox cbSEREntidade;
+        public System.Windows.Forms.ComboBox cbSERMoeda;
+        public System.Windows.Forms.ComboBox cbSEROperacao;
+        public System.Windows.Forms.DateTimePicker dtpSERData;
+        public System.Windows.Forms.DateTimePicker dtpSERDataChegada;
+        public System.Windows.Forms.DateTimePicker dtpSERDataDU;
+        public System.Windows.Forms.DateTimePicker dtpSERDataEntrada;
+        public System.Windows.Forms.DateTimePicker dtpSERDataSaida;
+        public System.Windows.Forms.TextBox txtSERBLCartaPorte;
+        public System.Windows.Forms.TextBox txtSERCambio;
+        public System.Windows.Forms.TextBox txtSERCNCA;
+        public System.Windows.Forms.TextBox txtSERDU;
+        public System.Windows.Forms.TextBox txtSERDUP;
+        public System.Windows.Forms.TextBox txtSERManifesto;
+        public System.Windows.Forms.TextBox txtSERNomeCliente;
+        public System.Windows.Forms.TextBox txtSERNumDAR;
+        public System.Windows.Forms.TextBox txtSERNumVolumes;
+        public System.Windows.Forms.TextBox txtSERObs;
+        public System.Windows.Forms.TextBox txtSERPeso;
+        public System.Windows.Forms.TextBox txtSERProcesso;
+        public System.Windows.Forms.TextBox txtSERReferencia;
+        public System.Windows.Forms.TextBox txtSERRequisicao;
+        public System.Windows.Forms.TextBox txtSERRUP;
+        public System.Windows.Forms.TextBox txtSERTipoMercadoria;
+        public System.Windows.Forms.TextBox txtSERVAduaneiro;
+        public System.Windows.Forms.TextBox txtSERValidaData;
+        public System.Windows.Forms.TextBox txtSERValorDAR;
+        public System.Windows.Forms.TextBox txtSERVCIF;
+        public System.Windows.Forms.ComboBox cbSERAviaoNavio;
+        private System.Windows.Forms.Button btnConverter;
+        public System.Windows.Forms.ComboBox cbSERNumDoc;
     }
 }

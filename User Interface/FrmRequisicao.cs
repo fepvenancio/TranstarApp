@@ -87,16 +87,6 @@ namespace TRTv10.User_Interface
 
                                 sqlCon.Close();
                             }
-                            
-                            using (var sqlCon = new SqlConnection(connectionString))
-                            {
-                                sqlCon.Open();
-
-                                using var transaction = sqlCon.BeginTransaction();
-                                vendas.CriaDocumentoErp(documento, _cliente, _data, _cambio, serie,
-                                    ProcessoReq);
-                                transaction.Commit();
-                            }
 
                             PriEngine.Platform.Dialogos.MostraAviso("Documento criado com sucesso.");
                             Close();
@@ -122,75 +112,25 @@ namespace TRTv10.User_Interface
 
         private void CbSERFRMREQTipoProc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GeraProcesso();
-
+            Motores motores = new Motores();
             var documento = "REQ";
-            var vendas = new IntegraPrimavera();
 
-            var numReq = vendas.ExisteReq(Simulacao, documento);
+            string processo = motores.GeraNumProcesso(cbSERFRMREQTipoProc.Text);
+            txtSERFRMREQProcesso.Text = processo;
 
+            var numReq = motores.ExisteDoc(Simulacao, documento);
             if (numReq != "vazio") txtSERFRMREQREQExistente.Text = numReq;
         }
 
         private void CbSERFRMREQCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var nomeCliente = new IntegraPrimavera();
-            txtSERFRMREQNomeCliente.Text = nomeCliente.NomeCliente(cbSERFRMREQCliente.Text);
+            Motores nomeCliente = new Motores();
+            txtSERFRMREQNomeCliente.Text = nomeCliente.GetNomeCliente(cbSERFRMREQCliente.Text);
         }
 
         #endregion
 
         #region metodos
-
-        private void GeraProcesso()
-        {
-            var sql = new StringBuilder();
-            var tipoProc = string.Empty;
-            var ano = DateTime.Now.Year.ToString();
-            var substring = ano.Substring(ano.Length - 2);
-
-            switch (cbSERFRMREQTipoProc.Text)
-            {
-                case "Marítimo":
-                    tipoProc = "1";
-                    break;
-                case "Aéreo":
-                    tipoProc = "2";
-                    break;
-                case "Terrestre":
-                    tipoProc = "3";
-                    break;
-            }
-
-            var processo = substring + tipoProc + "%";
-
-            sql.Append("SELECT MAX(RIGHT(CDU_Codigo, 4)) ");
-            sql.Append("FROM [dbo].[TDU_TRT_Processo] ");
-            sql.Append("WHERE CDU_Codigo LIKE '" + processo + "' ");
-
-            var query = sql.ToString();
-
-            var lstPesquisa = PriEngine.Engine.Consulta(query);
-
-            if (lstPesquisa.Vazia() || lstPesquisa.Valor(0).ToString() == "")
-            {
-                processo = substring + tipoProc + "0001";
-                txtSERFRMREQProcesso.Text = processo;
-            }
-            else
-            {
-                int maxCodigo = Convert.ToInt32(lstPesquisa.Valor(0)) + 1;
-                processo = string.Empty;
-
-                if (maxCodigo.ToString().Length == 1)
-                    processo = substring + tipoProc + "000" + maxCodigo;
-                else if (maxCodigo.ToString().Length == 2)
-                    processo = substring + tipoProc + "00" + maxCodigo;
-                else if (maxCodigo.ToString().Length == 3) processo = substring + tipoProc + "0" + maxCodigo;
-
-                txtSERFRMREQProcesso.Text = processo;
-            }
-        }
 
         private void ActualizaDadosClienteReq()
         {

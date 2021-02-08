@@ -219,6 +219,7 @@
     <Compile Include="Engine\PriEngine.cs" />
     <Compile Include="Integration\GeraDocumentosAIntegrar.cs" />
     <Compile Include="Integration\IntegraPrimavera.cs" />
+    <Compile Include="Integration\Motores.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User Interface\FrmAprovacoes.cs">
@@ -226,6 +227,18 @@
     </Compile>
     <Compile Include="User Interface\FrmAprovacoes.Designer.cs">
       <DependentUpon>FrmAprovacoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmCotacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmCotacao.Designer.cs">
+      <DependentUpon>FrmCotacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmDocumento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmDocumento.Designer.cs">
+      <DependentUpon>FrmDocumento.cs</DependentUpon>
     </Compile>
     <Compile Include="User Interface\FrmExplorer.cs">
       <SubType>Form</SubType>
@@ -263,6 +276,12 @@
     <Compile Include="User Interface\FrmRequisicao.Designer.cs">
       <DependentUpon>FrmRequisicao.cs</DependentUpon>
     </Compile>
+    <Compile Include="User Interface\FrmRequisicoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmRequisicoes.Designer.cs">
+      <DependentUpon>FrmRequisicoes.cs</DependentUpon>
+    </Compile>
     <Compile Include="User Interface\FrmRQA.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -299,6 +318,12 @@
     <EmbeddedResource Include="User Interface\FrmAprovacoes.resx">
       <DependentUpon>FrmAprovacoes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmCotacao.resx">
+      <DependentUpon>FrmCotacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmDocumento.resx">
+      <DependentUpon>FrmDocumento.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmExplorer.resx">
       <DependentUpon>FrmExplorer.cs</DependentUpon>
     </EmbeddedResource>
@@ -313,6 +338,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmRecibo.resx">
       <DependentUpon>FrmRecibo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmRequisicao.resx">
+      <DependentUpon>FrmRequisicao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmRequisicoes.resx">
+      <DependentUpon>FrmRequisicoes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmServicos.resx">
       <DependentUpon>FrmServicos.cs</DependentUpon>

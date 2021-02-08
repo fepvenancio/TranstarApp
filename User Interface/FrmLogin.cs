@@ -17,6 +17,7 @@ namespace TRTv10.User_Interface
 
         private void BtnLOGEntrar_Click(object sender, EventArgs e)
         {
+            bool loginFeito = false;
             try
             {
                 if (txtLOGPassword != null)
@@ -37,6 +38,7 @@ namespace TRTv10.User_Interface
 
                         Hide();
                         var frmExplorer = new FrmExplorer(txtLOGUtilizador.Text);
+                        loginFeito = true;
                         frmExplorer.ShowDialog();
                         frmExplorer.Close();
                         PriEngine.Engine.FechaEmpresaTrabalho();
@@ -55,6 +57,8 @@ namespace TRTv10.User_Interface
 
                 if (ex.Message != null)
                     MessageBox.Show(ex.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (loginFeito is true)
+                    Close();
             }
         }
 
