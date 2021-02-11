@@ -185,6 +185,15 @@ namespace TRTv10.User_Interface
 
         private void dgvLinhasDrv_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+        }
+
+        private void dgvLinhasDrv_CellMouseClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        private void dgvLinhasDrv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
             //validar se é número - Como o campo é double ele valida
             //calcular o iva e atribuir
             //coluna Escolher passa a verdadeiro
@@ -195,9 +204,11 @@ namespace TRTv10.User_Interface
             double totalSIva = 0;
             double iva = 0;
 
+
             foreach (DataGridViewRow row in dgvLinhasDrv.Rows)
             {
-                if (row.Cells["Escolher"].Value is true)
+                DataGridViewCheckBoxCell chb = (DataGridViewCheckBoxCell) row.Cells[0];
+                if (chb.Selected)
                 {
                     totalSIva += Convert.ToDouble(row.Cells["Valor"].Value);
                     iva += Convert.ToDouble(row.Cells["Valor Iva"].Value);
@@ -209,11 +220,6 @@ namespace TRTv10.User_Interface
             TxtRecCriarTotalIva.Text = Convert.ToString(iva, CultureInfo.InvariantCulture);
             TxtRecCriarTotalRetencao.Text = "0";
             TxtRecCriarTotal.Text = Convert.ToString(total, CultureInfo.InvariantCulture);;
-        }
-
-        private void dgvLinhasDrv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         #region Metodos

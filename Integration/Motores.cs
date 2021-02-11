@@ -1317,6 +1317,14 @@ namespace TRTv10.Integration
             {
                 nomeMapa = "TRT_SIM";
             }
+            else if(documento == "REQ" || documento == "RQA")
+            {
+                nomeMapa = "TRT_REQ";
+            }
+            else if(documento == "RI")
+            {
+                nomeMapa = "TRT_RI";
+            }
             else
             {
                 nomeMapa = "TRT_SIM";

@@ -194,7 +194,7 @@ namespace TRTv10.User_Interface
             this.dgvLinhasDrv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvLinhasDrv.Size = new System.Drawing.Size(669, 425);
             this.dgvLinhasDrv.TabIndex = 53;
-            this.dgvLinhasDrv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLinhasDrv_CellContentClick);
+            this.dgvLinhasDrv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLinhasDrv_CellMouseClick);
             this.dgvLinhasDrv.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLinhasDrv_CellValueChanged);
             // 
             // lblSERTipoServ
