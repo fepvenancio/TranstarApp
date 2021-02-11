@@ -112,6 +112,7 @@ namespace TRTv10.User_Interface
             this.CbReqTransporte.Name = "CbReqTransporte";
             this.CbReqTransporte.Size = new System.Drawing.Size(151, 25);
             this.CbReqTransporte.TabIndex = 115;
+            this.CbReqTransporte.SelectedIndexChanged += new System.EventHandler(this.CbReqTransporte_SelectedIndexChanged);
             // 
             // lblSERTipoMercadoria
             // 

@@ -264,11 +264,11 @@
     <Compile Include="User Interface\FrmProcesso.Designer.cs">
       <DependentUpon>FrmProcesso.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Interface\FrmRecibo.cs">
+    <Compile Include="User Interface\FrmDRV.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="User Interface\FrmRecibo.Designer.cs">
-      <DependentUpon>FrmRecibo.cs</DependentUpon>
+    <Compile Include="User Interface\FrmDRV.Designer.cs">
+      <DependentUpon>FrmDRV.cs</DependentUpon>
     </Compile>
     <Compile Include="User Interface\FrmRequisicao.cs">
       <SubType>Form</SubType>
@@ -336,8 +336,8 @@
     <EmbeddedResource Include="User Interface\FrmProcesso.resx">
       <DependentUpon>FrmProcesso.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Interface\FrmRecibo.resx">
-      <DependentUpon>FrmRecibo.cs</DependentUpon>
+    <EmbeddedResource Include="User Interface\FrmDRV.resx">
+      <DependentUpon>FrmDRV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmRequisicao.resx">
       <DependentUpon>FrmRequisicao.cs</DependentUpon>

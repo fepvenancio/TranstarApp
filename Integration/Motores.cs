@@ -5,8 +5,10 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using StdPlatBS100;
 using TRTv10.Engine;
 using TRTv10.User_Interface;
 
@@ -14,7 +16,7 @@ namespace TRTv10.Integration
 {
     class Motores
     {
-        #region COT NOVOS
+        #region Novo Codigo
 
         #region Variaveis
 
@@ -680,6 +682,18 @@ namespace TRTv10.Integration
 
         #region Devolve Valores
 
+        public bool ValidaRequisicaoProcessoExiste(string processo)
+        {
+            var query = $"SELECT CDU_Documento FROM TDU_TRT_CabecDocumentos WHERE CDU_Processo = '{processo}' AND CDU_Documento = 'REQ'";
+            var lstQ = PriEngine.Engine.Consulta(query);
+            if (!lstQ.Vazia() || !lstQ.NoFim())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public string GetReqDocumentoNumAno(string documento, int ano, int numero)
         {
             var doc = "false";
@@ -924,13 +938,13 @@ namespace TRTv10.Integration
         public StdBELista GetDadosForm(string documento, int numero, int ano)
         {
             StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT P.CDU_Cliente, P.CDU_NomeCliente, P.CDU_Moeda ");
-            sql.Append(",P.CDU_ValorCIF, P.CDU_ValorAduaneiro, P.CDU_Cambio, P.CDU_CNCA, P.CDU_DUP ");
-            sql.Append(",P.CDU_BLCartaPorte, P.CDU_RUP, P.CDU_Referencia, P.CDU_Data, P.CDU_DataChegada ");
-            sql.Append(",P.CDU_TipoMercadoria, P.CDU_Obs, P.CDU_Transporte, P.CDU_Manifesto, P.CDU_NumDAR ");
-            sql.Append(",P.CDU_ValorDAR, P.CDU_DU, P.CDU_NumVolumes, P.CDU_DataEntrada, P.CDU_DataSaida ");
+            sql.Append("SELECT P.CDU_Cliente, P.CDU_NomeCliente, P.CDU_Moeda "); //3
+            sql.Append(",P.CDU_ValorCIF, P.CDU_ValorAduaneiro, P.CDU_Cambio, P.CDU_CNCA, P.CDU_DUP "); //8
+            sql.Append(",P.CDU_BLCartaPorte, P.CDU_RUP, P.CDU_Referencia, P.CDU_Data, P.CDU_DataChegada "); //12
+            sql.Append(",P.CDU_TipoMercadoria, P.CDU_Obs, P.CDU_Transporte, P.CDU_Manifesto, P.CDU_NumDAR "); //17
+            sql.Append(",P.CDU_ValorDAR, P.CDU_DU, P.CDU_NumVolumes, P.CDU_DataEntrada, P.CDU_DataSaida "); //22
             sql.Append(",P.CDU_DataDU, P.CDU_Peso "); //24
-            sql.Append(",C.CDU_ValorDoc, C.CDU_ValorIva, C.CDU_ValorRet, C.CDU_ValorTot ");
+            sql.Append(",C.CDU_ValorDoc, C.CDU_ValorIva, C.CDU_ValorRet, C.CDU_ValorTot "); //28
             sql.Append("FROM dbo.TDU_TRT_Processo P ");
             sql.Append("INNER JOIN dbo.TDU_TRT_CabecDocumentos C ");
             sql.Append("ON C.CDU_IdProcesso = P.CDU_id ");
@@ -1183,6 +1197,30 @@ namespace TRTv10.Integration
             return dataGridView;
         }
 
+        /// <summary>
+        /// Valida se a grelha tem linhas -> Gravar documentos com
+        /// pelo menos 1 linha
+        /// </summary>
+        public bool ValidaGrelhaNumLinhas(DataGridView dataGridView)
+        {
+            var counter = 0;
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                if (row.Cells["Escolher"].Value is true)
+                {
+                    counter++;
+                    counter += counter;
+                }
+            }
+
+            var numLinhas = false;
+            if (counter <= 0) return numLinhas;
+            numLinhas = true;
+            return numLinhas;
+
+        }
+
+
         #endregion
 
         #region Converte Documento
@@ -1265,10 +1303,42 @@ namespace TRTv10.Integration
 
         #endregion
 
+        #region Impressao
+
+        /// <summary>
+        /// Modelo de impressao dos mapas cotaçao
+        /// </summary>
+        /// <param name="processo"></param>
+        /// <param name="documento"></param>
+        public void EnviaImpressao(string documento, string numero, int ano, string docName)
+        {
+            var nomeMapa = string.Empty;
+            if (documento == "COT")
+            {
+                nomeMapa = "TRT_SIM";
+            }
+            else
+            {
+                nomeMapa = "TRT_SIM";
+            }
+
+            PriEngine.Platform.Mapas.Inicializar("BAS");
+            PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+            var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+            var numerador = list.Length + 1;
+            var fileName = string.Format("{0}_{1}_{2}_{3}.pdf", documento, ano, numero, numerador);
+            PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+            PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_CabecDocumentos.CDU_Documento}} = '{documento}' AND " +
+                                                        $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = '{ano}' AND " +
+                                                        $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = '{numero}' ";
+            PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName);
+            System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+        }
+
         #endregion
 
-
-
+        #endregion
 
 
         #region OLD

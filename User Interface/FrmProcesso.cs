@@ -467,8 +467,7 @@ namespace TRTv10.User_Interface
         {
             try
             {
-                var recibo = new FrmRecibo(IdCab, cbPRONumProcesso.Text);
-                recibo.Show(this);
+
             }
             catch (Exception ex)
             {

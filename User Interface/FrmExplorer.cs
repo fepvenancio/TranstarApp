@@ -11,6 +11,7 @@ namespace TRTv10.User_Interface
         private FrmRequisicoes _frmRequisocoes;
         private FrmAprovacoes _frmAprovacoes;
         private FrmDocumento _frmDocumento;
+        private FrmDrv _frmDrv;
 
         public FrmExplorer(string user)
         {
@@ -64,6 +65,12 @@ namespace TRTv10.User_Interface
             _frmDocumento = new FrmDocumento();
             _frmDocumento.DesabilitaBtnConverter(false);
             _frmDocumento.Show();
+        }
+
+        private void drv_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _frmDrv = new FrmDrv();
+            _frmDrv.Show();
         }
     }
 }

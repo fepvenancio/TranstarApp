@@ -199,156 +199,167 @@ namespace TRTv10.User_Interface
                 var documento = motores.DevolveDocumento(cbCotOperacao.Text);
                 var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(cbCotNumOperacao.Text),
                     Convert.ToInt32(CbCotAno.Text));
-
+                var grelhaNumLinhas = motores.ValidaGrelhaNumLinhas(dgvItemsServicosCOT);
                 var valorRec = 0;
-                if (existeDoc is false)
+
+                if (grelhaNumLinhas is true)
                 {
-                    //Precisa calcular os totais pela soma das linhas da grelha
-                    //Precisa de ir a ficha do cliente buscar varios dados
-                    // dados da ficha e sabes se: IVa Cativo ou Retençao
-                    var valoresTotais = motores.GetTotaisGrelha(dgvItemsServicosCOT);
-                    var valorDoc = valoresTotais[0];
-                    var valorIva = valoresTotais[1];
-                    var valorTot = valorDoc + valorIva;
-                    double valorRet = 0;
-                    var utilizador = PriEngine.Engine.Contexto.UtilizadorActual;
-                    var cliente = cbCotCliente.Text;
-                    var dadosCliente = motores.GetDadosCliente(cliente);
-
-                    var nome = dadosCliente[0];
-                    var nif = dadosCliente[1];
-                    var morada = dadosCliente[2];
-                    var localidade = dadosCliente[3];
-                    var codPostal = dadosCliente[4];
-                    var codPostalLocalidade = dadosCliente[5];
-                    var pais = dadosCliente[6];
-                    var ivaCativo = Convert.ToBoolean(dadosCliente[7]);
-                    var retencao = Convert.ToBoolean(dadosCliente[8]);
-
-                    var cotacao = "COT " + cbCotNumOperacao.Text + "/" + CbCotAno.Text;
-                    var moeda = CbCotMoeda.Text;
-                    var valorCif = Convert.ToDouble(txtCotValorCIF.Text);
-                    var valorAdu = Convert.ToDouble(txtCotValorAduaneiro.Text);
-                    var valorCambio = Convert.ToDouble(txtCotCambio.Text);
-                    var cnca = TxtCotCNCA.Text;
-                    var dup = TxtCotDUP.Text;
-                    var bl = txtCotPorteBL.Text;
-                    var rup = TxtCotRUP.Text;
-                    var referencia = txtCotVReferencia.Text;
-                    var data = DtpCotData.Value;
-                    var dataChegada = dtpCotDataChegada.Value;
-                    var tipoMerc = TxtCotTipoMercadoria.Text;
-                    var obs = TxtCotObs.Text;
-                    var transporte = CbCotTransporte.Text;
-                    var manifesto = TxtCotManifesto.Text;
-                    var numDar = txtCotDar.Text;
-                    var valorDar = TxtCotValorDar.Text;
-                    var du = TxtCotDU.Text;
-                    var numVolumes = TxtCotNumVolumes.Text;
-                    var dataEntrada = DtpCotDataEntrada.Value;
-                    var dataSaida = DtpCotDataSaida.Value;
-                    var dataDu = DtpCotDataDu.Value;
-                    double peso;
-                    
-                    if (TxtPesoKGs.Text == "")
+                    if (existeDoc is false)
                     {
-                        peso = 0;
-                    }
-                    else
-                    {
-                        peso = Convert.ToDouble(TxtPesoKGs.Text);
-                    }
+                        //Precisa calcular os totais pela soma das linhas da grelha
+                        //Precisa de ir a ficha do cliente buscar varios dados
+                        // dados da ficha e sabes se: IVa Cativo ou Retençao
+                        var valoresTotais = motores.GetTotaisGrelha(dgvItemsServicosCOT);
+                        var valorDoc = valoresTotais[0];
+                        var valorIva = valoresTotais[1];
+                        var valorTot = valorDoc + valorIva;
+                        double valorRet = 0;
+                        var utilizador = PriEngine.Engine.Contexto.UtilizadorActual;
+                        var cliente = cbCotCliente.Text;
+                        var dadosCliente = motores.GetDadosCliente(cliente);
 
-                    if (retencao is true)
-                    {
-                        var percRet = motores.GetPercRetencao(cliente);
-                        valorRet = valorTot * percRet;
-                    }
+                        var nome = dadosCliente[0];
+                        var nif = dadosCliente[1];
+                        var morada = dadosCliente[2];
+                        var localidade = dadosCliente[3];
+                        var codPostal = dadosCliente[4];
+                        var codPostalLocalidade = dadosCliente[5];
+                        var pais = dadosCliente[6];
+                        var ivaCativo = Convert.ToBoolean(dadosCliente[7]);
+                        var retencao = Convert.ToBoolean(dadosCliente[8]);
 
-                    if (validaCamposObrigatorios)
-                    {
-                        var id = Guid.NewGuid();
+                        var cotacao = "COT " + cbCotNumOperacao.Text + "/" + CbCotAno.Text;
+                        var moeda = CbCotMoeda.Text;
+                        var valorCif = Convert.ToDouble(txtCotValorCIF.Text);
+                        var valorAdu = Convert.ToDouble(txtCotValorAduaneiro.Text);
+                        var valorCambio = Convert.ToDouble(txtCotCambio.Text);
+                        var cnca = TxtCotCNCA.Text;
+                        var dup = TxtCotDUP.Text;
+                        var bl = txtCotPorteBL.Text;
+                        var rup = TxtCotRUP.Text;
+                        var referencia = txtCotVReferencia.Text;
+                        var data = DtpCotData.Value;
+                        var dataChegada = dtpCotDataChegada.Value;
+                        var tipoMerc = TxtCotTipoMercadoria.Text;
+                        var obs = TxtCotObs.Text;
+                        var transporte = CbCotTransporte.Text;
+                        var manifesto = TxtCotManifesto.Text;
+                        var numDar = txtCotDar.Text;
+                        var valorDar = TxtCotValorDar.Text;
+                        var du = TxtCotDU.Text;
+                        var numVolumes = TxtCotNumVolumes.Text;
+                        var dataEntrada = DtpCotDataEntrada.Value;
+                        var dataSaida = DtpCotDataSaida.Value;
+                        var dataDu = DtpCotDataDu.Value;
+                        double peso;
                         
+                        if (TxtPesoKGs.Text == "")
+                        {
+                            peso = 0;
+                        }
+                        else
+                        {
+                            peso = Convert.ToDouble(TxtPesoKGs.Text);
+                        }
 
-                        motores.CriaProcesso(
-                            cotacao,
-                            cliente,
-                            nome,
-                            moeda,
-                            valorCif,
-                            valorAdu,
-                            valorCambio,
-                            cnca,
-                            dup,
-                            bl,
-                            rup,
-                            referencia,
-                            data,
-                            dataChegada,
-                            tipoMerc,
-                            obs,
-                            transporte,
-                            manifesto,
-                            numDar,
-                            valorDar,
-                            du,
-                            numVolumes,
-                            dataEntrada,
-                            dataSaida,
-                            dataDu,
-                            peso
-                        );
+                        if (retencao is true)
+                        {
+                            var percRet = motores.GetPercRetencao(cliente);
+                            valorRet = valorTot * percRet;
+                        }
 
-                        motores.CriaCabecDocumento(
-                            id,
-                            Convert.ToString(documento),
-                            Convert.ToInt32(CbCotAno.Text),
-                            Convert.ToInt32(cbCotNumOperacao.Text),
-                            Convert.ToDateTime(DateTime.Now.Date),
-                            Convert.ToString(CbCotMoeda.Text),
-                            Convert.ToDouble(txtCotCambio.Text),
-                            Convert.ToString(TxtCotObs.Text),
-                            Convert.ToString(""),
-                            Convert.ToString(cotacao),
-                            Convert.ToString(cbCotTServico.Text),
-                            Convert.ToDouble(valorDoc),
-                            Convert.ToDouble(valorIva),
-                            Convert.ToDouble(valorRet),
-                            Convert.ToDouble(valorTot),
-                            Convert.ToDouble(valorRec),
-                            Convert.ToString(utilizador),
-                            Convert.ToString(cliente),
-                            Convert.ToString(nome),
-                            Convert.ToString(nif),
-                            Convert.ToString(morada),
-                            Convert.ToString(localidade),
-                            Convert.ToString(codPostal),
-                            Convert.ToString(codPostalLocalidade),
-                            Convert.ToString(pais),
-                            Convert.ToBoolean(ivaCativo),
-                            Convert.ToBoolean(retencao),
-                            dgvItemsServicosCOT);
+                        if (validaCamposObrigatorios)
+                        {
+                            var id = Guid.NewGuid();
+                            
+
+                            motores.CriaProcesso(
+                                cotacao,
+                                cliente,
+                                nome,
+                                moeda,
+                                valorCif,
+                                valorAdu,
+                                valorCambio,
+                                cnca,
+                                dup,
+                                bl,
+                                rup,
+                                referencia,
+                                data,
+                                dataChegada,
+                                tipoMerc,
+                                obs,
+                                transporte,
+                                manifesto,
+                                numDar,
+                                valorDar,
+                                du,
+                                numVolumes,
+                                dataEntrada,
+                                dataSaida,
+                                dataDu,
+                                peso
+                            );
+
+                            motores.CriaCabecDocumento(
+                                id,
+                                Convert.ToString(documento),
+                                Convert.ToInt32(CbCotAno.Text),
+                                Convert.ToInt32(cbCotNumOperacao.Text),
+                                Convert.ToDateTime(DateTime.Now.Date),
+                                Convert.ToString(CbCotMoeda.Text),
+                                Convert.ToDouble(txtCotCambio.Text),
+                                Convert.ToString(TxtCotObs.Text),
+                                Convert.ToString(""),
+                                Convert.ToString(cotacao),
+                                Convert.ToString(cbCotTServico.Text),
+                                Convert.ToDouble(valorDoc),
+                                Convert.ToDouble(valorIva),
+                                Convert.ToDouble(valorRet),
+                                Convert.ToDouble(valorTot),
+                                Convert.ToDouble(valorRec),
+                                Convert.ToString(utilizador),
+                                Convert.ToString(cliente),
+                                Convert.ToString(nome),
+                                Convert.ToString(nif),
+                                Convert.ToString(morada),
+                                Convert.ToString(localidade),
+                                Convert.ToString(codPostal),
+                                Convert.ToString(codPostalLocalidade),
+                                Convert.ToString(pais),
+                                Convert.ToBoolean(ivaCativo),
+                                Convert.ToBoolean(retencao),
+                                dgvItemsServicosCOT);
+
+                            motores.EnviaImpressao(documento, cbCotNumOperacao.Text, Convert.ToInt32(CbCotAno.Text), "Cotação");
+                            motores.ApagaDadosForm(dgvItemsServicosCOT);
+                        }
+                        else
+                        {
+                            PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
+                                                                    "Tipo de Serviço, " +
+                                                                    "Operacao, " +
+                                                                    "Cliente, " +
+                                                                    "Moeda, " +
+                                                                    "Valor CIF, " +
+                                                                    "Valor Aduaneiro, " +
+                                                                    "Câmbio, " +
+                                                                    "Tipo de Mercadoria " +
+                                                                    "e Data de Entrada ");
+                        }
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
-                                                                "Tipo de Serviço, " +
-                                                                "Operacao, " +
-                                                                "Cliente, " +
-                                                                "Moeda, " +
-                                                                "Valor CIF, " +
-                                                                "Valor Aduaneiro, " +
-                                                                "Câmbio, " +
-                                                                "Tipo de Mercadoria " +
-                                                                "e Data de Entrada ");
+                        //Deve simplesmente imprimir
+                        motores.ApagaDadosForm(dgvItemsServicosCOT);
+                        motores.EnviaImpressao(documento, cbCotNumOperacao.Text, Convert.ToInt32(CbCotAno.Text), "Cotação");
                     }
                 }
                 else
                 {
-                    //Deve simplesmente imprimir
+                    PriEngine.Platform.Dialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
                 }
-
-                motores.ApagaDadosForm(dgvItemsServicosCOT);
             }
             catch(Exception ex)
             {
