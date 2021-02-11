@@ -352,8 +352,8 @@ namespace TRTv10.User_Interface
                     else
                     {
                         //Deve simplesmente imprimir
-                        motores.ApagaDadosForm(dgvItemsServicosCOT);
                         motores.EnviaImpressao(documento, cbCotNumOperacao.Text, Convert.ToInt32(CbCotAno.Text), "Cotação");
+                        motores.ApagaDadosForm(dgvItemsServicosCOT);
                     }
                 }
                 else

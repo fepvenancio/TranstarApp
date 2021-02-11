@@ -353,6 +353,7 @@ namespace TRTv10.User_Interface
                                     Convert.ToBoolean(retencao),
                                     dgvLinhasDocumentosReq);
 
+                                motores.EnviaImpressao(documento, CbReqNumOperacao.Text, Convert.ToInt32(CbReqAno.Text), CbReqOperacao.Text);
                                 motores.ApagaDadosForm(dgvLinhasDocumentosReq);
                             }
                             else
@@ -377,6 +378,7 @@ namespace TRTv10.User_Interface
                     else
                     {
                         //Deve simplesmente imprimir
+                        motores.EnviaImpressao(documento, CbReqNumOperacao.Text, Convert.ToInt32(CbReqAno.Text), CbReqOperacao.Text);
                         motores.ApagaDadosForm(dgvLinhasDocumentosReq);
                     }        
                 }
