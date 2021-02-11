@@ -1330,8 +1330,8 @@ namespace TRTv10.Integration
             PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf, @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
             PriEngine.Platform.Mapas.JanelaPrincipal = 0;
             PriEngine.Platform.Mapas.SelectionFormula = $"{{TDU_TRT_CabecDocumentos.CDU_Documento}} = '{documento}' AND " +
-                                                        $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = '{ano}' AND " +
-                                                        $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = '{numero}' ";
+                                                        $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = {ano} AND " +
+                                                        $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = {numero} ";
             PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName);
             System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
         }

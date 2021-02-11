@@ -69,6 +69,18 @@ namespace TRTv10.User_Interface
             this.TxtRECBL = new System.Windows.Forms.TextBox();
             this.TxtRECNDar = new System.Windows.Forms.TextBox();
             this.TxtRECNDu = new System.Windows.Forms.TextBox();
+            this.TxtRecCriarTotal = new System.Windows.Forms.TextBox();
+            this.TxtRecCriarTotalRetencao = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.TxtRecCriarTotalSIva = new System.Windows.Forms.TextBox();
+            this.TxtRecCriarTotalIva = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLinhasDrv)).BeginInit();
@@ -154,20 +166,22 @@ namespace TRTv10.User_Interface
             // TxtRECTotalIva
             // 
             this.TxtRECTotalIva.Enabled = false;
-            this.TxtRECTotalIva.Location = new System.Drawing.Point(1174, 100);
+            this.TxtRECTotalIva.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRECTotalIva.Location = new System.Drawing.Point(758, 107);
             this.TxtRECTotalIva.Name = "TxtRECTotalIva";
+            this.TxtRECTotalIva.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.TxtRECTotalIva.Size = new System.Drawing.Size(147, 25);
             this.TxtRECTotalIva.TabIndex = 50;
-            this.TxtRECTotalIva.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // TxtRECTotalSIva
             // 
             this.TxtRECTotalSIva.Enabled = false;
-            this.TxtRECTotalSIva.Location = new System.Drawing.Point(1174, 69);
+            this.TxtRECTotalSIva.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRECTotalSIva.Location = new System.Drawing.Point(758, 76);
             this.TxtRECTotalSIva.Name = "TxtRECTotalSIva";
+            this.TxtRECTotalSIva.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.TxtRECTotalSIva.Size = new System.Drawing.Size(147, 25);
             this.TxtRECTotalSIva.TabIndex = 52;
-            this.TxtRECTotalSIva.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // dgvLinhasDrv
             // 
@@ -181,6 +195,7 @@ namespace TRTv10.User_Interface
             this.dgvLinhasDrv.Size = new System.Drawing.Size(669, 425);
             this.dgvLinhasDrv.TabIndex = 53;
             this.dgvLinhasDrv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLinhasDrv_CellContentClick);
+            this.dgvLinhasDrv.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLinhasDrv_CellValueChanged);
             // 
             // lblSERTipoServ
             // 
@@ -279,7 +294,7 @@ namespace TRTv10.User_Interface
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(1065, 72);
+            this.label5.Location = new System.Drawing.Point(649, 79);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 17);
             this.label5.TabIndex = 129;
@@ -289,7 +304,7 @@ namespace TRTv10.User_Interface
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(1065, 135);
+            this.label6.Location = new System.Drawing.Point(649, 142);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(94, 17);
             this.label6.TabIndex = 130;
@@ -299,7 +314,7 @@ namespace TRTv10.User_Interface
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(1065, 166);
+            this.label7.Location = new System.Drawing.Point(649, 173);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(36, 17);
             this.label7.TabIndex = 131;
@@ -309,7 +324,7 @@ namespace TRTv10.User_Interface
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(1065, 103);
+            this.label8.Location = new System.Drawing.Point(649, 110);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 17);
             this.label8.TabIndex = 132;
@@ -318,21 +333,23 @@ namespace TRTv10.User_Interface
             // TxtRECTotalRetencao
             // 
             this.TxtRECTotalRetencao.Enabled = false;
-            this.TxtRECTotalRetencao.Location = new System.Drawing.Point(1174, 132);
+            this.TxtRECTotalRetencao.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRECTotalRetencao.Location = new System.Drawing.Point(758, 139);
             this.TxtRECTotalRetencao.Name = "TxtRECTotalRetencao";
+            this.TxtRECTotalRetencao.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.TxtRECTotalRetencao.Size = new System.Drawing.Size(147, 25);
             this.TxtRECTotalRetencao.TabIndex = 133;
-            this.TxtRECTotalRetencao.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // TxtRecTotal
             // 
             this.TxtRecTotal.Enabled = false;
+            this.TxtRecTotal.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtRecTotal.HideSelection = false;
-            this.TxtRecTotal.Location = new System.Drawing.Point(1174, 163);
+            this.TxtRecTotal.Location = new System.Drawing.Point(758, 170);
             this.TxtRecTotal.Name = "TxtRecTotal";
+            this.TxtRecTotal.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.TxtRecTotal.Size = new System.Drawing.Size(147, 25);
             this.TxtRecTotal.TabIndex = 134;
-            this.TxtRecTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label9
             // 
@@ -448,11 +465,145 @@ namespace TRTv10.User_Interface
             this.TxtRECNDu.TabIndex = 160;
             this.TxtRECNDu.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // TxtRecCriarTotal
+            // 
+            this.TxtRecCriarTotal.Enabled = false;
+            this.TxtRecCriarTotal.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRecCriarTotal.HideSelection = false;
+            this.TxtRecCriarTotal.Location = new System.Drawing.Point(1174, 170);
+            this.TxtRecCriarTotal.Name = "TxtRecCriarTotal";
+            this.TxtRecCriarTotal.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TxtRecCriarTotal.Size = new System.Drawing.Size(147, 25);
+            this.TxtRecCriarTotal.TabIndex = 167;
+            // 
+            // TxtRecCriarTotalRetencao
+            // 
+            this.TxtRecCriarTotalRetencao.Enabled = false;
+            this.TxtRecCriarTotalRetencao.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRecCriarTotalRetencao.Location = new System.Drawing.Point(1174, 139);
+            this.TxtRecCriarTotalRetencao.Name = "TxtRecCriarTotalRetencao";
+            this.TxtRecCriarTotalRetencao.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TxtRecCriarTotalRetencao.Size = new System.Drawing.Size(147, 25);
+            this.TxtRecCriarTotalRetencao.TabIndex = 166;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(1065, 173);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(36, 17);
+            this.label11.TabIndex = 165;
+            this.label11.Text = "Total";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(1065, 142);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(94, 17);
+            this.label12.TabIndex = 164;
+            this.label12.Text = "Total Retenção";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(1065, 79);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(67, 17);
+            this.label13.TabIndex = 163;
+            this.label13.Text = "Total s/Iva";
+            // 
+            // TxtRecCriarTotalSIva
+            // 
+            this.TxtRecCriarTotalSIva.Enabled = false;
+            this.TxtRecCriarTotalSIva.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRecCriarTotalSIva.Location = new System.Drawing.Point(1174, 76);
+            this.TxtRecCriarTotalSIva.Name = "TxtRecCriarTotalSIva";
+            this.TxtRecCriarTotalSIva.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TxtRecCriarTotalSIva.Size = new System.Drawing.Size(147, 25);
+            this.TxtRecCriarTotalSIva.TabIndex = 162;
+            // 
+            // TxtRecCriarTotalIva
+            // 
+            this.TxtRecCriarTotalIva.Enabled = false;
+            this.TxtRecCriarTotalIva.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRecCriarTotalIva.Location = new System.Drawing.Point(1174, 107);
+            this.TxtRecCriarTotalIva.Name = "TxtRecCriarTotalIva";
+            this.TxtRecCriarTotalIva.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TxtRecCriarTotalIva.Size = new System.Drawing.Size(147, 25);
+            this.TxtRecCriarTotalIva.TabIndex = 161;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(1065, 110);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(24, 17);
+            this.label14.TabIndex = 168;
+            this.label14.Text = "Iva";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(710, 45);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(127, 17);
+            this.label15.TabIndex = 169;
+            this.label15.Text = "Total do Documento";
+            this.label15.Click += new System.EventHandler(this.label15_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(649, 60);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(262, 13);
+            this.label16.TabIndex = 171;
+            this.label16.Text = "___________________________________________________";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(1059, 55);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(262, 13);
+            this.label17.TabIndex = 172;
+            this.label17.Text = "___________________________________________________";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(1154, 45);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(79, 17);
+            this.label18.TabIndex = 173;
+            this.label18.Text = "Total a Criar";
+            // 
             // FrmDrv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1339, 640);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.TxtRecCriarTotal);
+            this.Controls.Add(this.TxtRecCriarTotalRetencao);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.TxtRecCriarTotalSIva);
+            this.Controls.Add(this.TxtRecCriarTotalIva);
             this.Controls.Add(this.TxtRECNDu);
             this.Controls.Add(this.TxtRECNDar);
             this.Controls.Add(this.TxtRECBL);
@@ -546,5 +697,17 @@ namespace TRTv10.User_Interface
         private System.Windows.Forms.TextBox TxtRECBL;
         private System.Windows.Forms.TextBox TxtRECNDar;
         private System.Windows.Forms.TextBox TxtRECNDu;
+        private System.Windows.Forms.TextBox TxtRecCriarTotal;
+        private System.Windows.Forms.TextBox TxtRecCriarTotalRetencao;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox TxtRecCriarTotalSIva;
+        private System.Windows.Forms.TextBox TxtRecCriarTotalIva;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
     }
 }

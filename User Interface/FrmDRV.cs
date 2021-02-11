@@ -62,18 +62,18 @@ namespace TRTv10.User_Interface
             try
             {
                 if (lstDadosForm.Vazia() && lstDadosForm.NoFim()) return;
-                CbRECCliente.Text = lstDadosForm.Valor(0);
-                TxtRECNomeCliente.Text = lstDadosForm.Valor(1);
-                TxtRECMoeda.Text = lstDadosForm.Valor(2);
+                CbRECCliente.Text = Convert.ToString(lstDadosForm.Valor(0));
+                TxtRECNomeCliente.Text = Convert.ToString(lstDadosForm.Valor(1));
+                TxtRECMoeda.Text = Convert.ToString(lstDadosForm.Valor(2));
                 TxtRECCambio.Text = Convert.ToString(lstDadosForm.Valor(5));
                 TxtRECTransporte.Text = Convert.ToString(lstDadosForm.Valor(15));
                 TxtRECBL.Text = Convert.ToString(lstDadosForm.Valor(9));
-                TxtRECNDar.Text = lstDadosForm.Valor(17);
-                TxtRECNDu.Text = lstDadosForm.Valor(19);
-                TxtRECTotalSIva.Text = Convert.ToDouble(lstDadosForm.Valor(25), CultureInfo.InvariantCulture);
-                TxtRECTotalIva.Text = Convert.ToDouble(lstDadosForm.Valor(26));
-                TxtRECTotalRetencao.Text = Convert.ToDouble(lstDadosForm.Valor(27));
-                TxtRecTotal.Text = Convert.ToDouble(lstDadosForm.Valor(28));
+                TxtRECNDar.Text = Convert.ToString(lstDadosForm.Valor(17));
+                TxtRECNDu.Text = Convert.ToString(lstDadosForm.Valor(19));
+                TxtRECTotalSIva.Text = Convert.ToString(lstDadosForm.Valor(25), CultureInfo.InvariantCulture);
+                TxtRECTotalIva.Text = Convert.ToString(lstDadosForm.Valor(26));
+                TxtRECTotalRetencao.Text = Convert.ToString(lstDadosForm.Valor(27));
+                TxtRecTotal.Text = Convert.ToString(lstDadosForm.Valor(28));
             }
             catch (Exception ex)
             {
@@ -185,7 +185,30 @@ namespace TRTv10.User_Interface
 
         private void dgvLinhasDrv_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //validar se é número - Como o campo é double ele valida
+            //calcular o iva e atribuir
+            //coluna Escolher passa a verdadeiro
+            TxtRecCriarTotalSIva.Text = "0";
+            TxtRecCriarTotalIva.Text = "0";
+            TxtRecCriarTotalRetencao.Text = "0";
+            TxtRecCriarTotal.Text = "0";
+            double totalSIva = 0;
+            double iva = 0;
 
+            foreach (DataGridViewRow row in dgvLinhasDrv.Rows)
+            {
+                if (row.Cells["Escolher"].Value is true)
+                {
+                    totalSIva += Convert.ToDouble(row.Cells["Valor"].Value);
+                    iva += Convert.ToDouble(row.Cells["Valor Iva"].Value);
+                }
+            }
+
+            var total = totalSIva + iva;
+            TxtRecCriarTotalSIva.Text = Convert.ToString(totalSIva, CultureInfo.InvariantCulture);
+            TxtRecCriarTotalIva.Text = Convert.ToString(iva, CultureInfo.InvariantCulture);
+            TxtRecCriarTotalRetencao.Text = "0";
+            TxtRecCriarTotal.Text = Convert.ToString(total, CultureInfo.InvariantCulture);;
         }
 
         private void dgvLinhasDrv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -259,5 +282,10 @@ namespace TRTv10.User_Interface
         }
 
         #endregion
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
