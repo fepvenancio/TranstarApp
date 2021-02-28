@@ -17,7 +17,7 @@ namespace TRTv10.User_Interface
 
         private void BtnLOGEntrar_Click(object sender, EventArgs e)
         {
-            bool loginFeito = false;
+            var loginFeito = false;
             try
             {
                 if (txtLOGPassword != null)

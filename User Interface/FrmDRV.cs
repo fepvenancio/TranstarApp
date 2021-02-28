@@ -42,6 +42,36 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        /// Depois de carregar o processo limpa os documentos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbRECProcesso_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CbRECNumero.Items.Clear();
+            CbRECAno.Items.Clear();
+            CarregaNumAno();
+        }
+
+        /// <summary>
+        /// Carrega o proximo documento DRV a fazer 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbRECDocumentoDrv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CbRecNumeroDrv.Items.Clear();
+            CbRecAnoDrv.Items.Clear();
+
+            Motores motores = new Motores();
+            string codDoc = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
+            motores.GetNumeros(CbRecNumeroDrv, codDoc);
+            motores.GetAnos(CbRecAnoDrv);
+            CbRecAnoDrv.Text = Convert.ToString(DateTime.Now.Year);
+            CbRecNumeroDrv.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc));
+        }
+
+        /// <summary>
         /// Ao selecionar o ano ele carrega os dados do documento
         /// Preenche a form e carrega a grelha
         /// </summary>
@@ -53,7 +83,7 @@ namespace TRTv10.User_Interface
 
             //depois de carregar os valores pega neles e valida se o doc ja existe.
             var motores = new Motores();
-            var documento = motores.DevolveDocumento(CbRECDocumento.Text);
+            var documento = motores.GetCodigoDocumento(CbRECDocumento.Text);
             var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
             if (!(existeDoc is true)) return;
             //Carrega os dados da form
@@ -101,128 +131,229 @@ namespace TRTv10.User_Interface
 
             CbRECDocumento.Items.Add("Requisição de fundos");
             CbRECDocumento.Items.Add("Requisição de fundos adicional");
+            CbRecDocumentoDrv.Items.Add("Declaração de Recepção de Valores");
         }
 
-        private void BtnSERFRMREQCria_Click(object sender, EventArgs e)
+        private void BtnRecImprime_Click(object sender, EventArgs e)
         {
-            /*
-            if (chbTotal.Checked)
+            try
             {
-                if (IdCab.ToString() != "")
+                //deve validar campos obrigatorios
+                //deve alterar as virgulas por pontos(SQL)
+                //valida se o documento existe
+                //Cria o documento e as linhas
+                //aumenta o numerador do documento
+                var motores = new Motores();
+                var existeDrv = motores.GetDrvProcesso(CbRECProcesso.Text);
+                var grelhaNumLinhas = motores.ValidaGrelhaNumLinhas(dgvLinhasDrv);
+                var valorRec = 0;
+
+                if (existeDrv is true) return;
+                if (grelhaNumLinhas is true)
                 {
-                    try
+                    //Precisa calcular os totais pela soma das linhas da grelha
+                    //Precisa de ir a ficha do cliente buscar varios dados
+                    // dados da ficha e saber se: IVa Cativo ou Retençao
+                    var valoresTotais = motores.GetTotaisGrelha(dgvLinhasDrv);
+                    var valorDoc = valoresTotais[0];
+                    var valorIva = valoresTotais[1];
+                    var valorTot = valorDoc + valorIva;
+                    double valorRet = 0;
+                    var utilizador = PriEngine.Engine.Contexto.UtilizadorActual;
+                    var cliente = CbRECCliente.Text;
+                    var dadosCliente = motores.GetDadosCliente(cliente);
+
+                    var nome = dadosCliente[0];
+                    var nif = dadosCliente[1];
+                    var morada = dadosCliente[2];
+                    var localidade = dadosCliente[3];
+                    var codPostal = dadosCliente[4];
+                    var codPostalLocalidade = dadosCliente[5];
+                    var pais = dadosCliente[6];
+                    var ivaCativo = Convert.ToBoolean(dadosCliente[7]);
+                    var retencao = Convert.ToBoolean(dadosCliente[8]);
+
+                    if (retencao is true)
                     {
-                        int i = 0;
-                        foreach (DataGridViewRow dgvr in dgvLinhasDrv.Rows)
+                        var percRet = motores.GetPercRetencao(cliente);
+                        valorRet = valorTot * percRet;
+                    }
+
+                    bool validaCamposObrigatoriosDrv = this.validaCamposObrigatoriosDrv();
+                    if (validaCamposObrigatoriosDrv is true)
+                    {
+                        var id = Guid.NewGuid();
+
+                        //Logica para gravar um documento por cada linha -> ND; FA ...
+                        //2 Loops um para descobrir qtos documentos existem e correr por documento
+                        var codDoc = motores.GetCodigoDocumento(CbRECDocumento.Text);
+                        var numDocs = motores.GetDocumentosCriarPItem(codDoc, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
+
+                        foreach (var doc in numDocs)
                         {
-                            double total = Convert.ToDouble(dgvr.Cells[2].Value.ToString());
-                            string idLinha = dgvr.Cells[3].Value.ToString();
-                            //CriaLiquidacao(total, idLinha, IdCab);
-                            i += 1;
+                            var numero = motores.GetDocumentosNumerador(doc);
+
+                            //criar cabec
+                            motores.CriaCabecDocumento(
+                                id,
+                                Convert.ToString(doc),
+                                Convert.ToInt32(DateTime.Now.Year),
+                                Convert.ToInt32(numero),
+                                Convert.ToDateTime(DateTime.Now.Date),
+                                Convert.ToString(TxtRECMoeda.Text),
+                                Convert.ToDouble(TxtRECCambio.Text),
+                                Convert.ToString(""),
+                                Convert.ToString(CbRECProcesso.Text),
+                                Convert.ToString(""),
+                                Convert.ToString(""),
+                                Convert.ToDouble(valorDoc),
+                                Convert.ToDouble(valorIva),
+                                Convert.ToDouble(valorRet),
+                                Convert.ToDouble(valorTot),
+                                Convert.ToDouble(valorRec),
+                                Convert.ToString(utilizador),
+                                Convert.ToString(cliente),
+                                Convert.ToString(nome),
+                                Convert.ToString(nif),
+                                Convert.ToString(morada),
+                                Convert.ToString(localidade),
+                                Convert.ToString(codPostal),
+                                Convert.ToString(codPostalLocalidade),
+                                Convert.ToString(pais),
+                                Convert.ToBoolean(ivaCativo),
+                                Convert.ToBoolean(retencao),
+                                dgvLinhasDrv);
                         }
 
-                        if (Convert.ToInt32(i) > 0)
-                        {
-                            //CriaDocErp();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar a Liquidação: {ex.Message}");
-                    }
+                        motores.CriaCabecDocumento(
+                            id,
+                            Convert.ToString("DRV"),
+                            Convert.ToInt32(CbRecAnoDrv.Text),
+                            Convert.ToInt32(CbRecNumeroDrv.Text),
+                            Convert.ToDateTime(DateTime.Now.Date),
+                            Convert.ToString(TxtRECMoeda.Text),
+                            Convert.ToDouble(TxtRECCambio.Text),
+                            Convert.ToString(""),
+                            Convert.ToString(CbRECProcesso.Text),
+                            Convert.ToString(""),
+                            Convert.ToString(""),
+                            Convert.ToDouble(valorDoc),
+                            Convert.ToDouble(valorIva),
+                            Convert.ToDouble(valorRet),
+                            Convert.ToDouble(valorTot),
+                            Convert.ToDouble(valorRec),
+                            Convert.ToString(utilizador),
+                            Convert.ToString(cliente),
+                            Convert.ToString(nome),
+                            Convert.ToString(nif),
+                            Convert.ToString(morada),
+                            Convert.ToString(localidade),
+                            Convert.ToString(codPostal),
+                            Convert.ToString(codPostalLocalidade),
+                            Convert.ToString(pais),
+                            Convert.ToBoolean(ivaCativo),
+                            Convert.ToBoolean(retencao),
+                            dgvLinhasDrv);
 
-                    LimpaGrelhaLinhasRecibo();
-                    PopulaGrelhaLinhasRecibo();
+                        motores.ActualizaIdDrvLinhasDoc(id, CbRECDocumento.Text, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
+                        motores.EnviaImpressao("DRV", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Declaração de Recepção de Valores");
+                        motores.ApagaDadosForm(this);
+                    }
+                    else
+                    {
+                        PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
+                                                                "Processo, " +
+                                                                "Documento a Receber, " +
+                                                                "Numero, " +
+                                                                "Ano, ");
+                    }
+                        
+                    motores.EnviaImpressao("DRV", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Declaração de Recepção de Valores");
+                    LimpaForm();
+                }
+                else
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
                 }
             }
-            else
+            catch(Exception ex)
             {
-                if (IdCab.ToString() != "")
-                {
-                    try
-                    {
-                        int j = 0;
-                        foreach (DataGridViewRow dgvr in dgvLinhasDrv.Rows)
-                        {
-                            if (dgvr.Cells[0].Value.ToString() == "True")
-                            {
-                                j += 1;
-                            }
-                        }
-
-                        Guid[] idLinhas = new Guid[j];
-                        int i = 0;
-                        double total = 0;
-                        foreach (DataGridViewRow dgvr in dgvLinhasDrv.Rows)
-                        {
-                            if (dgvr.Cells[0].Value.ToString() == "True")
-                            {
-                                total = Convert.ToDouble(dgvr.Cells[2].Value.ToString());
-                                string idLinha = dgvr.Cells[3].Value.ToString();
-                                idLinhas[i] = new Guid(idLinha);
-                                i += 1;
-                            }
-                        }
-                        if (i > 0)
-                        {
-                            CriaLiquidacao(total, idLinhas, IdCab);
-                            CriaDocErp(idLinhas);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar a Liquidação: {ex.Message}");
-                    }
-
-                    LimpaGrelhaLinhasRecibo();
-                    PopulaGrelhaLinhasRecibo();
-                }
-            }*/
-        }
-        
-
-        #endregion
-
-        private void dgvLinhasDrv_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
+            }
         }
 
-        private void dgvLinhasDrv_CellMouseClick(object sender, DataGridViewCellEventArgs e)
+        //Limpa a form e carrega os campos necessarios.
+        private void BtnDrvLimpar_Click(object sender, EventArgs e)
         {
+            LimpaForm();
+        }
+
+        private void LimpaForm()
+        {
+            var motores = new Motores();
+            motores.ApagaDadosForm(this);
+            dgvLinhasDrv = motores.ApagaDadosGrelha(dgvLinhasDrv);
+            CbRECCliente.Items.Clear();
+            CbRECProcesso.Items.Clear();
+            CbRECDocumento.Items.Clear();
+            CbRECNumero.Items.Clear();
+            CbRECAno.Items.Clear();
+
+            motores.GetClientes(CbRECCliente);
+            motores.GetProcessos(CbRECProcesso);
+
+            CbRECDocumento.Items.Add("Requisição de fundos");
+            CbRECDocumento.Items.Add("Requisição de fundos adicional");
+            CbRecDocumentoDrv.Items.Add("Declaração de Recepção de Valores");
         }
 
         private void dgvLinhasDrv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            //validar se é número - Como o campo é double ele valida
-            //calcular o iva e atribuir
-            //coluna Escolher passa a verdadeiro
-            TxtRecCriarTotalSIva.Text = "0";
-            TxtRecCriarTotalIva.Text = "0";
-            TxtRecCriarTotalRetencao.Text = "0";
-            TxtRecCriarTotal.Text = "0";
             double totalSIva = 0;
             double iva = 0;
-
+            double total = 0;
+            TxtRecCriarTotalSIva.Text = Convert.ToString(0, CultureInfo.InvariantCulture);
+            TxtRecCriarTotalIva.Text = Convert.ToString(0, CultureInfo.InvariantCulture);
+            TxtRecCriarTotal.Text = Convert.ToString(0, CultureInfo.InvariantCulture);
 
             foreach (DataGridViewRow row in dgvLinhasDrv.Rows)
             {
-                DataGridViewCheckBoxCell chb = (DataGridViewCheckBoxCell) row.Cells[0];
-                if (chb.Selected)
+                if (row.Cells["Escolher"].Value is true)
                 {
                     totalSIva += Convert.ToDouble(row.Cells["Valor"].Value);
                     iva += Convert.ToDouble(row.Cells["Valor Iva"].Value);
+                    total = totalSIva + iva;
                 }
             }
 
-            var total = totalSIva + iva;
             TxtRecCriarTotalSIva.Text = Convert.ToString(totalSIva, CultureInfo.InvariantCulture);
             TxtRecCriarTotalIva.Text = Convert.ToString(iva, CultureInfo.InvariantCulture);
-            TxtRecCriarTotalRetencao.Text = "0";
-            TxtRecCriarTotal.Text = Convert.ToString(total, CultureInfo.InvariantCulture);;
+            TxtRecCriarTotal.Text = Convert.ToString(total, CultureInfo.InvariantCulture);
+        }
+        
+        private void label15_Click(object sender, EventArgs e)
+        {
+
         }
 
+        #endregion
+
         #region Metodos
+
+        /// <summary>
+        /// Valida os campos a preencher antes de gravar a DRV
+        /// </summary>
+        /// <returns></returns>
+        private bool validaCamposObrigatoriosDrv()
+        {
+            return CbRECProcesso.Text != ""
+                   && CbRecDocumentoDrv.Text != ""
+                   && CbRecNumeroDrv.Text != ""
+                   && CbRecAnoDrv.Text != ""
+                   && CbRECDocumento.Text != ""
+                   && CbRECNumero.Text != ""
+                   && CbRECAno.Text != "";
+        }
 
         /// <summary>
         /// Apos a escolha do processo carrega e o documento carrega
@@ -283,15 +414,11 @@ namespace TRTv10.User_Interface
         {
             var motores = new Motores();
             if (CbRECProcesso.Text != "" && CbRECDocumento.Text != "" && CbRECNumero.Text != "" && CbRECAno.Text != "")
-                motores.PopulaGrelha(dgvLinhasDrv, motores.GetCodigoDocumento(CbRECDocumento.Text),
+                motores.PopulaGrelhaLinhasDoc(dgvLinhasDrv, motores.GetCodigoDocumento(CbRECDocumento.Text),
                     Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
         }
 
+
         #endregion
-
-        private void label15_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

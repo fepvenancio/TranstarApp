@@ -67,7 +67,7 @@ namespace TRTv10.User_Interface
 
             //depois de carregar os valores pega neles e valida se o doc ja existe.
             var motores = new Motores();
-            var documento = motores.DevolveDocumento(CbDocOperacao.Text);
+            var documento = motores.GetCodigoDocumento(CbDocOperacao.Text);
             var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbDocNumOperacao.Text), Convert.ToInt32(CbDocAno.Text));
             if (existeDoc is true)
             {
@@ -135,7 +135,7 @@ namespace TRTv10.User_Interface
             var doc = motores.GetReqDocumentoNumAno(codDoc, Convert.ToInt32(CbDocAno.Text), Convert.ToInt32(CbDocNumOperacao.Text));
             if (existeReq is false)
             {
-                motores.ConverteCabecDocumento(codDoc, Convert.ToInt32(CbDocAno.Text), Convert.ToInt32(CbDocNumOperacao.Text), DateTime.Now.Date, processo);
+                motores.ConverteCabecDocumento("REQ", codDoc, Convert.ToInt32(CbDocAno.Text), Convert.ToInt32(CbDocNumOperacao.Text), DateTime.Now.Date, processo);
                 var novaReq = motores.GetReqDocumentoNumAno(codDoc, Convert.ToInt32(CbDocAno.Text), Convert.ToInt32(CbDocNumOperacao.Text));
                 TxtDocNumDocConvertido.Visible = true;
                 TxtDocNumDocConvertido.Text = novaReq;
@@ -143,7 +143,10 @@ namespace TRTv10.User_Interface
             else
             {
                 TxtDocNumDocConvertido.Visible = true;
-                TxtDocNumDocConvertido.Text = doc;
+                if (doc != "false")
+                {
+                    TxtDocNumDocConvertido.Text = doc;
+                }
                 PriEngine.Platform.Dialogos.MostraAviso($"O documento que pretende converter ja foi convertido: {doc}");
             }
         }
@@ -159,7 +162,7 @@ namespace TRTv10.User_Interface
         {
             var motores = new Motores();
             if (CbDocOperacao.Text != "" && CbDocNumOperacao.Text != "")
-                motores.PopulaGrelha(dgvLinhasDocumentoDoc, motores.GetCodigoDocumento(CbDocOperacao.Text),
+                motores.PopulaGrelhaLinhasDoc(dgvLinhasDocumentoDoc, motores.GetCodigoDocumento(CbDocOperacao.Text),
                     Convert.ToInt32(CbDocNumOperacao.Text), Convert.ToInt32(CbDocAno.Text));
         }
 

@@ -117,7 +117,7 @@ namespace TRTv10.User_Interface
 
             //depois de carregar os valores pega neles e valida se o doc ja existe.
             var motores = new Motores();
-            var documento = motores.DevolveDocumento(CbReqOperacao.Text);
+            var documento = motores.GetCodigoDocumento(CbReqOperacao.Text);
             var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbReqNumOperacao.Text), Convert.ToInt32(CbReqAno.Text));
             if (existeDoc is true)
             {
@@ -214,7 +214,7 @@ namespace TRTv10.User_Interface
                 var motores = new Motores();
                 var validaCamposObrigatorios = ValidaCamposObrigatorios();
                 AlteraPontosPorVirgulas();
-                var documento = motores.DevolveDocumento(CbReqOperacao.Text);
+                var documento = motores.GetCodigoDocumento(CbReqOperacao.Text);
                 var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbReqNumOperacao.Text),
                     Convert.ToInt32(CbReqAno.Text));
                 var grelhaNumLinhas = motores.ValidaGrelhaNumLinhas(dgvLinhasDocumentosReq);
@@ -405,7 +405,7 @@ namespace TRTv10.User_Interface
         {
             var motores = new Motores();
             if (CbReqOperacao.Text != "" && CbReqNumOperacao.Text != "")
-                motores.PopulaGrelha(dgvLinhasDocumentosReq, motores.GetCodigoDocumento(CbReqOperacao.Text),
+                motores.PopulaGrelhaLinhasDoc(dgvLinhasDocumentosReq, motores.GetCodigoDocumento(CbReqOperacao.Text),
                     Convert.ToInt32(CbReqNumOperacao.Text), Convert.ToInt32(CbReqAno.Text));
         }
 

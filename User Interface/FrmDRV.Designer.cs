@@ -81,6 +81,13 @@ namespace TRTv10.User_Interface
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.CbRecAnoDrv = new System.Windows.Forms.ComboBox();
+            this.CbRecNumeroDrv = new System.Windows.Forms.ComboBox();
+            this.CbRecDocumentoDrv = new System.Windows.Forms.ComboBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.BtnDrvLimpar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLinhasDrv)).BeginInit();
@@ -146,20 +153,20 @@ namespace TRTv10.User_Interface
             this.BtnRECCriar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnRECCriar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnRECCriar.ForeColor = System.Drawing.Color.White;
-            this.BtnRECCriar.Location = new System.Drawing.Point(12, 40);
+            this.BtnRECCriar.Location = new System.Drawing.Point(12, 48);
             this.BtnRECCriar.Name = "BtnRECCriar";
             this.BtnRECCriar.Size = new System.Drawing.Size(109, 35);
             this.BtnRECCriar.TabIndex = 46;
             this.BtnRECCriar.Text = "Criar";
             this.BtnRECCriar.UseVisualStyleBackColor = false;
-            this.BtnRECCriar.Click += new System.EventHandler(this.BtnSERFRMREQCria_Click);
+            this.BtnRECCriar.Click += new System.EventHandler(this.BtnRecImprime_Click);
             // 
             // TxtRECNomeCliente
             // 
             this.TxtRECNomeCliente.Enabled = false;
-            this.TxtRECNomeCliente.Location = new System.Drawing.Point(216, 112);
+            this.TxtRECNomeCliente.Location = new System.Drawing.Point(228, 185);
             this.TxtRECNomeCliente.Name = "TxtRECNomeCliente";
-            this.TxtRECNomeCliente.Size = new System.Drawing.Size(401, 25);
+            this.TxtRECNomeCliente.Size = new System.Drawing.Size(406, 25);
             this.TxtRECNomeCliente.TabIndex = 49;
             this.TxtRECNomeCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -192,16 +199,15 @@ namespace TRTv10.User_Interface
             this.dgvLinhasDrv.Location = new System.Drawing.Point(652, 203);
             this.dgvLinhasDrv.Name = "dgvLinhasDrv";
             this.dgvLinhasDrv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLinhasDrv.Size = new System.Drawing.Size(669, 425);
+            this.dgvLinhasDrv.Size = new System.Drawing.Size(669, 401);
             this.dgvLinhasDrv.TabIndex = 53;
-            this.dgvLinhasDrv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLinhasDrv_CellMouseClick);
             this.dgvLinhasDrv.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLinhasDrv_CellValueChanged);
             // 
             // lblSERTipoServ
             // 
             this.lblSERTipoServ.AutoSize = true;
             this.lblSERTipoServ.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSERTipoServ.Location = new System.Drawing.Point(9, 115);
+            this.lblSERTipoServ.Location = new System.Drawing.Point(9, 188);
             this.lblSERTipoServ.Name = "lblSERTipoServ";
             this.lblSERTipoServ.Size = new System.Drawing.Size(47, 17);
             this.lblSERTipoServ.TabIndex = 119;
@@ -210,7 +216,7 @@ namespace TRTv10.User_Interface
             // CbRECCliente
             // 
             this.CbRECCliente.FormattingEnabled = true;
-            this.CbRECCliente.Location = new System.Drawing.Point(89, 112);
+            this.CbRECCliente.Location = new System.Drawing.Point(101, 185);
             this.CbRECCliente.Name = "CbRECCliente";
             this.CbRECCliente.Size = new System.Drawing.Size(121, 25);
             this.CbRECCliente.TabIndex = 120;
@@ -220,7 +226,7 @@ namespace TRTv10.User_Interface
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 162);
+            this.label1.Location = new System.Drawing.Point(9, 235);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 17);
             this.label1.TabIndex = 121;
@@ -229,26 +235,27 @@ namespace TRTv10.User_Interface
             // CbRECProcesso
             // 
             this.CbRECProcesso.FormattingEnabled = true;
-            this.CbRECProcesso.Location = new System.Drawing.Point(89, 159);
+            this.CbRECProcesso.Location = new System.Drawing.Point(101, 232);
             this.CbRECProcesso.Name = "CbRECProcesso";
             this.CbRECProcesso.Size = new System.Drawing.Size(121, 25);
             this.CbRECProcesso.TabIndex = 122;
+            this.CbRECProcesso.SelectedIndexChanged += new System.EventHandler(this.CbRECProcesso_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(9, 206);
+            this.label2.Location = new System.Drawing.Point(9, 279);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 17);
+            this.label2.Size = new System.Drawing.Size(86, 17);
             this.label2.TabIndex = 123;
-            this.label2.Text = "Documento";
+            this.label2.Text = "Doc. Receber";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(9, 252);
+            this.label3.Location = new System.Drawing.Point(9, 325);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 17);
             this.label3.TabIndex = 124;
@@ -258,7 +265,7 @@ namespace TRTv10.User_Interface
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(216, 252);
+            this.label4.Location = new System.Drawing.Point(216, 325);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 17);
             this.label4.TabIndex = 125;
@@ -267,24 +274,24 @@ namespace TRTv10.User_Interface
             // CbRECDocumento
             // 
             this.CbRECDocumento.FormattingEnabled = true;
-            this.CbRECDocumento.Location = new System.Drawing.Point(89, 203);
+            this.CbRECDocumento.Location = new System.Drawing.Point(101, 276);
             this.CbRECDocumento.Name = "CbRECDocumento";
-            this.CbRECDocumento.Size = new System.Drawing.Size(528, 25);
+            this.CbRECDocumento.Size = new System.Drawing.Size(533, 25);
             this.CbRECDocumento.TabIndex = 126;
             this.CbRECDocumento.SelectedIndexChanged += new System.EventHandler(this.CbRECDocumento_SelectedIndexChanged);
             // 
             // CbRECNumero
             // 
             this.CbRECNumero.FormattingEnabled = true;
-            this.CbRECNumero.Location = new System.Drawing.Point(89, 249);
+            this.CbRECNumero.Location = new System.Drawing.Point(101, 322);
             this.CbRECNumero.Name = "CbRECNumero";
-            this.CbRECNumero.Size = new System.Drawing.Size(121, 25);
+            this.CbRECNumero.Size = new System.Drawing.Size(109, 25);
             this.CbRECNumero.TabIndex = 127;
             // 
             // CbRECAno
             // 
             this.CbRECAno.FormattingEnabled = true;
-            this.CbRECAno.Location = new System.Drawing.Point(297, 249);
+            this.CbRECAno.Location = new System.Drawing.Point(262, 322);
             this.CbRECAno.Name = "CbRECAno";
             this.CbRECAno.Size = new System.Drawing.Size(89, 25);
             this.CbRECAno.TabIndex = 128;
@@ -355,7 +362,7 @@ namespace TRTv10.User_Interface
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(9, 290);
+            this.label9.Location = new System.Drawing.Point(9, 363);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(50, 17);
             this.label9.TabIndex = 135;
@@ -365,7 +372,7 @@ namespace TRTv10.User_Interface
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(9, 335);
+            this.label10.Location = new System.Drawing.Point(9, 408);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 17);
             this.label10.TabIndex = 136;
@@ -375,7 +382,7 @@ namespace TRTv10.User_Interface
             // 
             this.lblSERPorteBL.AutoSize = true;
             this.lblSERPorteBL.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSERPorteBL.Location = new System.Drawing.Point(9, 421);
+            this.lblSERPorteBL.Location = new System.Drawing.Point(9, 494);
             this.lblSERPorteBL.Name = "lblSERPorteBL";
             this.lblSERPorteBL.Size = new System.Drawing.Size(72, 17);
             this.lblSERPorteBL.TabIndex = 151;
@@ -385,7 +392,7 @@ namespace TRTv10.User_Interface
             // 
             this.lblAviaoNavio.AutoSize = true;
             this.lblAviaoNavio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAviaoNavio.Location = new System.Drawing.Point(9, 378);
+            this.lblAviaoNavio.Location = new System.Drawing.Point(9, 451);
             this.lblAviaoNavio.Name = "lblAviaoNavio";
             this.lblAviaoNavio.Size = new System.Drawing.Size(71, 17);
             this.lblAviaoNavio.TabIndex = 152;
@@ -395,7 +402,7 @@ namespace TRTv10.User_Interface
             // 
             this.lblSERNumDAR.AutoSize = true;
             this.lblSERNumDAR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSERNumDAR.Location = new System.Drawing.Point(9, 464);
+            this.lblSERNumDAR.Location = new System.Drawing.Point(9, 537);
             this.lblSERNumDAR.Name = "lblSERNumDAR";
             this.lblSERNumDAR.Size = new System.Drawing.Size(56, 17);
             this.lblSERNumDAR.TabIndex = 153;
@@ -405,7 +412,7 @@ namespace TRTv10.User_Interface
             // 
             this.lblSERNumDU.AutoSize = true;
             this.lblSERNumDU.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSERNumDU.Location = new System.Drawing.Point(9, 509);
+            this.lblSERNumDU.Location = new System.Drawing.Point(9, 582);
             this.lblSERNumDU.Name = "lblSERNumDU";
             this.lblSERNumDU.Size = new System.Drawing.Size(49, 17);
             this.lblSERNumDU.TabIndex = 154;
@@ -414,54 +421,54 @@ namespace TRTv10.User_Interface
             // TxtRECMoeda
             // 
             this.TxtRECMoeda.Enabled = false;
-            this.TxtRECMoeda.Location = new System.Drawing.Point(89, 287);
+            this.TxtRECMoeda.Location = new System.Drawing.Point(101, 360);
             this.TxtRECMoeda.Name = "TxtRECMoeda";
-            this.TxtRECMoeda.Size = new System.Drawing.Size(121, 25);
+            this.TxtRECMoeda.Size = new System.Drawing.Size(109, 25);
             this.TxtRECMoeda.TabIndex = 155;
             this.TxtRECMoeda.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TxtRECCambio
             // 
             this.TxtRECCambio.Enabled = false;
-            this.TxtRECCambio.Location = new System.Drawing.Point(89, 332);
+            this.TxtRECCambio.Location = new System.Drawing.Point(101, 405);
             this.TxtRECCambio.Name = "TxtRECCambio";
-            this.TxtRECCambio.Size = new System.Drawing.Size(121, 25);
+            this.TxtRECCambio.Size = new System.Drawing.Size(109, 25);
             this.TxtRECCambio.TabIndex = 156;
             this.TxtRECCambio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TxtRECTransporte
             // 
             this.TxtRECTransporte.Enabled = false;
-            this.TxtRECTransporte.Location = new System.Drawing.Point(89, 375);
+            this.TxtRECTransporte.Location = new System.Drawing.Point(101, 448);
             this.TxtRECTransporte.Name = "TxtRECTransporte";
-            this.TxtRECTransporte.Size = new System.Drawing.Size(528, 25);
+            this.TxtRECTransporte.Size = new System.Drawing.Size(533, 25);
             this.TxtRECTransporte.TabIndex = 157;
             this.TxtRECTransporte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TxtRECBL
             // 
             this.TxtRECBL.Enabled = false;
-            this.TxtRECBL.Location = new System.Drawing.Point(89, 418);
+            this.TxtRECBL.Location = new System.Drawing.Point(101, 491);
             this.TxtRECBL.Name = "TxtRECBL";
-            this.TxtRECBL.Size = new System.Drawing.Size(528, 25);
+            this.TxtRECBL.Size = new System.Drawing.Size(533, 25);
             this.TxtRECBL.TabIndex = 158;
             this.TxtRECBL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TxtRECNDar
             // 
             this.TxtRECNDar.Enabled = false;
-            this.TxtRECNDar.Location = new System.Drawing.Point(89, 461);
+            this.TxtRECNDar.Location = new System.Drawing.Point(101, 534);
             this.TxtRECNDar.Name = "TxtRECNDar";
-            this.TxtRECNDar.Size = new System.Drawing.Size(528, 25);
+            this.TxtRECNDar.Size = new System.Drawing.Size(533, 25);
             this.TxtRECNDar.TabIndex = 159;
             this.TxtRECNDar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TxtRECNDu
             // 
             this.TxtRECNDu.Enabled = false;
-            this.TxtRECNDu.Location = new System.Drawing.Point(89, 506);
+            this.TxtRECNDu.Location = new System.Drawing.Point(101, 579);
             this.TxtRECNDu.Name = "TxtRECNDu";
-            this.TxtRECNDu.Size = new System.Drawing.Size(528, 25);
+            this.TxtRECNDu.Size = new System.Drawing.Size(533, 25);
             this.TxtRECNDu.TabIndex = 160;
             this.TxtRECNDu.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -587,11 +594,87 @@ namespace TRTv10.User_Interface
             this.label18.TabIndex = 173;
             this.label18.Text = "Total a Criar";
             // 
+            // CbRecAnoDrv
+            // 
+            this.CbRecAnoDrv.FormattingEnabled = true;
+            this.CbRecAnoDrv.Location = new System.Drawing.Point(563, 140);
+            this.CbRecAnoDrv.Name = "CbRecAnoDrv";
+            this.CbRecAnoDrv.Size = new System.Drawing.Size(71, 25);
+            this.CbRecAnoDrv.TabIndex = 179;
+            // 
+            // CbRecNumeroDrv
+            // 
+            this.CbRecNumeroDrv.FormattingEnabled = true;
+            this.CbRecNumeroDrv.Location = new System.Drawing.Point(444, 140);
+            this.CbRecNumeroDrv.Name = "CbRecNumeroDrv";
+            this.CbRecNumeroDrv.Size = new System.Drawing.Size(76, 25);
+            this.CbRecNumeroDrv.TabIndex = 178;
+            // 
+            // CbRecDocumentoDrv
+            // 
+            this.CbRecDocumentoDrv.FormattingEnabled = true;
+            this.CbRecDocumentoDrv.Location = new System.Drawing.Point(101, 140);
+            this.CbRecDocumentoDrv.Name = "CbRecDocumentoDrv";
+            this.CbRecDocumentoDrv.Size = new System.Drawing.Size(275, 25);
+            this.CbRecDocumentoDrv.TabIndex = 177;
+            this.CbRecDocumentoDrv.SelectedIndexChanged += new System.EventHandler(this.CbRECDocumentoDrv_SelectedIndexChanged);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(526, 142);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(31, 17);
+            this.label19.TabIndex = 176;
+            this.label19.Text = "Ano";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(382, 142);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 17);
+            this.label20.TabIndex = 175;
+            this.label20.Text = "Número";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(9, 142);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(75, 17);
+            this.label21.TabIndex = 174;
+            this.label21.Text = "Documento";
+            // 
+            // BtnDrvLimpar
+            // 
+            this.BtnDrvLimpar.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.BtnDrvLimpar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnDrvLimpar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDrvLimpar.ForeColor = System.Drawing.Color.White;
+            this.BtnDrvLimpar.Location = new System.Drawing.Point(127, 48);
+            this.BtnDrvLimpar.Name = "BtnDrvLimpar";
+            this.BtnDrvLimpar.Size = new System.Drawing.Size(109, 35);
+            this.BtnDrvLimpar.TabIndex = 180;
+            this.BtnDrvLimpar.Text = "Limpar";
+            this.BtnDrvLimpar.UseVisualStyleBackColor = false;
+            this.BtnDrvLimpar.Click += new System.EventHandler(this.BtnDrvLimpar_Click);
+            // 
             // FrmDrv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1339, 640);
+            this.ClientSize = new System.Drawing.Size(1339, 625);
+            this.Controls.Add(this.BtnDrvLimpar);
+            this.Controls.Add(this.CbRecAnoDrv);
+            this.Controls.Add(this.CbRecNumeroDrv);
+            this.Controls.Add(this.CbRecDocumentoDrv);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.label21);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label16);
@@ -709,5 +792,12 @@ namespace TRTv10.User_Interface
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox CbRecAnoDrv;
+        private System.Windows.Forms.ComboBox CbRecNumeroDrv;
+        private System.Windows.Forms.ComboBox CbRecDocumentoDrv;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button BtnDrvLimpar;
     }
 }

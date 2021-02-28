@@ -7,11 +7,11 @@ namespace TRTv10.User_Interface
     public partial class FrmExplorer : Form
     {
         private FrmCotacao _frmCotacao;
-        private FrmProcesso _frmProcesso;
-        private FrmRequisicoes _frmRequisocoes;
+        private FrmRequisicoes _frmRequisicoes;
         private FrmAprovacoes _frmAprovacoes;
         private FrmDocumento _frmDocumento;
         private FrmDrv _frmDrv;
+        private FrmExtracto _frmExtracto;
 
         public FrmExplorer(string user)
         {
@@ -32,8 +32,8 @@ namespace TRTv10.User_Interface
 
         private void ExtractoDeProcessosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmProcesso = new FrmProcesso();
-            _frmProcesso.Show();
+            _frmExtracto = new FrmExtracto();
+            _frmExtracto.Show();
         }
 
         private void aprovaçõesToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -49,8 +49,8 @@ namespace TRTv10.User_Interface
 
         private void requisiçõesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmRequisocoes = new FrmRequisicoes();
-            _frmRequisocoes.Show();
+            _frmRequisicoes = new FrmRequisicoes();
+            _frmRequisicoes.Show();
         }
 
         private void reimpressãoToolStripMenuItem_Click(object sender, EventArgs e)
