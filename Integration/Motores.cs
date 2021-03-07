@@ -4,10 +4,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Windows.Forms;
 using TRTv10.Engine;
@@ -262,6 +259,22 @@ namespace TRTv10.Integration
             connection.Close();
         }
 
+        /// <summary>
+        /// Vai ao cabec e actualiza todos os processos com o IdDRV
+        /// </summary>
+        /// <param name="processo"></param>
+        private void UpdateRiProcesso(string processo, Guid idRi)
+        {
+            var query = $"UPDATE L SET CDU_IdRi = '{idRi}' FROM TDU_TRT_LinhasDocumentos L INNER JOIN TDU_TRT_CabecDocumentos C ON C.CDU_Id = L.CDU_idDoc  WHERE CDU_Processo = '{processo}'";
+
+            var connectionString = GetConnectionString();
+            using var connection = new SqlConnection(connectionString);
+            using var command = connection.CreateCommand();
+            command.CommandText = query;
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
 
         /// <summary>
         /// Cria o cabeçalho na TDU_TRT_CabecDocumentos
@@ -304,6 +317,13 @@ namespace TRTv10.Integration
                 var motores = new Motores();
                 _idProcesso = motores.GetIdProcessoByProcesso(processo);
                 UpdateDRVProcesso(processo, idOrig);
+            }
+
+            if (documento == "RI")
+            {
+                var motores = new Motores();
+                _idProcesso = motores.GetIdProcessoByProcesso(processo);
+                UpdateRiProcesso(processo, idOrig);
             }
 
             var connectionString = GetConnectionString();
@@ -846,8 +866,8 @@ namespace TRTv10.Integration
             else
             {
                     linhasQ.Append($"AND C.CDU_Cliente = '{cliente}' ");
-                    linhasQ.Append($"AND C.CDU_Data >= '{dataIni}' ");
-                    linhasQ.Append($"AND C.CDU_Data <= '{dataFim}' ");
+                    linhasQ.Append($"AND C.CDU_Data >= '{dataInicial}' ");
+                    linhasQ.Append($"AND C.CDU_Data <= '{dataFinal}' ");
             }
 
             //linhasQ.Append("ORDER BY C.CDU_Processo, C.CDU_Data");
@@ -1312,6 +1332,28 @@ namespace TRTv10.Integration
             sql.Append("INNER JOIN dbo.TDU_TRT_CabecDocumentos C ");
             sql.Append("ON C.CDU_IdProcesso = P.CDU_id ");
             sql.Append($"WHERE C.CDU_Documento = '{documento}' AND C.CDU_Ano = {ano} AND C.CDU_Numero = {numero} ");
+
+            var query = sql.ToString();
+            var lstDados = PriEngine.Engine.Consulta(query);
+            return lstDados;
+        }
+
+        public StdBELista GetDadosFormRi(string documento, int numero, int ano)
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.Append("SELECT P.CDU_Cliente, P.CDU_NomeCliente, P.CDU_Moeda "); //3
+            sql.Append(",P.CDU_ValorCIF, P.CDU_ValorAduaneiro, P.CDU_Cambio, P.CDU_CNCA, P.CDU_DUP "); //8
+            sql.Append(",P.CDU_BLCartaPorte, P.CDU_RUP, P.CDU_Referencia, P.CDU_Data, P.CDU_DataChegada "); //12
+            sql.Append(",P.CDU_TipoMercadoria, P.CDU_Obs, P.CDU_Transporte, P.CDU_Manifesto, P.CDU_NumDAR "); //17
+            sql.Append(",P.CDU_ValorDAR, P.CDU_DU, P.CDU_NumVolumes, P.CDU_DataEntrada, P.CDU_DataSaida "); //22
+            sql.Append(",P.CDU_DataDU, P.CDU_Peso "); //24
+            sql.Append(",C.CDU_ValorDoc, C.CDU_ValorIva, C.CDU_ValorRet, C.CDU_ValorTot "); //28
+            sql.Append("FROM dbo.TDU_TRT_Processo P ");
+            sql.Append("INNER JOIN dbo.TDU_TRT_CabecDocumentos C ");
+            sql.Append("ON C.CDU_IdProcesso = P.CDU_id ");
+            sql.Append($"WHERE C.CDU_Documento = '{documento}' AND C.CDU_Ano = {ano} AND C.CDU_Numero = {numero} ");
+            sql.Append($"AND L.CDU_idRi is null ");
+
             var query = sql.ToString();
             var lstDados = PriEngine.Engine.Consulta(query);
             return lstDados;
@@ -1432,6 +1474,12 @@ namespace TRTv10.Integration
                     qItems = "SELECT CDU_Item, CDU_PrecUnit, CDU_PrecIVA FROM TDU_TRT_LinhasDocumentos " +
                              $"WHERE CDU_IdDoc = '{_idDocumento}' " +
                              "AND CDU_IdDrv = ''";
+                }
+                else if (documento == "RI")
+                {
+                    qItems = "SELECT CDU_Item, CDU_PrecUnit, CDU_PrecIVA FROM TDU_TRT_LinhasDocumentos " +
+                             $"WHERE CDU_IdDoc = '{_idDocumento}' " +
+                             "AND CDU_IdRi = ''";
                 }
                 else
                 {

@@ -12,6 +12,7 @@ namespace TRTv10.User_Interface
         private FrmDocumento _frmDocumento;
         private FrmDrv _frmDrv;
         private FrmExtracto _frmExtracto;
+        private FrmRi _frmRi;
 
         public FrmExplorer(string user)
         {
@@ -71,6 +72,12 @@ namespace TRTv10.User_Interface
         {
             _frmDrv = new FrmDrv();
             _frmDrv.Show();
+        }
+
+        private void requisiçõesInternasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _frmRi = new FrmRi();
+            _frmRi.Show();
         }
     }
 }

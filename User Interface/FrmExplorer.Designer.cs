@@ -37,6 +37,7 @@
             this.pagamentosDeClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.requisiçõesInternasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentosToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.recibosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reimpressãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.processoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consultaDeProcessosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,6 @@
             this.gruposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlsExplorer = new System.Windows.Forms.ToolStrip();
             this.tlsLabelUtilizador = new System.Windows.Forms.ToolStripLabel();
-            this.recibosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnsExplorer.SuspendLayout();
             this.tlsExplorer.SuspendLayout();
             this.SuspendLayout();
@@ -117,12 +117,19 @@
             this.requisiçõesInternasToolStripMenuItem.Name = "requisiçõesInternasToolStripMenuItem";
             this.requisiçõesInternasToolStripMenuItem.Size = new System.Drawing.Size(354, 26);
             this.requisiçõesInternasToolStripMenuItem.Text = "Requisições Internas";
+            this.requisiçõesInternasToolStripMenuItem.Click += new System.EventHandler(this.requisiçõesInternasToolStripMenuItem_Click);
             // 
             // documentosToolStripMenuItem1
             // 
             this.documentosToolStripMenuItem1.Name = "documentosToolStripMenuItem1";
             this.documentosToolStripMenuItem1.Size = new System.Drawing.Size(354, 26);
             this.documentosToolStripMenuItem1.Text = "Outros Documentos";
+            // 
+            // recibosToolStripMenuItem
+            // 
+            this.recibosToolStripMenuItem.Name = "recibosToolStripMenuItem";
+            this.recibosToolStripMenuItem.Size = new System.Drawing.Size(354, 26);
+            this.recibosToolStripMenuItem.Text = "Recibos";
             // 
             // reimpressãoToolStripMenuItem
             // 
@@ -215,12 +222,6 @@
             this.tlsLabelUtilizador.Name = "tlsLabelUtilizador";
             this.tlsLabelUtilizador.Size = new System.Drawing.Size(77, 22);
             this.tlsLabelUtilizador.Text = "Utilizador";
-            // 
-            // recibosToolStripMenuItem
-            // 
-            this.recibosToolStripMenuItem.Name = "recibosToolStripMenuItem";
-            this.recibosToolStripMenuItem.Size = new System.Drawing.Size(354, 26);
-            this.recibosToolStripMenuItem.Text = "Recibos";
             // 
             // FrmExplorer
             // 
