@@ -41,8 +41,8 @@ namespace TRTv10.User_Interface
 
         private void BtnExtActualizar_Click(object sender, EventArgs e)
         {
-            var dataInicial = dtpDataInicial.Text;
-            var dataFinal = dtpDataFinal.Text;
+            var dataInicial = dtpDataInicial.Value;
+            var dataFinal = dtpDataFinal.Value;
             var contaFechada = ChbExtRelFechada.Checked is true;
             var motores = new Motores();
             //dgvExtDocumentos = new DataGridView();

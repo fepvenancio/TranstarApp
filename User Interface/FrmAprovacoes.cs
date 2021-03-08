@@ -94,7 +94,7 @@ namespace TRTv10.User_Interface
             using var sqlCon = new SqlConnection(connectionString);
             var sql = new StringBuilder();
 
-            sql.Append("SELECT CDU_Documento, CDU_Numero, CDU_Serie, ");
+            sql.Append("SELECT CDU_Documento, CDU_Numero, CDU_Ano, ");
             sql.Append("CDU_DataDocumento As 'Data', CDU_Processo As 'Processo', CDU_Cliente As 'Cliente', CDU_Nome As 'Nome',  ");
             sql.Append("CDU_Aprovacao1 As 'Apr Tesouraria', CDU_Aprovacao2 As 'Apr Operacoes', CDU_Aprovacao3 As 'Apr Direcçao', CDU_Aprovacao4 As 'Pgto Tesouraria' ");
             sql.Append("FROM TDU_TRT_Aprovacoes ");

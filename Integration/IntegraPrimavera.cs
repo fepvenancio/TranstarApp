@@ -270,7 +270,7 @@ namespace TRTv10.Integration
                 sql.Append("INNER JOIN TDU_TRT_Items I ");
                 sql.Append("ON L.CDU_Item = I.CDU_Nome ");
                 sql.Append($"WHERE D.CDU_Documento = '{documento}' ");
-                sql.Append($"AND D.CDU_Serie = '{serie}' ");
+                sql.Append($"AND D.CDU_Ano = '{serie}' ");
                 sql.Append($"AND D.CDU_Numero = '{numDoc}' ");    
 
                 var strProcesso = sql.ToString();

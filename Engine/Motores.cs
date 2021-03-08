@@ -830,11 +830,13 @@ namespace TRTv10.Integration
         #region Devolve Valores
 
         private static DataGridView GetDocumentos(DataGridView dataGridView, string cliente, string processo, 
-            bool contaFechada, string dataInicial, string dataFinal)
+            bool contaFechada, DateTime dataInicial, DateTime dataFinal)
         {
             //string[] formats = {"MM/dd/yyyy"};
             //var dataIni = DateTime.ParseExact(dataInicial, formats, new CultureInfo("en-US"), DateTimeStyles.None);
             //var dataFim = DateTime.ParseExact(dataFinal, formats, new CultureInfo("en-US"), DateTimeStyles.None);
+            var dataIni = $"{dataInicial:MM/dd/yyyy}";
+            var dataFim = $"{dataFinal:MM/dd/yyyy}";
 
             var linhasQ = new StringBuilder();
             linhasQ.Append("SELECT C.CDU_Processo, C.CDU_Cliente, C.CDU_Documento, C.CDU_Numero, C.CDU_Ano, ");
@@ -866,8 +868,8 @@ namespace TRTv10.Integration
             else
             {
                     linhasQ.Append($"AND C.CDU_Cliente = '{cliente}' ");
-                    linhasQ.Append($"AND C.CDU_Data >= '{dataInicial}' ");
-                    linhasQ.Append($"AND C.CDU_Data <= '{dataFinal}' ");
+                    linhasQ.Append($"AND C.CDU_Data >= '{dataIni}' ");
+                    linhasQ.Append($"AND C.CDU_Data <= '{dataFim}' ");
             }
 
             //linhasQ.Append("ORDER BY C.CDU_Processo, C.CDU_Data");
@@ -1594,7 +1596,7 @@ namespace TRTv10.Integration
         /// <param name="dataFinal"></param>
         /// <returns></returns>
         public DataGridView PopulaGrelhaExtDocumentos(DataGridView dataGridView, string cliente, string processo, 
-            bool contaFechada, string dataInicial, string dataFinal)
+            bool contaFechada, DateTime dataInicial, DateTime dataFinal)
         {
             GetDocumentos(dataGridView, cliente, processo, contaFechada, dataInicial, dataFinal);
             return dataGridView;

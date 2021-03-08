@@ -217,9 +217,8 @@
   <ItemGroup>
     <Compile Include="Disposable\DisposableBase.cs" />
     <Compile Include="Engine\PriEngine.cs" />
-    <Compile Include="Integration\GeraDocumentosAIntegrar.cs" />
     <Compile Include="Integration\IntegraPrimavera.cs" />
-    <Compile Include="Integration\Motores.cs" />
+    <Compile Include="Engine\Motores.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User Interface\FrmAprovacoes.cs">
