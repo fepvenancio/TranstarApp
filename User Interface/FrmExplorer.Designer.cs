@@ -124,6 +124,7 @@
             this.documentosToolStripMenuItem1.Name = "documentosToolStripMenuItem1";
             this.documentosToolStripMenuItem1.Size = new System.Drawing.Size(354, 26);
             this.documentosToolStripMenuItem1.Text = "Outros Documentos";
+            this.documentosToolStripMenuItem1.Click += new System.EventHandler(this.documentosToolStripMenuItem1_Click);
             // 
             // recibosToolStripMenuItem
             // 

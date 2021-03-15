@@ -13,6 +13,7 @@ namespace TRTv10.User_Interface
         private FrmDrv _frmDrv;
         private FrmExtracto _frmExtracto;
         private FrmRi _frmRi;
+        private FrmOutrosDocs _frmOutrosDocs;
 
         public FrmExplorer(string user)
         {
@@ -78,6 +79,12 @@ namespace TRTv10.User_Interface
         {
             _frmRi = new FrmRi();
             _frmRi.Show();
+        }
+
+        private void documentosToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _frmOutrosDocs = new FrmOutrosDocs();
+            _frmOutrosDocs.Show();
         }
     }
 }
