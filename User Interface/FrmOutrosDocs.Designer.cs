@@ -86,10 +86,10 @@ namespace TRTv10.User_Interface
             this.cbOudOperacao = new System.Windows.Forms.ComboBox();
             this.lblSERCambio = new System.Windows.Forms.Label();
             this.txtOudCambio = new System.Windows.Forms.TextBox();
-            this.lblSERTipoServ = new System.Windows.Forms.Label();
-            this.cbOudTServico = new System.Windows.Forms.ComboBox();
+            this.lblOudProcesso = new System.Windows.Forms.Label();
             this.txtOudTimer = new System.Windows.Forms.TextBox();
             this.CbOudAno = new System.Windows.Forms.ComboBox();
+            this.cbOudProcesso = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItemsOud)).BeginInit();
             this.SuspendLayout();
             // 
@@ -642,25 +642,15 @@ namespace TRTv10.User_Interface
             this.txtOudCambio.Size = new System.Drawing.Size(166, 25);
             this.txtOudCambio.TabIndex = 105;
             // 
-            // lblSERTipoServ
+            // lblOudProcesso
             // 
-            this.lblSERTipoServ.AutoSize = true;
-            this.lblSERTipoServ.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSERTipoServ.Location = new System.Drawing.Point(26, 87);
-            this.lblSERTipoServ.Name = "lblSERTipoServ";
-            this.lblSERTipoServ.Size = new System.Drawing.Size(99, 17);
-            this.lblSERTipoServ.TabIndex = 118;
-            this.lblSERTipoServ.Text = "Tipo de Serviço";
-            // 
-            // cbOudTServico
-            // 
-            this.cbOudTServico.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbOudTServico.FormattingEnabled = true;
-            this.cbOudTServico.Location = new System.Drawing.Point(165, 84);
-            this.cbOudTServico.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cbOudTServico.Name = "cbOudTServico";
-            this.cbOudTServico.Size = new System.Drawing.Size(488, 25);
-            this.cbOudTServico.TabIndex = 98;
+            this.lblOudProcesso.AutoSize = true;
+            this.lblOudProcesso.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOudProcesso.Location = new System.Drawing.Point(26, 87);
+            this.lblOudProcesso.Name = "lblOudProcesso";
+            this.lblOudProcesso.Size = new System.Drawing.Size(61, 17);
+            this.lblOudProcesso.TabIndex = 118;
+            this.lblOudProcesso.Text = "Processo";
             // 
             // txtOudTimer
             // 
@@ -683,11 +673,22 @@ namespace TRTv10.User_Interface
             this.CbOudAno.Size = new System.Drawing.Size(60, 25);
             this.CbOudAno.TabIndex = 160;
             // 
+            // cbOudProcesso
+            // 
+            this.cbOudProcesso.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbOudProcesso.FormattingEnabled = true;
+            this.cbOudProcesso.Location = new System.Drawing.Point(165, 84);
+            this.cbOudProcesso.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbOudProcesso.Name = "cbOudProcesso";
+            this.cbOudProcesso.Size = new System.Drawing.Size(166, 25);
+            this.cbOudProcesso.TabIndex = 161;
+            // 
             // FrmOutrosDocs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1339, 653);
+            this.Controls.Add(this.cbOudProcesso);
             this.Controls.Add(this.CbOudAno);
             this.Controls.Add(this.cbOudNumOperacao);
             this.Controls.Add(this.CbOudTransporte);
@@ -746,8 +747,7 @@ namespace TRTv10.User_Interface
             this.Controls.Add(this.cbOudOperacao);
             this.Controls.Add(this.lblSERCambio);
             this.Controls.Add(this.txtOudCambio);
-            this.Controls.Add(this.lblSERTipoServ);
-            this.Controls.Add(this.cbOudTServico);
+            this.Controls.Add(this.lblOudProcesso);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -820,9 +820,9 @@ namespace TRTv10.User_Interface
         public System.Windows.Forms.ComboBox cbOudOperacao;
         private System.Windows.Forms.Label lblSERCambio;
         public System.Windows.Forms.TextBox txtOudCambio;
-        private System.Windows.Forms.Label lblSERTipoServ;
-        public System.Windows.Forms.ComboBox cbOudTServico;
+        private System.Windows.Forms.Label lblOudProcesso;
         public System.Windows.Forms.TextBox txtOudTimer;
         public System.Windows.Forms.ComboBox CbOudAno;
+        public System.Windows.Forms.ComboBox cbOudProcesso;
     }
 }

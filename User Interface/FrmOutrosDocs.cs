@@ -23,10 +23,10 @@ namespace TRTv10.User_Interface
         private void FrmOutrosDocs_Load(object sender, EventArgs e)
         {
             Motores motores = new Motores();
-            motores.GetTipoServ(cbOudTServico);
             motores.GetClientes(cbOudCliente);
             motores.GetDadosTransporte(CbOudTransporte);
             motores.GetMoedas(CbOudMoeda);
+            motores.GetProcessos(cbOudProcesso);
 
             cbOudOperacao.Items.Clear();
             cbOudOperacao.Items.Add("Factura");
@@ -82,7 +82,7 @@ namespace TRTv10.User_Interface
             Motores motores = new Motores();
             motores.ApagaDadosForm(this);
             dgvItemsOud = motores.ApagaDadosGrelha(dgvItemsOud);
-            motores.GetTipoServ(cbOudTServico);
+            motores.GetProcessos(cbOudProcesso);
             motores.GetClientes(cbOudCliente);
             motores.GetDadosTransporte(CbOudTransporte);
             motores.GetMoedas(CbOudMoeda);
@@ -200,7 +200,6 @@ namespace TRTv10.User_Interface
                 //Cria o documento e as linhas
                 //aumenta o numerador do documento
                 var motores = new Motores();
-                var validaCamposObrigatorios = ValidaCamposObrigatorios();
                 AlteraPontosPorVirgulas();
                 var documento = motores.GetCodigoDocumento(cbOudOperacao.Text);
                 var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(cbOudNumOperacao.Text),
@@ -231,39 +230,7 @@ namespace TRTv10.User_Interface
                     var ivaCativo = Convert.ToBoolean(dadosCliente[7]);
                     var retencao = Convert.ToBoolean(dadosCliente[8]);
 
-                    var cotacao = "COT " + cbOudNumOperacao.Text + "/" + CbOudAno.Text;
-                    var moeda = CbOudMoeda.Text;
-                    var valorCif = Convert.ToDouble(txtOudValorCIF.Text);
-                    var valorAdu = Convert.ToDouble(txtOudValorAduaneiro.Text);
-                    var valorCambio = Convert.ToDouble(txtOudCambio.Text);
-                    var cnca = TxtOudCNCA.Text;
-                    var dup = TxtOudDUP.Text;
-                    var bl = txtOudPorteBL.Text;
-                    var rup = TxtOudRUP.Text;
-                    var referencia = txtOudVReferencia.Text;
-                    var data = DtpOudData.Value;
-                    var dataChegada = dtpOudDataChegada.Value;
-                    var tipoMerc = TxtOudTipoMercadoria.Text;
-                    var obs = TxtOudObs.Text;
-                    var transporte = CbOudTransporte.Text;
-                    var manifesto = TxtOudManifesto.Text;
-                    var numDar = txtOudDar.Text;
-                    var valorDar = TxtOudValorDar.Text;
-                    var du = TxtOudDU.Text;
-                    var numVolumes = TxtOudNumVolumes.Text;
-                    var dataEntrada = DtpOudDataEntrada.Value;
-                    var dataSaida = DtpOudDataSaida.Value;
-                    var dataDu = DtpOudDataDu.Value;
-                    double peso;
-
-                    if (TxtOudPesoKGs.Text == "")
-                    {
-                        peso = 0;
-                    }
-                    else
-                    {
-                        peso = Convert.ToDouble(TxtOudPesoKGs.Text);
-                    }
+                    var cotacao = "";
 
                     if (retencao is true)
                     {
@@ -271,83 +238,37 @@ namespace TRTv10.User_Interface
                         valorRet = valorTot * percRet;
                     }
 
-                    if (validaCamposObrigatorios)
-                    {
-                        var id = Guid.NewGuid();
+                    var id = Guid.NewGuid();
 
-
-                        motores.CriaProcesso(
-                            cotacao,
-                            cliente,
-                            nome,
-                            moeda,
-                            valorCif,
-                            valorAdu,
-                            valorCambio,
-                            cnca,
-                            dup,
-                            bl,
-                            rup,
-                            referencia,
-                            data,
-                            dataChegada,
-                            tipoMerc,
-                            obs,
-                            transporte,
-                            manifesto,
-                            numDar,
-                            valorDar,
-                            du,
-                            numVolumes,
-                            dataEntrada,
-                            dataSaida,
-                            dataDu,
-                            peso
-                        );
-
-                        motores.CriaCabecDocumento(
-                            id,
-                            Convert.ToString(documento),
-                            Convert.ToInt32(CbOudAno.Text),
-                            Convert.ToInt32(cbOudNumOperacao.Text),
-                            Convert.ToDateTime(DateTime.Now.Date),
-                            Convert.ToString(CbOudMoeda.Text),
-                            Convert.ToDouble(txtOudCambio.Text),
-                            Convert.ToString(TxtOudObs.Text),
-                            Convert.ToString(""),
-                            Convert.ToString(cotacao),
-                            Convert.ToString(cbOudTServico.Text),
-                            Convert.ToDouble(valorDoc),
-                            Convert.ToDouble(valorIva),
-                            Convert.ToDouble(valorRet),
-                            Convert.ToDouble(valorTot),
-                            Convert.ToDouble(valorRec),
-                            Convert.ToString(utilizador),
-                            Convert.ToString(cliente),
-                            Convert.ToString(nome),
-                            Convert.ToString(nif),
-                            Convert.ToString(morada),
-                            Convert.ToString(localidade),
-                            Convert.ToString(codPostal),
-                            Convert.ToString(codPostalLocalidade),
-                            Convert.ToString(pais),
-                            Convert.ToBoolean(ivaCativo),
-                            Convert.ToBoolean(retencao),
-                            dgvItemsOud);
-                    }
-                    else
-                    {
-                        PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
-                                                                "Tipo de Serviço, " +
-                                                                "Operacao, " +
-                                                                "Cliente, " +
-                                                                "Moeda, " +
-                                                                "Valor CIF, " +
-                                                                "Valor Aduaneiro, " +
-                                                                "Câmbio, " +
-                                                                "Tipo de Mercadoria " +
-                                                                "e Data de Entrada ");
-                    }
+                    motores.CriaCabecDocumento(
+                        id,
+                        Convert.ToString(documento),
+                        Convert.ToInt32(CbOudAno.Text),
+                        Convert.ToInt32(cbOudNumOperacao.Text),
+                        Convert.ToDateTime(DateTime.Now.Date),
+                        Convert.ToString(CbOudMoeda.Text),
+                        Convert.ToDouble(txtOudCambio.Text),
+                        Convert.ToString(TxtOudObs.Text),
+                        Convert.ToString(cbOudProcesso.Text),
+                        Convert.ToString(cotacao),
+                        Convert.ToString("Outros"),
+                        Convert.ToDouble(valorDoc),
+                        Convert.ToDouble(valorIva),
+                        Convert.ToDouble(valorRet),
+                        Convert.ToDouble(valorTot),
+                        Convert.ToDouble(valorRec),
+                        Convert.ToString(utilizador),
+                        Convert.ToString(cliente),
+                        Convert.ToString(nome),
+                        Convert.ToString(nif),
+                        Convert.ToString(morada),
+                        Convert.ToString(localidade),
+                        Convert.ToString(codPostal),
+                        Convert.ToString(codPostalLocalidade),
+                        Convert.ToString(pais),
+                        Convert.ToBoolean(ivaCativo),
+                        Convert.ToBoolean(retencao),
+                        dgvItemsOud);
                 }
                 else
                 {
@@ -381,22 +302,6 @@ namespace TRTv10.User_Interface
         #endregion
 
         #region Metodos
-
-        /// <summary>
-        /// Serve para validar se para criar X documentos os campos essenciais estao preenchidos.
-        /// </summary>
-        private bool ValidaCamposObrigatorios()
-        {
-            return cbOudTServico.Text != ""
-                   && cbOudOperacao.Text != ""
-                   && cbOudCliente.Text != ""
-                   && CbOudMoeda.Text != ""
-                   && txtOudValorCIF.Text != ""
-                   && txtOudValorAduaneiro.Text != ""
-                   && txtOudCambio.Text != ""
-                   && TxtOudTipoMercadoria.Text != ""
-                   && CbOudTransporte.Text != "";
-        }
 
         /// <summary>
         /// Altera virgulas por pontos

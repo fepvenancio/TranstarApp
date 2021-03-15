@@ -362,7 +362,7 @@ namespace TRTv10.Integration
             sqlCmdLin.Parameters.AddWithValue("@Retencao", retencao);
             sqlCon.Open();
             sqlCmdLin.ExecuteNonQuery();
-            if (documento == "ND" || documento == "FA" || documento == "FR")
+            if (documento == "ND" || documento == "FA" || documento == "FR" || documento == "FAT" || documento == "NC")
             {
                 CriaLinhasDocumentoDrv(idOrig, dataGridView, sqlCon, documento);
             }
