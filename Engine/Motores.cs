@@ -960,6 +960,89 @@ namespace TRTv10.Integration
             return dataGridView;
         }
 
+        private static DataGridView GetDocumentosRecebimentos(DataGridView dataGridView, string processo)
+        {
+            //string[] formats = {"MM/dd/yyyy"};
+            //var dataIni = $"{dataInicial:MM/dd/yyyy}";
+            //var dataFim = $"{dataFinal:MM/dd/yyyy}";
+
+            var linhasQ = new StringBuilder();
+            linhasQ.Append("SELECT CDU_Documento, CDU_Ano, CDU_Numero, CDU_Data, CDU_Moeda, ");
+            linhasQ.Append("CDU_ValorTot, CDU_ValorRet, CDU_ValorRec, CDU_ValorPend ");
+            linhasQ.Append("FROM TDU_TRT_CabecDocumentos ");
+            linhasQ.Append($"WHERE CDU_Processo = '{processo}' ");
+            linhasQ.Append("AND CDU_ValorTot > CDU_ValorPend ");
+            linhasQ.Append("AND CDU_Documento <> 'RI' ");
+            linhasQ.Append("AND CDU_Documento <> 'DRV' ");
+            linhasQ.Append("AND CDU_Documento <> 'RCF' ");
+            linhasQ.Append("AND CDU_Documento <> 'REQ' ");
+            linhasQ.Append("AND CDU_Documento <> 'RQA' ");
+            linhasQ.Append("AND CDU_Documento <> 'RE' ");
+            linhasQ.Append("AND CDU_Documento <> 'COT' ");
+
+            var qDocs = linhasQ.ToString();
+            var lstQ = PriEngine.Engine.Consulta(qDocs);
+            var tabela = new DataTable();
+
+            tabela.Columns.Add("Documento", typeof(string));
+            tabela.Columns.Add("Ano", typeof(string));
+            tabela.Columns.Add("Número", typeof(string));
+            tabela.Columns.Add("Data", typeof(string));
+            tabela.Columns.Add("Moeda", typeof(string));
+            tabela.Columns.Add("Valor Doc.", typeof(double));
+            tabela.Columns.Add("Valor Ret.", typeof(double));
+            tabela.Columns.Add("Valor Pend.", typeof(double));
+            tabela.Columns.Add("Valor Rec.", typeof(double));
+
+            if (!lstQ.Vazia())
+            {
+                while (!lstQ.NoFim())
+                {
+                    string documento = lstQ.Valor(0);
+                    int ano = lstQ.Valor(1);
+                    int numero = lstQ.Valor(2);
+                    string data = lstQ.Valor(3).ToString();
+                    string moeda = lstQ.Valor(4).ToString();
+                    var valorTot = lstQ.Valor(5);
+                    var valorRet = lstQ.Valor(6);
+                    var valorRec  = lstQ.Valor(7);
+                    var valorPend = lstQ.Valor(8);
+                    
+                    tabela.Rows.Add(documento, ano, numero, data, moeda, valorTot, valorRet, valorRec, valorPend);
+                    lstQ.Seguinte();
+                }
+            }
+        
+            try
+            {
+                dataGridView.DataSource = tabela;
+                dataGridView.Columns["Documento"].Width = 150;
+                dataGridView.Columns["Documento"].ReadOnly = true;
+                dataGridView.Columns["Ano"].Width = 150;
+                dataGridView.Columns["Ano"].ReadOnly = true;
+                dataGridView.Columns["Número"].Width = 100;
+                dataGridView.Columns["Número"].ReadOnly = true;
+                dataGridView.Columns["Data"].Width = 85;
+                dataGridView.Columns["Data"].ReadOnly = true;
+                dataGridView.Columns["Moeda"].Width = 100;
+                dataGridView.Columns["Moeda"].ReadOnly = true;
+                dataGridView.Columns["Valor Doc."].Width = 150;
+                dataGridView.Columns["Valor Doc."].ReadOnly = true;
+                dataGridView.Columns["Valor Ret."].Width = 150;
+                dataGridView.Columns["Valor Ret."].ReadOnly = true;
+                dataGridView.Columns["Valor Pend."].Width = 150;
+                dataGridView.Columns["Valor Pend."].ReadOnly = true;
+                dataGridView.Columns["Valor Rec."].Width = 150;
+                dataGridView.Columns["Valor Rec."].ReadOnly = false;
+            }
+            catch(Exception ex)
+            {
+                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar a lista de documentos: {ex.Message}");
+            }
+
+            return dataGridView;
+        }
+
         public bool GetDrvProcesso(string processo)
         {
             var sqlNDocs = new StringBuilder();
@@ -1599,6 +1682,12 @@ namespace TRTv10.Integration
             bool contaFechada, DateTime dataInicial, DateTime dataFinal)
         {
             GetDocumentos(dataGridView, cliente, processo, contaFechada, dataInicial, dataFinal);
+            return dataGridView;
+        }
+
+        public DataGridView PopulaGrelhaLinhasRecebimentos(DataGridView dataGridView, string processo)
+        {
+            GetDocumentosRecebimentos(dataGridView, processo);
             return dataGridView;
         }
 

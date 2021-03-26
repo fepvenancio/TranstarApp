@@ -131,6 +131,7 @@
             this.recibosToolStripMenuItem.Name = "recibosToolStripMenuItem";
             this.recibosToolStripMenuItem.Size = new System.Drawing.Size(354, 26);
             this.recibosToolStripMenuItem.Text = "Recibos";
+            this.recibosToolStripMenuItem.Click += new System.EventHandler(this.recibosToolStripMenuItem_Click);
             // 
             // reimpressãoToolStripMenuItem
             // 

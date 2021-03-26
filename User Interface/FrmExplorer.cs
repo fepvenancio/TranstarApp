@@ -14,6 +14,7 @@ namespace TRTv10.User_Interface
         private FrmExtracto _frmExtracto;
         private FrmRi _frmRi;
         private FrmOutrosDocs _frmOutrosDocs;
+        private FrmRecibo _frmRecibo;
 
         public FrmExplorer(string user)
         {
@@ -46,7 +47,6 @@ namespace TRTv10.User_Interface
 
         private void serviçosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void requisiçõesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -85,6 +85,12 @@ namespace TRTv10.User_Interface
         {
             _frmOutrosDocs = new FrmOutrosDocs();
             _frmOutrosDocs.Show();
+        }
+
+        private void recibosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _frmRecibo = new FrmRecibo();
+            _frmRecibo.Show();
         }
     }
 }

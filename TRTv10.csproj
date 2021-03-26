@@ -275,6 +275,12 @@
     <Compile Include="User Interface\FrmOutrosDocs.Designer.cs">
       <DependentUpon>FrmOutrosDocs.cs</DependentUpon>
     </Compile>
+    <Compile Include="User Interface\FrmRecibo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmRecibo.Designer.cs">
+      <DependentUpon>FrmRecibo.cs</DependentUpon>
+    </Compile>
     <Compile Include="User Interface\FrmRequisicoes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -334,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmOutrosDocs.resx">
       <DependentUpon>FrmOutrosDocs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmRecibo.resx">
+      <DependentUpon>FrmRecibo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Interface\FrmRequisicoes.resx">
       <DependentUpon>FrmRequisicoes.cs</DependentUpon>
