@@ -239,6 +239,7 @@ namespace TRTv10.User_Interface
                     }
 
                     var id = Guid.NewGuid();
+                    var cambio = motores.AlteraPontosPorVirgulas(txtOudCambio.Text);
 
                     motores.CriaCabecDocumento(
                         id,
@@ -247,7 +248,7 @@ namespace TRTv10.User_Interface
                         Convert.ToInt32(cbOudNumOperacao.Text),
                         Convert.ToDateTime(DateTime.Now.Date),
                         Convert.ToString(CbOudMoeda.Text),
-                        Convert.ToDouble(txtOudCambio.Text),
+                        Convert.ToDouble(cambio),
                         Convert.ToString(TxtOudObs.Text),
                         Convert.ToString(cbOudProcesso.Text),
                         Convert.ToString(cotacao),

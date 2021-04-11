@@ -192,6 +192,7 @@ namespace TRTv10.User_Interface
                         foreach (var doc in numDocs)
                         {
                             var numero = motores.GetDocumentosNumerador(doc);
+                            var cambio = motores.AlteraPontosPorVirgulas(TxtRECCambio.Text);
 
                             //criar cabec
                             motores.CriaCabecDocumento(
@@ -201,7 +202,7 @@ namespace TRTv10.User_Interface
                                 Convert.ToInt32(numero),
                                 Convert.ToDateTime(DateTime.Now.Date),
                                 Convert.ToString(TxtRECMoeda.Text),
-                                Convert.ToDouble(TxtRECCambio.Text),
+                                Convert.ToDouble(cambio),
                                 Convert.ToString(""),
                                 Convert.ToString(CbRECProcesso.Text),
                                 Convert.ToString(""),

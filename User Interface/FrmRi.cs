@@ -68,6 +68,12 @@ namespace TRTv10.User_Interface
             motores.GetAnos(CbRecAnoDrv);
             CbRecAnoDrv.Text = Convert.ToString(DateTime.Now.Year);
             CbRecNumeroDrv.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc));
+
+            ///Valida se aquela RI ja existe se existir carrega os campos
+            bool validaSeExiste = motores.ExisteDocumento(CbRecDocumentoDrv.Text, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+
+            if(validaSeExiste is false) return;
+            
         }
 
         /// <summary>
@@ -180,7 +186,7 @@ namespace TRTv10.User_Interface
                     if (validaCamposObrigatoriosDrv is true)
                     {
                         var id = Guid.NewGuid();
-
+                        var cambio = motores.AlteraPontosPorVirgulas(TxtRECCambio.Text);
                         motores.CriaCabecDocumento(
                             id,
                             Convert.ToString("RI"),
@@ -188,7 +194,7 @@ namespace TRTv10.User_Interface
                             Convert.ToInt32(CbRecNumeroDrv.Text),
                             Convert.ToDateTime(DateTime.Now.Date),
                             Convert.ToString(TxtRECMoeda.Text),
-                            Convert.ToDouble(TxtRECCambio.Text),
+                            Convert.ToDouble(cambio),
                             Convert.ToString(""),
                             Convert.ToString(CbRECProcesso.Text),
                             Convert.ToString(""),

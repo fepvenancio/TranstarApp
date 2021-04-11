@@ -195,7 +195,6 @@ namespace TRTv10.User_Interface
                 //aumenta o numerador do documento
                 var motores = new Motores();
                 var validaCamposObrigatorios = ValidaCamposObrigatorios();
-                AlteraPontosPorVirgulas();
                 var documento = motores.GetCodigoDocumento(cbCotOperacao.Text);
                 var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(cbCotNumOperacao.Text),
                     Convert.ToInt32(CbCotAno.Text));
@@ -230,9 +229,12 @@ namespace TRTv10.User_Interface
 
                         var cotacao = "COT " + cbCotNumOperacao.Text + "/" + CbCotAno.Text;
                         var moeda = CbCotMoeda.Text;
-                        var valorCif = Convert.ToDouble(txtCotValorCIF.Text);
-                        var valorAdu = Convert.ToDouble(txtCotValorAduaneiro.Text);
-                        var valorCambio = Convert.ToDouble(txtCotCambio.Text);
+                        var valorCif = motores.AlteraPontosPorVirgulas(txtCotValorCIF.Text);
+                        var valorAdu = motores.AlteraPontosPorVirgulas(txtCotValorAduaneiro.Text);
+                        var cambioTxt = txtCotCambio.Text;
+                        cambioTxt = cambioTxt.Replace(",", ".");
+                        CultureInfo culture = CultureInfo.InvariantCulture;
+                        double valorCambio =  motores.AlteraPontosPorVirgulas(txtCotCambio.Text);
                         var cnca = TxtCotCNCA.Text;
                         var dup = TxtCotDUP.Text;
                         var bl = txtCotPorteBL.Text;
@@ -259,7 +261,7 @@ namespace TRTv10.User_Interface
                         }
                         else
                         {
-                            peso = Convert.ToDouble(TxtPesoKGs.Text);
+                            peso = motores.AlteraPontosPorVirgulas(TxtPesoKGs.Text);
                         }
 
                         if (retencao is true)
@@ -402,19 +404,6 @@ namespace TRTv10.User_Interface
                    && TxtCotTipoMercadoria.Text != ""
                    && CbCotTransporte.Text != "";
         }
-
-        /// <summary>
-        /// Altera virgulas por pontos
-        /// </summary>
-        private void AlteraPontosPorVirgulas()
-        {
-            var motores = new Motores();
-            motores.ValidaSeTextBoxENumerica(txtCotValorCIF);
-            motores.ValidaSeTextBoxENumerica(txtCotValorAduaneiro);
-            motores.ValidaSeTextBoxENumerica(txtCotCambio);
-            motores.ValidaSeTextBoxENumerica(TxtCotValorDar);
-        }
-
 
         #endregion
     }

@@ -225,7 +225,7 @@ namespace TRTv10.User_Interface
                     if (validaCamposObrigatorios)
                     {
                         var id = Guid.NewGuid();
-
+                        var cambio = motores.AlteraPontosPorVirgulas(TxtRecCambio.Text);
                         motores.CriaCabecDocumento(
                             id,
                             Convert.ToString(documento),
@@ -233,7 +233,7 @@ namespace TRTv10.User_Interface
                             Convert.ToInt32(CbRecNumero.Text),
                             Convert.ToDateTime(DateTime.Now.Date),
                             Convert.ToString(CbRecMoeda.Text),
-                            Convert.ToDouble(TxtRecCambio.Text),
+                            Convert.ToDouble(cambio),
                             Convert.ToString(""),
                             Convert.ToString(CbRecProcesso.Text),
                             Convert.ToString(""),

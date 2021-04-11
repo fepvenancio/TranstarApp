@@ -4,6 +4,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -828,6 +829,18 @@ namespace TRTv10.Integration
         #endregion
 
         #region Devolve Valores
+
+        /// <summary>
+        /// Altera virgulas por pontos
+        /// </summary>
+        public double AlteraPontosPorVirgulas(string cambio)
+        {
+            cambio = cambio.Replace(",", ".");
+            CultureInfo culture = CultureInfo.InvariantCulture;
+            double valorCambio = Convert.ToDouble(cambio, culture);
+            return valorCambio;
+        }
+
 
         private static DataGridView GetDocumentos(DataGridView dataGridView, string cliente, string processo, 
             bool contaFechada, DateTime dataInicial, DateTime dataFinal)
@@ -1706,8 +1719,10 @@ namespace TRTv10.Integration
             {
                 if (row.Cells["Escolher"].Value is true)
                 {
-                    valor += Convert.ToDouble(row.Cells["Valor"].Value);
-                    valorIva += Convert.ToDouble(row.Cells["Valor Iva"].Value);
+                    var valorP = AlteraPontosPorVirgulas(row.Cells["Valor"].Value.ToString());
+                    valor += valorP;
+                    var valorI = AlteraPontosPorVirgulas(row.Cells["Valor Iva"].Value.ToString());
+                    valorIva += valorI;
                 }
             }
 

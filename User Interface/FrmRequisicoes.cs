@@ -251,9 +251,9 @@ namespace TRTv10.User_Interface
 
                             var cotacao = "COT " + CbReqNumOperacao.Text + "/" + CbReqAno.Text;
                             var moeda = CbReqMoeda.Text;
-                            var valorCif = Convert.ToDouble(TxtReqValorCIF.Text);
-                            var valorAdu = Convert.ToDouble(TxtReqValorAduaneiro.Text);
-                            var valorCambio = Convert.ToDouble(TxtReqCambio.Text);
+                            var valorCif = motores.AlteraPontosPorVirgulas(TxtReqValorCIF.Text);
+                            var valorAdu = motores.AlteraPontosPorVirgulas(TxtReqValorAduaneiro.Text);
+                            var valorCambio = motores.AlteraPontosPorVirgulas(TxtReqCambio.Text);
                             var cnca = TxtReqCNCA.Text;
                             var dup = TxtReqDUP.Text;
                             var bl = TxtReqPorteBL.Text;
@@ -280,7 +280,7 @@ namespace TRTv10.User_Interface
                             }
                             else
                             {
-                                peso = Convert.ToDouble(TxtReqPesoKGs.Text);
+                                peso = motores.AlteraPontosPorVirgulas(TxtReqPesoKGs.Text);
                             }
 
                             if (retencao is true)
@@ -323,6 +323,8 @@ namespace TRTv10.User_Interface
                                     peso
                                 );
 
+                                var reqCambio = motores.AlteraPontosPorVirgulas(TxtReqCambio.Text);
+
                                 motores.CriaCabecDocumento(
                                     id,
                                     Convert.ToString(documento),
@@ -330,7 +332,7 @@ namespace TRTv10.User_Interface
                                     Convert.ToInt32(CbReqNumOperacao.Text),
                                     Convert.ToDateTime(DateTime.Now.Date),
                                     Convert.ToString(CbReqMoeda.Text),
-                                    Convert.ToDouble(TxtReqCambio.Text),
+                                    Convert.ToDouble(reqCambio),
                                     Convert.ToString(TxtRetObs.Text),
                                     Convert.ToString(CbReqNumProcesso.Text),
                                     Convert.ToString(cotacao),
