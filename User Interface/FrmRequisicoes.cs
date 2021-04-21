@@ -225,7 +225,7 @@ namespace TRTv10.User_Interface
                     if (existeDoc is false)
                     {
                         var existeReq = motores.ValidaRequisicaoProcessoExiste(CbReqNumProcesso.Text);
-                        if (existeReq is false)
+                        if (existeReq is false || documento == "RQA")
                         {
                             //Precisa calcular os totais pela soma das linhas da grelha
                             //Precisa de ir a ficha do cliente buscar varios dados

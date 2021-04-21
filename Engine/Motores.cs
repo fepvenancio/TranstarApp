@@ -1392,8 +1392,14 @@ namespace TRTv10.Integration
             var query =
                 $"SELECT CDU_Id FROM TDU_TRT_CabecDocumentos WHERE CDU_Documento = '{documento}' AND CDU_Numero = {numero} AND CDU_Ano = {ano}";
             var lstQ = PriEngine.Engine.Consulta(query);
-
-            return !lstQ.Vazia();
+            if (!lstQ.Vazia() || !lstQ.NoFim())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
