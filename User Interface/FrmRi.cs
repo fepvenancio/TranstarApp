@@ -25,6 +25,7 @@ namespace TRTv10.User_Interface
         {
             var motores = new Motores();
             TxtRECNomeCliente.Text = Convert.ToString(motores.GetNomeCliente(CbRECCliente.Text));
+            CbRECProcesso.Items.Clear();
             CarregaProcessosCliente();
         }
 
@@ -47,6 +48,30 @@ namespace TRTv10.User_Interface
         /// <param name="e"></param>
         private void CbRECProcesso_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(CbRECProcesso.Text != "")
+            {
+                var motores = new Motores();
+                dgvLinhasDrv = motores.ApagaDadosGrelha(dgvLinhasDrv);
+                CbRECDocumento.Text = "";
+                CbRECNumero.Text = "";
+                CbRECAno.Text = "";
+                TxtRECMoeda.Text = "";
+                TxtRECCambio.Text = "";
+                TxtRECTransporte.Text = "";
+                TxtRECBL.Text = "";
+                TxtRECNDar.Text = "";
+                TxtRECNDu.Text = "";
+                TxtRecCriarTotal.Text = "";
+                TxtRecCriarTotalIva.Text = "";
+                TxtRecCriarTotalRetencao.Text = "";
+                TxtRecCriarTotalSIva.Text = "";
+                TxtRecTotal.Text = "";
+                TxtRECTotalIva.Text = "";
+                TxtRECTotalRetencao.Text = "";
+                TxtRECTotalSIva.Text = "";
+                TxtRECTotalSIva.Text= "";
+            }
+
             CbRECNumero.Items.Clear();
             CbRECAno.Items.Clear();
             CarregaNumAno();
@@ -352,6 +377,7 @@ namespace TRTv10.User_Interface
             sqlQ.Append("SELECT CDU_Processo ");
             sqlQ.Append("FROM TDU_TRT_CabecDocumentos ");
             sqlQ.Append($"WHERE CDU_Cliente = '{CbRECCliente.Text}' ");
+            sqlQ.Append($"AND CDU_Documento = 'REQ' ");
             var query = sqlQ.ToString();
             var lstQ = PriEngine.Engine.Consulta(query);
             CbRECProcesso.Items.Clear();

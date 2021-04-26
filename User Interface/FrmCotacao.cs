@@ -201,6 +201,17 @@ namespace TRTv10.User_Interface
                 var grelhaNumLinhas = motores.ValidaGrelhaNumLinhas(dgvItemsServicosCOT);
                 var valorRec = 0;
 
+                bool pontoCif = motores.NumerosComPontosNasCasasDecimais(txtCotValorCIF.Text);
+                bool pontoAduaneiro = motores.NumerosComPontosNasCasasDecimais(txtCotValorAduaneiro.Text);
+                bool pontoCambio = motores.NumerosComPontosNasCasasDecimais(txtCotCambio.Text);
+                bool pontoDar = motores.NumerosComPontosNasCasasDecimais(TxtCotValorDar.Text);
+
+                if(pontoCif is true || pontoAduaneiro is true || pontoCambio is true || pontoDar is true)
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso("Deve trocar o separador das casas decimais para uma vírgula (,)");
+                    return;
+                }
+
                 if (grelhaNumLinhas is true)
                 {
                     if (existeDoc is false)

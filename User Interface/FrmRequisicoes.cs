@@ -100,6 +100,7 @@ namespace TRTv10.User_Interface
             motores.GetClientes(CbReqCliente);
             motores.GetDadosTransporte(CbReqTransporte);
             motores.GetMoedas(CbReqMoeda);
+            motores.GetProcessos(CbReqNumProcesso);
 
             CbReqOperacao.Items.Clear();
             CbReqOperacao.Items.Add("Requisição de fundos");
@@ -213,7 +214,18 @@ namespace TRTv10.User_Interface
                 //aumenta o numerador do documento
                 var motores = new Motores();
                 var validaCamposObrigatorios = ValidaCamposObrigatorios();
-                AlteraPontosPorVirgulas();
+                
+                bool pontoCif = motores.NumerosComPontosNasCasasDecimais(TxtReqValorCIF.Text);
+                bool pontoAduaneiro = motores.NumerosComPontosNasCasasDecimais(TxtReqValorAduaneiro.Text);
+                bool pontoCambio = motores.NumerosComPontosNasCasasDecimais(TxtReqCambio.Text);
+                bool pontoDar = motores.NumerosComPontosNasCasasDecimais(TxtReqValorDar.Text);
+
+                if(pontoCif is true || pontoAduaneiro is true || pontoCambio is true || pontoDar is true)
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso("Deve trocar o separador das casas decimais para uma vírgula (,)");
+                    return;
+                }
+
                 var documento = motores.GetCodigoDocumento(CbReqOperacao.Text);
                 var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbReqNumOperacao.Text),
                     Convert.ToInt32(CbReqAno.Text));
@@ -431,21 +443,7 @@ namespace TRTv10.User_Interface
                    && CbReqTransporte.Text != "";
         }
 
-        /// <summary>
-        /// Altera virgulas por pontos
-        /// </summary>
-        private void AlteraPontosPorVirgulas()
-        {
-            var motores = new Motores();
-            motores.ValidaSeTextBoxENumerica(TxtReqValorCIF);
-            motores.ValidaSeTextBoxENumerica(TxtReqValorAduaneiro);
-            motores.ValidaSeTextBoxENumerica(TxtReqCambio);
-            motores.ValidaSeTextBoxENumerica(TxtReqValorDar);
-        }
-
-
         #endregion
 
-        
     }
 }

@@ -377,7 +377,7 @@ namespace TRTv10.Integration
             if (documento == "DRV" || documento == "COT" || documento == "RI") return;
             var integraPrimavera = new IntegraPrimavera();
             integraPrimavera.IntegraDocVendasErpPrimavera(documento, cliente, data, cambio,
-                Convert.ToString(ano), processo, retencao);
+                Convert.ToString(ano), processo, retencao, numero);
         }
 
         /// <summary>
@@ -839,6 +839,19 @@ namespace TRTv10.Integration
             CultureInfo culture = CultureInfo.InvariantCulture;
             double valorCambio = Convert.ToDouble(cambio, culture);
             return valorCambio;
+        }
+
+        /// <summary>
+        /// Valida se existem pontos a separar casas decimais de um numero
+        /// </summary>
+        /// <param name="cambio"></param>
+        /// Cambio em texto para validar se existem pontos como separador decimal
+        /// <returns></returns>
+        /// devolve um boolean verdadeiro caso hajam pontos falso se estiver correcto
+        public bool NumerosComPontosNasCasasDecimais(string cambio)
+        {
+            if (!cambio.Contains(".")) return false;
+            return true;
         }
 
 
@@ -1829,7 +1842,7 @@ namespace TRTv10.Integration
                 var integraPrimavera = new IntegraPrimavera();
                 integraPrimavera.IntegraDocVendasErpPrimavera(documentoConv, lstDoc.Valor(0).ToString(),
                     DateTime.Now.Date, Convert.ToDouble(lstDoc.Valor(1)),
-                    Convert.ToString(anoConv), lstDoc.Valor(2), lstDoc.Valor(3));
+                    Convert.ToString(anoConv), lstDoc.Valor(2), lstDoc.Valor(3), numeroConv);
             }
             catch (Exception ex)
             {

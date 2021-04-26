@@ -195,10 +195,17 @@ namespace TRTv10.User_Interface
                 //aumenta o numerador do documento
                 var motores = new Motores();
                 var validaCamposObrigatorios = ValidaCamposObrigatorios();
-                AlteraPontosPorVirgulas();
                 var documento = motores.GetCodigoDocumento(CbRecDocumento.Text);
                 var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbRecNumero.Text),
                     Convert.ToInt32(CbRecAno.Text));
+
+                bool pontoCambio = motores.NumerosComPontosNasCasasDecimais(TxtRecCambio.Text);
+
+                if(pontoCambio is true)
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso("Deve trocar o separador das casas decimais para uma vírgula (,)");
+                    return;
+                }
 
                 if (existeDoc is false)
                 {
@@ -299,15 +306,6 @@ namespace TRTv10.User_Interface
         private bool ValidaCamposObrigatorios()
         {
             return CbRecProcesso.Text != "";
-        }
-
-        /// <summary>
-        /// Altera virgulas por pontos
-        /// </summary>
-        private void AlteraPontosPorVirgulas()
-        {
-            var motores = new Motores();
-            motores.ValidaSeTextBoxENumerica(TxtRecCambio);
         }
 
         private void CarregaDadosDocumentoSelecionado(string processo)

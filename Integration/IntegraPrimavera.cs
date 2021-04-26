@@ -217,13 +217,13 @@ namespace TRTv10.Integration
         #region Documentos
 
         public void IntegraDocVendasErpPrimavera(string documento, string cliente, DateTime data, double cambio, string serie,
-            string processo, bool retencao)
+            string processo, bool retencao, long numDoc)
         {
-            CriaDocVenda(documento, cliente, data, cambio, serie, processo, retencao);
+            CriaDocVenda(documento, cliente, data, cambio, serie, processo, retencao, numDoc);
         }
 
         private void CriaDocVenda(string documento, string cliente, DateTime data, double cambio, string serie,
-            string processo, bool retencao)
+            string processo, bool retencao, long numDoc)
         {
             var docVenda = new VndBEDocumentoVenda();
             var avisos = string.Empty;
@@ -233,7 +233,6 @@ namespace TRTv10.Integration
             StdBELista lstCliente;
             lstCliente = PriEngine.Engine.Consulta(queryCli);
             string codCliente;
-            long numDoc = NumDoc;
 
             if (!lstCliente.Vazia())
             {
