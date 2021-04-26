@@ -18,6 +18,7 @@ namespace TRTv10.Integration
 
         private Guid _idProcesso;
         private Guid _idDocumento;
+        private string Documento;
 
         #endregion
 
@@ -261,13 +262,16 @@ namespace TRTv10.Integration
         }
 
         /// <summary>
-        /// Vai ao cabec e actualiza todos os processos com o IdDRV
+        /// Verifica qual a linha da REQ ou RQA e actualiza a campo CDU_idRi
         /// </summary>
         /// <param name="processo"></param>
-        private void UpdateRiProcesso(string processo, Guid idRi)
+        private void UpdateRiProcesso(Guid idRi, Guid idReq, string item)
         {
-            var query = $"UPDATE L SET CDU_IdRi = '{idRi}' FROM TDU_TRT_LinhasDocumentos L INNER JOIN TDU_TRT_CabecDocumentos C ON C.CDU_Id = L.CDU_idDoc  WHERE CDU_Processo = '{processo}'";
-
+            var queryIdLin = $"SELECT CDU_id FROM TDU_TRT_LinhasDocumentos WHERE CDU_idDoc = '{idReq}' AND CDU_Item = '{item}' ";
+            var lstIdLin = PriEngine.Engine.Consulta(queryIdLin);
+            if(lstIdLin.Vazia() || lstIdLin.NoFim()) return;
+            var idLinha = lstIdLin.Valor(0);
+            var query = $"UPDATE TDU_TRT_LinhasDocumentos SET CDU_IdRi = '{idRi}' WHERE CDU_Id = '{idLinha}'";
             var connectionString = GetConnectionString();
             using var connection = new SqlConnection(connectionString);
             using var command = connection.CreateCommand();
@@ -324,7 +328,7 @@ namespace TRTv10.Integration
             {
                 var motores = new Motores();
                 _idProcesso = motores.GetIdProcessoByProcesso(processo);
-                UpdateRiProcesso(processo, idOrig);
+                Documento = "RI";
             }
 
             var connectionString = GetConnectionString();
@@ -378,6 +382,60 @@ namespace TRTv10.Integration
             var integraPrimavera = new IntegraPrimavera();
             integraPrimavera.IntegraDocVendasErpPrimavera(documento, cliente, data, cambio,
                 Convert.ToString(ano), processo, retencao, numero);
+        }
+
+        public void CriaCabecDocumentoRi(Guid idOrig, string documento, int ano, int numero, DateTime data, string moeda,
+            double cambio, string observacoes, string processo, string cotacao, string tipoServ,
+            double valorDoc, double valorIva, double valorRet, double valorTot, double valorRec,
+            string utilizador, string cliente, string nome, string nif, string morada, string localidade,
+            string codPostal, string codPostalLocalidade, string pais, bool ivaCativo, bool retencao,
+            DataGridView dataGridView, string docOriginal, int anoOriginal, int numOriginal)
+        {
+            _idProcesso = GetIdProcessoByProcesso(processo);
+            Documento = "RI";
+
+            var connectionString = GetConnectionString();
+            using var sqlCon = new SqlConnection(connectionString);
+            var sqlCmdLin = new SqlCommand("TDU_TRT_CriaCabecDocumentos", sqlCon)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            sqlCmdLin.Parameters.AddWithValue("@IdProcesso", _idProcesso);
+            sqlCmdLin.Parameters.AddWithValue("@Id", idOrig);
+            sqlCmdLin.Parameters.AddWithValue("@Documento", documento);
+            sqlCmdLin.Parameters.AddWithValue("@Ano", ano);
+            sqlCmdLin.Parameters.AddWithValue("@Numero", numero);
+            sqlCmdLin.Parameters.AddWithValue("@Data", data);
+            sqlCmdLin.Parameters.AddWithValue("@Moeda", moeda);
+            sqlCmdLin.Parameters.AddWithValue("@Cambio", cambio);
+            sqlCmdLin.Parameters.AddWithValue("@Observacoes", observacoes);
+            sqlCmdLin.Parameters.AddWithValue("@Processo", processo);
+            sqlCmdLin.Parameters.AddWithValue("@Cotacao", cotacao);
+            sqlCmdLin.Parameters.AddWithValue("@TipoServ", tipoServ);
+            sqlCmdLin.Parameters.AddWithValue("@ValorDoc", valorDoc);
+            sqlCmdLin.Parameters.AddWithValue("@ValorIva", valorIva);
+            sqlCmdLin.Parameters.AddWithValue("@ValorRet", valorRet);
+            sqlCmdLin.Parameters.AddWithValue("@ValorTot", valorTot);
+            sqlCmdLin.Parameters.AddWithValue("@ValorRec", valorRec);
+            sqlCmdLin.Parameters.AddWithValue("@Utilizador", utilizador);
+            sqlCmdLin.Parameters.AddWithValue("@Cliente", cliente);
+            sqlCmdLin.Parameters.AddWithValue("@Nome", nome);
+            sqlCmdLin.Parameters.AddWithValue("@NIF", nif);
+            sqlCmdLin.Parameters.AddWithValue("@Morada", morada);
+            sqlCmdLin.Parameters.AddWithValue("@Localidade", localidade);
+            sqlCmdLin.Parameters.AddWithValue("@CodPostal", codPostal);
+            sqlCmdLin.Parameters.AddWithValue("@CodPostalLocalidade", codPostalLocalidade);
+            sqlCmdLin.Parameters.AddWithValue("@Pais", pais);
+            sqlCmdLin.Parameters.AddWithValue("@IVACativo", ivaCativo);
+            sqlCmdLin.Parameters.AddWithValue("@Retencao", retencao);
+            sqlCon.Open();
+            sqlCmdLin.ExecuteNonQuery();
+            
+            var idReq = GetIdDocumento(docOriginal, anoOriginal, numOriginal);
+            CriaLinhasDocumentoRi(idOrig, dataGridView, sqlCon, idReq);
+            
+            sqlCon.Close();
+            AumentaNumeradorDocumentos(documento);
         }
 
         /// <summary>
@@ -487,6 +545,41 @@ namespace TRTv10.Integration
                 sqlCmdLin.Parameters.AddWithValue("@aprovado", 0);
                 sqlCmdLin.ExecuteNonQuery();
                 i++;
+            }
+        }
+
+        public void CriaLinhasDocumentoRi(Guid idDoc, DataGridView dataGridView, SqlConnection sqlCon, Guid idReq)
+        {
+            var i = 1;
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                var id = Guid.NewGuid();
+                if (!(row.Cells["Escolher"].Value is true)) continue;
+                var item = Convert.ToString(row.Cells["Item"].Value);
+                var valor = Convert.ToDouble(row.Cells["Valor"].Value);
+                var valorIva = Convert.ToDouble(row.Cells["Valor Iva"].Value);
+
+                SqlCommand sqlCmdLin = new SqlCommand("TDU_TRT_CriaLinhasDoc", sqlCon)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                sqlCmdLin.Parameters.AddWithValue("@idDoc", idDoc);
+                sqlCmdLin.Parameters.AddWithValue("@id", id);
+                sqlCmdLin.Parameters.AddWithValue("@i", i);
+                sqlCmdLin.Parameters.AddWithValue("@item", item);
+                sqlCmdLin.Parameters.AddWithValue("@qtd", 1);
+                sqlCmdLin.Parameters.AddWithValue("@precUnit", valor);
+                sqlCmdLin.Parameters.AddWithValue("@total", valor);
+                sqlCmdLin.Parameters.AddWithValue("@precIva", valorIva);
+                sqlCmdLin.Parameters.AddWithValue("@totalRec", valorIva);
+                sqlCmdLin.Parameters.AddWithValue("@aprovado", 0);
+                sqlCmdLin.ExecuteNonQuery();
+                i++;
+
+                if(Documento == "RI")
+                {
+                    UpdateRiProcesso(idDoc, idReq, item);
+                }
             }
         }
 
@@ -829,6 +922,21 @@ namespace TRTv10.Integration
         #endregion
 
         #region Devolve Valores
+
+        /// <summary>
+        /// Verifica na BD o Id do documento passado nos parametros
+        /// </summary>
+        /// <param name="documento"></param>
+        /// <param name="ano"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public Guid GetIdDocumento(string documento, int ano, int num)
+        {
+            var query = $"SELECT CDU_id FROM TDU_TRT_CabecDocumentos WHERE CDU_Documento = '{documento}' AND CDU_Ano = '{ano}' AND CDU_Numero = '{num}' " ;
+            var lstQ = PriEngine.Engine.Consulta(query);
+            var idDoc = lstQ.Valor(0);
+            return idDoc;
+        }
 
         /// <summary>
         /// Altera virgulas por pontos
@@ -1596,7 +1704,7 @@ namespace TRTv10.Integration
                 {
                     qItems = "SELECT CDU_Item, CDU_PrecUnit, CDU_PrecIVA FROM TDU_TRT_LinhasDocumentos " +
                              $"WHERE CDU_IdDoc = '{_idDocumento}' " +
-                             "AND CDU_IdRi = ''";
+                             "AND CDU_IdRi is null";
                 }
                 else
                 {
@@ -1698,6 +1806,13 @@ namespace TRTv10.Integration
         {
             var existeDoc = GetExisteDoc(documento, numero, ano);
             GetItems(dataGridView, existeDoc, documento);
+            return dataGridView;
+        }
+
+        public DataGridView PopulaGrelhaLinhasDocRi(DataGridView dataGridView, string documento, int numero, int ano)
+        {
+            var existeDoc = GetExisteDoc(documento, numero, ano);
+            GetItems(dataGridView, existeDoc, "RI");
             return dataGridView;
         }
 

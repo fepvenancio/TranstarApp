@@ -142,6 +142,48 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        /// Ao selecionar o ano ele carrega os dados do documento
+        /// Preenche a form e carrega a grelha
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbRECAnoDrv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //depois de carregar os valores pega neles e valida se o doc ja existe.
+            var motores = new Motores();
+            var documento = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
+            var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+            if (!(existeDoc is true)) return;
+            
+            //Carrega os dados da form
+            var lstDadosForm = motores.GetDadosForm(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+
+            try
+            {
+
+                if (lstDadosForm.Vazia() && lstDadosForm.NoFim()) return;
+                CbRECCliente.Text = Convert.ToString(lstDadosForm.Valor(0));
+                TxtRECNomeCliente.Text = Convert.ToString(lstDadosForm.Valor(1));
+                TxtRECMoeda.Text = Convert.ToString(lstDadosForm.Valor(2));
+                TxtRECCambio.Text = Convert.ToString(lstDadosForm.Valor(5));
+                TxtRECTransporte.Text = Convert.ToString(lstDadosForm.Valor(15));
+                TxtRECBL.Text = Convert.ToString(lstDadosForm.Valor(9));
+                TxtRECNDar.Text = Convert.ToString(lstDadosForm.Valor(17));
+                TxtRECNDu.Text = Convert.ToString(lstDadosForm.Valor(19));
+                TxtRECTotalSIva.Text = Convert.ToString(lstDadosForm.Valor(25), CultureInfo.InvariantCulture);
+                TxtRECTotalIva.Text = Convert.ToString(lstDadosForm.Valor(26));
+                TxtRECTotalRetencao.Text = Convert.ToString(lstDadosForm.Valor(27));
+                TxtRecTotal.Text = Convert.ToString(lstDadosForm.Valor(28));
+
+                //PopulaGrelha();
+            }
+            catch (Exception ex)
+            {
+                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Form ao abrir preenche os campos necessarios.
         /// </summary>
         /// <param name="sender"></param>
@@ -212,7 +254,7 @@ namespace TRTv10.User_Interface
                     {
                         var id = Guid.NewGuid();
                         var cambio = motores.AlteraPontosPorVirgulas(TxtRECCambio.Text);
-                        motores.CriaCabecDocumento(
+                        motores.CriaCabecDocumentoRi(
                             id,
                             Convert.ToString("RI"),
                             Convert.ToInt32(CbRecAnoDrv.Text),
@@ -240,7 +282,10 @@ namespace TRTv10.User_Interface
                             Convert.ToString(pais),
                             Convert.ToBoolean(ivaCativo),
                             Convert.ToBoolean(retencao),
-                            dgvLinhasDrv);
+                            dgvLinhasDrv,
+                            Convert.ToString(motores.GetCodigoDocumento(CbRECDocumento.Text)),
+                            Convert.ToInt32(CbRECAno.Text),
+                            Convert.ToInt32(CbRECNumero.Text));
 
                         motores.EnviaImpressao("RI", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Requisição Interna");
                         motores.ApagaDadosForm(this);
@@ -401,7 +446,7 @@ namespace TRTv10.User_Interface
         {
             var motores = new Motores();
             if (CbRECProcesso.Text != "" && CbRECDocumento.Text != "" && CbRECNumero.Text != "" && CbRECAno.Text != "")
-                motores.PopulaGrelhaLinhasDoc(dgvLinhasDrv, motores.GetCodigoDocumento(CbRECDocumento.Text),
+                motores.PopulaGrelhaLinhasDocRi(dgvLinhasDrv, motores.GetCodigoDocumento(CbRECDocumento.Text),
                     Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
         }
 
