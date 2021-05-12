@@ -609,6 +609,7 @@ namespace TRTv10.User_Interface
             this.CbRecNumeroDrv.Name = "CbRecNumeroDrv";
             this.CbRecNumeroDrv.Size = new System.Drawing.Size(76, 25);
             this.CbRecNumeroDrv.TabIndex = 178;
+            this.CbRecNumeroDrv.SelectedIndexChanged += new System.EventHandler(this.CbRECNumero_SelectedIndexChanged);
             // 
             // CbRecDocumentoDrv
             // 

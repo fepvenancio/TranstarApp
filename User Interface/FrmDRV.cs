@@ -42,6 +42,47 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        /// Valida se existe caso exista devolve dados da DRV Criada.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbRECNumero_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var motores = new Motores();
+            var documento = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
+            if(CbRecAnoDrv.Text == "" || CbRecNumeroDrv.Text == "") return;
+            var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+            if (!(existeDoc is true)) return;
+            //Carrega os dados da form
+            var lstDadosForm = motores.GetDadosForm(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+
+            try
+            {
+
+                if (lstDadosForm.Vazia() && lstDadosForm.NoFim()) return;
+                CbRECCliente.Text = Convert.ToString(lstDadosForm.Valor(0));
+                TxtRECNomeCliente.Text = Convert.ToString(lstDadosForm.Valor(1));
+                TxtRECMoeda.Text = Convert.ToString(lstDadosForm.Valor(2));
+                TxtRECCambio.Text = Convert.ToString(lstDadosForm.Valor(5));
+                TxtRECTransporte.Text = Convert.ToString(lstDadosForm.Valor(15));
+                TxtRECBL.Text = Convert.ToString(lstDadosForm.Valor(9));
+                TxtRECNDar.Text = Convert.ToString(lstDadosForm.Valor(17));
+                TxtRECNDu.Text = Convert.ToString(lstDadosForm.Valor(19));
+                TxtRECTotalSIva.Text = Convert.ToString(lstDadosForm.Valor(25), CultureInfo.InvariantCulture);
+                TxtRECTotalIva.Text = Convert.ToString(lstDadosForm.Valor(26));
+                TxtRECTotalRetencao.Text = Convert.ToString(lstDadosForm.Valor(27));
+                TxtRecTotal.Text = Convert.ToString(lstDadosForm.Valor(28));
+                CbRECProcesso.Text = Convert.ToString(lstDadosForm.Valor(29));
+
+                PopulaGrelha();
+            }
+            catch (Exception ex)
+            {
+                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Depois de carregar o processo limpa os documentos
         /// </summary>
         /// <param name="sender"></param>
@@ -148,61 +189,93 @@ namespace TRTv10.User_Interface
                 var grelhaNumLinhas = motores.ValidaGrelhaNumLinhas(dgvLinhasDrv);
                 var valorRec = 0;
 
-                if (existeDrv is true) return;
-                if (grelhaNumLinhas is true)
+                if (existeDrv is false)
                 {
-                    //Precisa calcular os totais pela soma das linhas da grelha
-                    //Precisa de ir a ficha do cliente buscar varios dados
-                    // dados da ficha e saber se: IVa Cativo ou Retençao
-                    var valoresTotais = motores.GetTotaisGrelha(dgvLinhasDrv);
-                    var valorDoc = valoresTotais[0];
-                    var valorIva = valoresTotais[1];
-                    var valorTot = valorDoc + valorIva;
-                    double valorRet = 0;
-                    var utilizador = PriEngine.Engine.Contexto.UtilizadorActual;
-                    var cliente = CbRECCliente.Text;
-                    var dadosCliente = motores.GetDadosCliente(cliente);
-
-                    var nome = dadosCliente[0];
-                    var nif = dadosCliente[1];
-                    var morada = dadosCliente[2];
-                    var localidade = dadosCliente[3];
-                    var codPostal = dadosCliente[4];
-                    var codPostalLocalidade = dadosCliente[5];
-                    var pais = dadosCliente[6];
-                    var ivaCativo = Convert.ToBoolean(dadosCliente[7]);
-                    var retencao = Convert.ToBoolean(dadosCliente[8]);
-
-                    if (retencao is true)
+                    if (grelhaNumLinhas is true)
                     {
-                        var percRet = motores.GetPercRetencao(cliente);
-                        valorRet = valorTot * percRet;
-                    }
+                        //Precisa calcular os totais pela soma das linhas da grelha
+                        //Precisa de ir a ficha do cliente buscar varios dados
+                        // dados da ficha e saber se: IVa Cativo ou Retençao
+                        var valoresTotais = motores.GetTotaisGrelha(dgvLinhasDrv);
+                        var valorDoc = valoresTotais[0];
+                        var valorIva = valoresTotais[1];
+                        var valorTot = valorDoc + valorIva;
+                        double valorRet = 0;
+                        var utilizador = PriEngine.Engine.Contexto.UtilizadorActual;
+                        var cliente = CbRECCliente.Text;
+                        var dadosCliente = motores.GetDadosCliente(cliente);
 
-                    bool validaCamposObrigatoriosDrv = this.validaCamposObrigatoriosDrv();
-                    if (validaCamposObrigatoriosDrv is true)
-                    {
-                        var id = Guid.NewGuid();
+                        var nome = dadosCliente[0];
+                        var nif = dadosCliente[1];
+                        var morada = dadosCliente[2];
+                        var localidade = dadosCliente[3];
+                        var codPostal = dadosCliente[4];
+                        var codPostalLocalidade = dadosCliente[5];
+                        var pais = dadosCliente[6];
+                        var ivaCativo = Convert.ToBoolean(dadosCliente[7]);
+                        var retencao = Convert.ToBoolean(dadosCliente[8]);
 
-                        //Logica para gravar um documento por cada linha -> ND; FA ...
-                        //2 Loops um para descobrir qtos documentos existem e correr por documento
-                        var codDoc = motores.GetCodigoDocumento(CbRECDocumento.Text);
-                        var numDocs = motores.GetDocumentosCriarPItem(codDoc, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
-
-                        foreach (var doc in numDocs)
+                        if (retencao is true)
                         {
-                            var numero = motores.GetDocumentosNumerador(doc);
-                            var cambio = motores.AlteraPontosPorVirgulas(TxtRECCambio.Text);
+                            var percRet = motores.GetPercRetencao(cliente);
+                            valorRet = valorTot * percRet;
+                        }
 
-                            //criar cabec
+                        bool validaCamposObrigatoriosDrv = this.validaCamposObrigatoriosDrv();
+                        if (validaCamposObrigatoriosDrv is true)
+                        {
+                            var id = Guid.NewGuid();
+
+                            //Logica para gravar um documento por cada linha -> ND; FA ...
+                            //2 Loops um para descobrir qtos documentos existem e correr por documento
+                            var codDoc = motores.GetCodigoDocumento(CbRECDocumento.Text);
+                            var numDocs = motores.GetDocumentosCriarPItem(codDoc, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
+
+                            foreach (var doc in numDocs)
+                            {
+                                var numero = motores.GetDocumentosNumerador(doc);
+                                var cambio = motores.AlteraPontosPorVirgulas(TxtRECCambio.Text);
+
+                                //criar cabec
+                                motores.CriaCabecDocumento(
+                                    id,
+                                    Convert.ToString(doc),
+                                    Convert.ToInt32(DateTime.Now.Year),
+                                    Convert.ToInt32(numero),
+                                    Convert.ToDateTime(DateTime.Now.Date),
+                                    Convert.ToString(TxtRECMoeda.Text),
+                                    Convert.ToDouble(cambio),
+                                    Convert.ToString(""),
+                                    Convert.ToString(CbRECProcesso.Text),
+                                    Convert.ToString(""),
+                                    Convert.ToString(""),
+                                    Convert.ToDouble(valorDoc),
+                                    Convert.ToDouble(valorIva),
+                                    Convert.ToDouble(valorRet),
+                                    Convert.ToDouble(valorTot),
+                                    Convert.ToDouble(valorRec),
+                                    Convert.ToString(utilizador),
+                                    Convert.ToString(cliente),
+                                    Convert.ToString(nome),
+                                    Convert.ToString(nif),
+                                    Convert.ToString(morada),
+                                    Convert.ToString(localidade),
+                                    Convert.ToString(codPostal),
+                                    Convert.ToString(codPostalLocalidade),
+                                    Convert.ToString(pais),
+                                    Convert.ToBoolean(ivaCativo),
+                                    Convert.ToBoolean(retencao),
+                                    dgvLinhasDrv);
+                            }
+
                             motores.CriaCabecDocumento(
                                 id,
-                                Convert.ToString(doc),
-                                Convert.ToInt32(DateTime.Now.Year),
-                                Convert.ToInt32(numero),
+                                Convert.ToString("DRV"),
+                                Convert.ToInt32(CbRecAnoDrv.Text),
+                                Convert.ToInt32(CbRecNumeroDrv.Text),
                                 Convert.ToDateTime(DateTime.Now.Date),
                                 Convert.ToString(TxtRECMoeda.Text),
-                                Convert.ToDouble(cambio),
+                                Convert.ToDouble(TxtRECCambio.Text),
                                 Convert.ToString(""),
                                 Convert.ToString(CbRECProcesso.Text),
                                 Convert.ToString(""),
@@ -224,57 +297,34 @@ namespace TRTv10.User_Interface
                                 Convert.ToBoolean(ivaCativo),
                                 Convert.ToBoolean(retencao),
                                 dgvLinhasDrv);
+
+                            motores.ActualizaIdDrvLinhasDoc(id, CbRECDocumento.Text, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
+                            motores.EnviaImpressao("DRV", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Declaração de Recepção de Valores");
+                            motores.ApagaDadosForm(this);
                         }
-
-                        motores.CriaCabecDocumento(
-                            id,
-                            Convert.ToString("DRV"),
-                            Convert.ToInt32(CbRecAnoDrv.Text),
-                            Convert.ToInt32(CbRecNumeroDrv.Text),
-                            Convert.ToDateTime(DateTime.Now.Date),
-                            Convert.ToString(TxtRECMoeda.Text),
-                            Convert.ToDouble(TxtRECCambio.Text),
-                            Convert.ToString(""),
-                            Convert.ToString(CbRECProcesso.Text),
-                            Convert.ToString(""),
-                            Convert.ToString(""),
-                            Convert.ToDouble(valorDoc),
-                            Convert.ToDouble(valorIva),
-                            Convert.ToDouble(valorRet),
-                            Convert.ToDouble(valorTot),
-                            Convert.ToDouble(valorRec),
-                            Convert.ToString(utilizador),
-                            Convert.ToString(cliente),
-                            Convert.ToString(nome),
-                            Convert.ToString(nif),
-                            Convert.ToString(morada),
-                            Convert.ToString(localidade),
-                            Convert.ToString(codPostal),
-                            Convert.ToString(codPostalLocalidade),
-                            Convert.ToString(pais),
-                            Convert.ToBoolean(ivaCativo),
-                            Convert.ToBoolean(retencao),
-                            dgvLinhasDrv);
-
-                        motores.ActualizaIdDrvLinhasDoc(id, CbRECDocumento.Text, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
+                        else
+                        {
+                            PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
+                                                                    "Processo, " +
+                                                                    "Documento a Receber, " +
+                                                                    "Numero, " +
+                                                                    "Ano, ");
+                        }
+                        
                         motores.EnviaImpressao("DRV", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Declaração de Recepção de Valores");
-                        motores.ApagaDadosForm(this);
+                        LimpaForm();
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
-                                                                "Processo, " +
-                                                                "Documento a Receber, " +
-                                                                "Numero, " +
-                                                                "Ano, ");
+                        PriEngine.Platform.Dialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
                     }
-                        
-                    motores.EnviaImpressao("DRV", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Declaração de Recepção de Valores");
-                    LimpaForm();
                 }
                 else
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
+
+                    var arrDoc = new string[2];
+                    arrDoc = motores.GetNumAnoDrvProcesso(CbRECProcesso.Text);
+                    PriEngine.Platform.Dialogos.MostraAviso($"Já existe uma DRV criada para esse processo: DRV {arrDoc[0]}/{arrDoc[1]}");
                 }
             }
             catch(Exception ex)
@@ -282,10 +332,16 @@ namespace TRTv10.User_Interface
                 PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
             }
         }
-
-        //Limpa a form e carrega os campos necessarios.
+        
+        /// <summary>
+        /// Limpa os campos da form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnDrvLimpar_Click(object sender, EventArgs e)
         {
+            var motores = new Motores();
+            dgvLinhasDrv = motores.ApagaDadosGrelha(dgvLinhasDrv);
             LimpaForm();
         }
 
@@ -415,8 +471,17 @@ namespace TRTv10.User_Interface
         {
             var motores = new Motores();
             if (CbRECProcesso.Text != "" && CbRECDocumento.Text != "" && CbRECNumero.Text != "" && CbRECAno.Text != "")
+            {
                 motores.PopulaGrelhaLinhasDoc(dgvLinhasDrv, motores.GetCodigoDocumento(CbRECDocumento.Text),
                     Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
+            }
+                
+            else if(CbRECProcesso.Text != "" && CbRecDocumentoDrv.Text != "" && CbRecNumeroDrv.Text != "" && CbRecAnoDrv.Text != "") 
+            {
+                motores.PopulaGrelhaLinhasDoc(dgvLinhasDrv, motores.GetCodigoDocumento(CbRecDocumentoDrv.Text),
+                    Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+            }
+                
         }
 
 

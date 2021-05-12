@@ -602,6 +602,7 @@ namespace TRTv10.User_Interface
             this.CbRecAnoDrv.Name = "CbRecAnoDrv";
             this.CbRecAnoDrv.Size = new System.Drawing.Size(71, 25);
             this.CbRecAnoDrv.TabIndex = 179;
+            this.CbRecAnoDrv.SelectedIndexChanged += new System.EventHandler(this.CbRECAnoDrv_SelectedIndexChanged);
             // 
             // CbRecNumeroDrv
             // 

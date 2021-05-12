@@ -846,7 +846,7 @@ namespace TRTv10.Integration
         public ComboBox GetProcessos(ComboBox cbComboBox)
         {
             var sql = new StringBuilder();
-            sql.Append("SELECT CDU_Processo ");
+            sql.Append("SELECT DISTINCT (CDU_Processo) ");
             sql.Append("FROM TDU_TRT_Processo ");
             sql.Append("WHERE CDU_Processo is not null AND CDU_Processo not like '%C%' ");
             var query = sql.ToString();
@@ -922,6 +922,7 @@ namespace TRTv10.Integration
         #endregion
 
         #region Devolve Valores
+
 
         /// <summary>
         /// Verifica na BD o Id do documento passado nos parametros
@@ -1177,6 +1178,11 @@ namespace TRTv10.Integration
             return dataGridView;
         }
 
+        /// <summary>
+        /// Valida se ja existe uma DRV para o processo
+        /// </summary>
+        /// <param name="processo"></param>
+        /// <returns></returns>
         public bool GetDrvProcesso(string processo)
         {
             var sqlNDocs = new StringBuilder();
@@ -1188,6 +1194,32 @@ namespace TRTv10.Integration
             var lstNDocs = PriEngine.Engine.Consulta(queryNDocs);
             return !lstNDocs.Vazia() && !lstNDocs.NoFim();
         }
+
+        /// <summary>
+        /// Devolve o numero/ano da DRV na BD para determinado processo
+        /// </summary>
+        /// <param name="processo"></param>
+        /// <returns></returns>
+        public string[] GetNumAnoDrvProcesso(string processo)
+        {
+            var sqlNDocs = new StringBuilder();
+            sqlNDocs.Append("SELECT CDU_Documento, CDU_Numero, CDU_Ano ");
+            sqlNDocs.Append("FROM TDU_TRT_CabecDocumentos ");
+            sqlNDocs.Append($"WHERE CDU_Processo = '{processo}' ");
+            sqlNDocs.Append($"AND CDU_Documento = 'DRV' ");
+            var queryNDocs = sqlNDocs.ToString();
+            var lstNDocs = PriEngine.Engine.Consulta(queryNDocs);
+            var arrDoc = new string[2];
+
+            if(!lstNDocs.Vazia() && !lstNDocs.NoFim())
+            {
+                arrDoc[0] = Convert.ToString(lstNDocs.Valor(1));
+                arrDoc[1] = Convert.ToString(lstNDocs.Valor(2));
+            }
+
+            return arrDoc;
+        }
+
 
         public string GetDocumentoACriarDrv(string descricao)
         {
@@ -1552,7 +1584,7 @@ namespace TRTv10.Integration
             sql.Append(",P.CDU_TipoMercadoria, P.CDU_Obs, P.CDU_Transporte, P.CDU_Manifesto, P.CDU_NumDAR "); //17
             sql.Append(",P.CDU_ValorDAR, P.CDU_DU, P.CDU_NumVolumes, P.CDU_DataEntrada, P.CDU_DataSaida "); //22
             sql.Append(",P.CDU_DataDU, P.CDU_Peso "); //24
-            sql.Append(",C.CDU_ValorDoc, C.CDU_ValorIva, C.CDU_ValorRet, C.CDU_ValorTot "); //28
+            sql.Append(",C.CDU_ValorDoc, C.CDU_ValorIva, C.CDU_ValorRet, C.CDU_ValorTot, P.CDU_Processo "); //29
             sql.Append("FROM dbo.TDU_TRT_Processo P ");
             sql.Append("INNER JOIN dbo.TDU_TRT_CabecDocumentos C ");
             sql.Append("ON C.CDU_IdProcesso = P.CDU_id ");
@@ -1696,9 +1728,10 @@ namespace TRTv10.Integration
             {
                 if (documento == "DRV")
                 {
+                    Guid idDrv = _idDocumento;
                     qItems = "SELECT CDU_Item, CDU_PrecUnit, CDU_PrecIVA FROM TDU_TRT_LinhasDocumentos " +
-                             $"WHERE CDU_IdDoc = '{_idDocumento}' " +
-                             "AND CDU_IdDrv = ''";
+                             $"WHERE CDU_IdDoc = '{idDrv}' " +
+                             "AND CDU_IdDrv is null";
                 }
                 else if (documento == "RI")
                 {
