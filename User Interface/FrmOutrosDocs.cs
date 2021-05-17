@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 using System.Windows.Forms;
 using TRTv10.Engine;
 using TRTv10.Integration;
@@ -186,6 +187,84 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        /// Depois de escolher o processo carrega os dados do mesmo.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbOudProcesso_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbOudProcesso.Text != "")
+            {
+                var query = new StringBuilder();
+                query.Append("SELECT [CDU_Cliente]");
+                query.Append(",[CDU_NomeCliente]");
+                query.Append(",[CDU_Moeda]");
+                query.Append(",[CDU_ValorCIF]");
+                query.Append(",[CDU_ValorAduaneiro]");
+                query.Append(",[CDU_Cambio]");
+                query.Append(",[CDU_CNCA]");
+                query.Append(",[CDU_DUP]");
+                query.Append(",[CDU_BLCartaPorte]");
+                query.Append(",[CDU_RUP]");
+                query.Append(",[CDU_Referencia]");
+                query.Append(",[CDU_Data]");
+                query.Append(",[CDU_DataChegada]");
+                query.Append(",[CDU_TipoMercadoria]");
+                query.Append(",[CDU_Obs]");
+                query.Append(",[CDU_Transporte]");
+                query.Append(",[CDU_Manifesto]");
+                query.Append(",[CDU_NumDAR]");
+                query.Append(",[CDU_ValorDAR]");
+                query.Append(",[CDU_DU]");
+                query.Append(",[CDU_NumVolumes]");
+                query.Append(",[CDU_DataEntrada]");
+                query.Append(",[CDU_DataSaida]");
+                query.Append(",[CDU_DataDU]");
+                query.Append(",[CDU_Peso]");
+                query.Append("FROM [dbo].[TDU_TRT_Processo]");
+                query.Append($"WHERE CDU_Processo = '{cbOudProcesso.Text}'");
+
+                var strQ = query.ToString();
+                var lstQ = PriEngine.Engine.Consulta(strQ);
+                
+                if(lstQ.Vazia() || lstQ.NoFim()) return;
+                
+                try
+                {
+                    cbOudCliente.Text = Convert.ToString(lstQ.Valor(0));
+                    TxtOudNomeCliente.Text = Convert.ToString(lstQ.Valor(1));
+                    CbOudMoeda.Text  = Convert.ToString(lstQ.Valor(2));
+                    txtOudValorCIF.Text  = Convert.ToString(lstQ.Valor(3));
+                    txtOudValorAduaneiro.Text  = Convert.ToString(lstQ.Valor(4));
+                    txtOudCambio.Text  = Convert.ToString(lstQ.Valor(5));
+                    TxtOudCNCA.Text  = Convert.ToString(lstQ.Valor(6));
+                    TxtOudDUP.Text  = Convert.ToString(lstQ.Valor(7));
+                    txtOudPorteBL.Text  = Convert.ToString(lstQ.Valor(8));
+                    TxtOudRUP.Text  = Convert.ToString(lstQ.Valor(9));
+                    txtOudVReferencia.Text  = Convert.ToString(lstQ.Valor(10));
+                    DtpOudData.Text  = Convert.ToString(lstQ.Valor(11));
+                    dtpOudDataChegada.Text  = Convert.ToString(lstQ.Valor(12));
+                    TxtOudTipoMercadoria.Text  = Convert.ToString(lstQ.Valor(13));
+                    TxtOudObs.Text  = Convert.ToString(lstQ.Valor(14));
+                    CbOudTransporte.Text  = Convert.ToString(lstQ.Valor(15));
+                    TxtOudManifesto.Text  = Convert.ToString(lstQ.Valor(16));
+                    txtOudDar.Text  = Convert.ToString(lstQ.Valor(17));
+                    TxtOudValorDar.Text  = Convert.ToString(lstQ.Valor(18));
+                    TxtOudDU.Text  = Convert.ToString(lstQ.Valor(19));
+                    TxtOudNumVolumes.Text  = Convert.ToString(lstQ.Valor(20));
+                    DtpOudDataEntrada.Text  = Convert.ToString(lstQ.Valor(21));
+                    DtpOudDataSaida.Text  = Convert.ToString(lstQ.Valor(22));
+                    DtpOudDataDu.Text  = Convert.ToString(lstQ.Valor(23));
+                    TxtOudPesoKGs.Text  = Convert.ToString(lstQ.Valor(24));
+                }
+                catch (Exception ex)
+                {
+                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                }
+                }
+        }
+
+        /// <summary>
         /// Cria o documento e as linhas ao imprmir e depois imprime o documento
         /// </summary>
         /// <param name="sender"></param>
@@ -318,5 +397,6 @@ namespace TRTv10.User_Interface
 
 
         #endregion
+
     }
 }

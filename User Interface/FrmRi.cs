@@ -157,10 +157,7 @@ namespace TRTv10.User_Interface
             if (!(existeDoc is true)) return;
             //Carrega os dados da form
             var lstDadosForm = motores.GetDadosForm(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
-            //vai ler o id do documento usado para criar a RI e buscar os dados
-            var idReq = motores.GetIdDocumento(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
-            var queryReq = $"";
-
+            
             try
             {
 

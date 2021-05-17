@@ -682,6 +682,7 @@ namespace TRTv10.User_Interface
             this.cbOudProcesso.Name = "cbOudProcesso";
             this.cbOudProcesso.Size = new System.Drawing.Size(166, 25);
             this.cbOudProcesso.TabIndex = 161;
+            this.cbOudProcesso.SelectedIndexChanged += new System.EventHandler(this.cbOudProcesso_SelectedIndexChanged);
             // 
             // FrmOutrosDocs
             // 

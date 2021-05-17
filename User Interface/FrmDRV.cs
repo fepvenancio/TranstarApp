@@ -459,7 +459,6 @@ namespace TRTv10.User_Interface
             }
         }
 
-
         #endregion
 
         #region Grelha
