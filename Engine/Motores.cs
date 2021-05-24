@@ -2040,6 +2040,8 @@ namespace TRTv10.Integration
         public void EnviaImpressao(string documento, string numero, int ano, string docName)
         {
             string nomeMapa;
+            bool mapaSistema = false;
+
             if (documento == "COT")
             {
                 nomeMapa = "TRT_SIM";
@@ -2052,10 +2054,6 @@ namespace TRTv10.Integration
             {
                 nomeMapa = "TRT_RI";
             }
-            else if (documento == "FA")
-            {
-                nomeMapa = "TRT_FA";
-            }
             else if (documento == "DRV")
             {
                 nomeMapa = "TRT_DRV";
@@ -2064,29 +2062,45 @@ namespace TRTv10.Integration
             {
                 nomeMapa = "TRT_RCF";
             }
+            else if (documento == "FA")
+            {
+                nomeMapa = "TRT_FA";
+                mapaSistema = true;
+            }
             else if (documento == "FR")
             {
                 nomeMapa = "TRT_FR";
+                mapaSistema = true;
             }
             else
             {
                 nomeMapa = "TRT_FA";
+                mapaSistema = true;
             }
 
-            PriEngine.Platform.Mapas.Inicializar("BAS");
-            PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-            var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-            var numerador = list.Length + 1;
-            var fileName = string.Format("{0}_{1}_{2}_{3}.pdf", documento, ano, numero, numerador);
-            PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf,
-                @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-            PriEngine.Platform.Mapas.JanelaPrincipal = 0;
-            PriEngine.Platform.Mapas.SelectionFormula =
-                $"{{TDU_TRT_CabecDocumentos.CDU_Documento}} = '{documento}' AND " +
-                $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = {ano} AND " +
-                $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = {numero} ";
-            PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName);
-            System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            if(mapaSistema is false)
+            {
+                PriEngine.Platform.Mapas.Inicializar("BAS");
+                PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+                var numerador = list.Length + 1;
+                var fileName = string.Format("{0}_{1}_{2}_{3}.pdf", documento, ano, numero, numerador);
+                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf,
+                    @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+                PriEngine.Platform.Mapas.SelectionFormula =
+                    $"{{TDU_TRT_CabecDocumentos.CDU_Documento}} = '{documento}' AND " +
+                    $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = {ano} AND " +
+                    $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = {numero} ";
+                PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName);
+                System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            }
+            
+            if(mapaSistema is true)
+            {
+
+            }
+            
         }
 
         #endregion
