@@ -2052,9 +2052,25 @@ namespace TRTv10.Integration
             {
                 nomeMapa = "TRT_RI";
             }
+            else if (documento == "FA")
+            {
+                nomeMapa = "TRT_FA";
+            }
+            else if (documento == "DRV")
+            {
+                nomeMapa = "TRT_DRV";
+            }
+            else if (documento == "RCF")
+            {
+                nomeMapa = "TRT_RCF";
+            }
+            else if (documento == "FR")
+            {
+                nomeMapa = "TRT_FR";
+            }
             else
             {
-                nomeMapa = "TRT_SIM";
+                nomeMapa = "TRT_FA";
             }
 
             PriEngine.Platform.Mapas.Inicializar("BAS");

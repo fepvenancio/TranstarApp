@@ -34,7 +34,7 @@ namespace TRTv10.User_Interface
                 CbDocOperacao.Items.Add("Requisição de fundos adicional");
                 CbDocOperacao.Items.Add("Nota de Débito");
                 CbDocOperacao.Items.Add("Factura");
-                CbDocOperacao.Items.Add("Factura/Recibo");
+                CbDocOperacao.Items.Add("Factura Recibo");
                 CbDocOperacao.Items.Add("Factura de Transporte");
                 CbDocOperacao.Items.Add("Nota de Crédito");
                 CbDocOperacao.Items.Add("Requisição Interna");

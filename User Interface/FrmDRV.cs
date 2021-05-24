@@ -301,6 +301,8 @@ namespace TRTv10.User_Interface
                             motores.ActualizaIdDrvLinhasDoc(id, CbRECDocumento.Text, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));
                             motores.EnviaImpressao("DRV", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Declaração de Recepção de Valores");
                             motores.ApagaDadosForm(this);
+                            dgvLinhasDrv = motores.ApagaDadosGrelha(dgvLinhasDrv);
+
                         }
                         else
                         {

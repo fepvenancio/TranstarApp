@@ -17,6 +17,47 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        /// Ao selecionar o numero carrega o documento anterior
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbRecNumeroDrv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var motores = new Motores();
+            var documento = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
+            if(CbRecAnoDrv.Text == "" || CbRecNumeroDrv.Text == "") return;
+            var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+            if (!(existeDoc is true)) return;
+            //Carrega os dados da form
+            var lstDadosForm = motores.GetDadosForm(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
+
+            try
+            {
+
+                if (lstDadosForm.Vazia() && lstDadosForm.NoFim()) return;
+                CbRECCliente.Text = Convert.ToString(lstDadosForm.Valor(0));
+                TxtRECNomeCliente.Text = Convert.ToString(lstDadosForm.Valor(1));
+                TxtRECMoeda.Text = Convert.ToString(lstDadosForm.Valor(2));
+                TxtRECCambio.Text = Convert.ToString(lstDadosForm.Valor(5));
+                TxtRECTransporte.Text = Convert.ToString(lstDadosForm.Valor(15));
+                TxtRECBL.Text = Convert.ToString(lstDadosForm.Valor(9));
+                TxtRECNDar.Text = Convert.ToString(lstDadosForm.Valor(17));
+                TxtRECNDu.Text = Convert.ToString(lstDadosForm.Valor(19));
+                TxtRECTotalSIva.Text = Convert.ToString(lstDadosForm.Valor(25), CultureInfo.InvariantCulture);
+                TxtRECTotalIva.Text = Convert.ToString(lstDadosForm.Valor(26));
+                TxtRECTotalRetencao.Text = Convert.ToString(lstDadosForm.Valor(27));
+                TxtRecTotal.Text = Convert.ToString(lstDadosForm.Valor(28));
+                CbRECProcesso.Text = Convert.ToString(lstDadosForm.Valor(29));
+
+                PopulaGrelha();
+            }
+            catch (Exception ex)
+            {
+                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// Carrega a lista de clientes
         /// </summary>
         /// <param name="sender"></param>
@@ -452,5 +493,7 @@ namespace TRTv10.User_Interface
 
 
         #endregion
+
+        
     }
 }
