@@ -120,7 +120,9 @@ namespace TRTv10.User_Interface
         /// <param name="e"></param>
         private void BtnCotImprimir_Click(object sender, EventArgs e)
         {
-            
+            var motores = new Motores();
+            var documento = motores.GetCodigoDocumento(CbDocOperacao.Text);
+            motores.EnviaImpressao(documento, CbDocNumOperacao.Text, Convert.ToInt32(CbDocAno.Text), CbDocOperacao.Text);
         }
 
         private void BtnDocConverter_Click(object sender, EventArgs e)

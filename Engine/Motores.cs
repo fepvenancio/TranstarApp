@@ -381,7 +381,7 @@ namespace TRTv10.Integration
             if (documento == "DRV" || documento == "COT" || documento == "RI") return;
             var integraPrimavera = new IntegraPrimavera();
             integraPrimavera.IntegraDocVendasErpPrimavera(documento, cliente, data, cambio,
-                Convert.ToString(ano), processo, retencao, numero);
+                Convert.ToString(ano), processo, retencao, numero, idOrig);
         }
 
         public void CriaCabecDocumentoRi(Guid idOrig, string documento, int ano, int numero, DateTime data, string moeda,

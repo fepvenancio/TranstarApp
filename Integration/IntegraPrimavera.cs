@@ -213,13 +213,13 @@ namespace TRTv10.Integration
         #region Documentos
 
         public void IntegraDocVendasErpPrimavera(string documento, string cliente, DateTime data, double cambio, string serie,
-            string processo, bool retencao, long numDoc)
+            string processo, bool retencao, long numDoc, Guid idOrig)
         {
-            CriaDocVenda(documento, cliente, data, cambio, serie, processo, retencao, numDoc);
+            CriaDocVenda(documento, cliente, data, cambio, serie, processo, retencao, numDoc, idOrig);
         }
 
         private void CriaDocVenda(string documento, string cliente, DateTime data, double cambio, string serie,
-            string processo, bool retencao, long numDoc)
+            string processo, bool retencao, long numDoc, Guid idOrig)
         {
             var docVenda = new VndBEDocumentoVenda();
             var avisos = string.Empty;
@@ -245,6 +245,7 @@ namespace TRTv10.Integration
                 docVenda.Serie = serie;
                 docVenda.TipoEntidade = "C";
                 docVenda.Entidade = codCliente;
+                docVenda.CamposUtil["CDU_idOrig"].Valor = idOrig.ToString().ToUpper();
 
                 PriEngine.Engine.Vendas.Documentos.PreencheDadosRelacionados(docVenda);
 
