@@ -1990,7 +1990,7 @@ namespace TRTv10.Integration
                 var integraPrimavera = new IntegraPrimavera();
                 integraPrimavera.IntegraDocVendasErpPrimavera(documentoConv, lstDoc.Valor(0).ToString(),
                     DateTime.Now.Date, Convert.ToDouble(lstDoc.Valor(1)),
-                    Convert.ToString(anoConv), lstDoc.Valor(2), lstDoc.Valor(3), numeroConv);
+                    Convert.ToString(anoConv), lstDoc.Valor(2), lstDoc.Valor(3), numeroConv, id);
             }
             catch (Exception ex)
             {
