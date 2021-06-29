@@ -213,13 +213,13 @@ namespace TRTv10.Integration
         #region Documentos
 
         public void IntegraDocVendasErpPrimavera(string documento, string cliente, DateTime data, double cambio, string serie,
-            string processo, bool retencao, long numDoc, Guid idOrig)
+            string processo, bool retencao, long numDoc, Guid idOrig, string docEstorno, int numEstorno, int anoEstorno)
         {
-            CriaDocVenda(documento, cliente, data, cambio, serie, processo, retencao, numDoc, idOrig);
+            CriaDocVenda(documento, cliente, data, cambio, serie, processo, retencao, numDoc, idOrig, docEstorno, numEstorno, anoEstorno);
         }
 
         private void CriaDocVenda(string documento, string cliente, DateTime data, double cambio, string serie,
-            string processo, bool retencao, long numDoc, Guid idOrig)
+            string processo, bool retencao, long numDoc, Guid idOrig, string docEstorno, int numEstorno, int anoEstorno)
         {
             var docVenda = new VndBEDocumentoVenda();
             var avisos = string.Empty;
@@ -289,21 +289,36 @@ namespace TRTv10.Integration
                             linhasVenda.GetEdita(i).CodIva = "14";
                         else
                             linhasVenda.GetEdita(i).CodIva = "90";
-
+                        
                         lstProcesso.Seguinte();
                         i += 1;
                     }
 
+                if(docVenda.Tipodoc == "NC")
+                {
+                    docVenda.RefTipoDocOrig = docEstorno.ToString();
+                    docVenda.RefSerieDocOrig = anoEstorno.ToString();
+                    docVenda.RefDocOrig = docEstorno.ToString();
+                    docVenda.MotivoEmissao = "C04";
+
+                    //update na app para indicar que este documento foi estornado
+
+                }
+
                 PriEngine.Engine.Vendas.Documentos.CalculaValoresTotais(docVenda);
                 PriEngine.Engine.Vendas.Documentos.Actualiza(docVenda, ref avisos);
-
-                NumDoc = 0;
+                
+                NumDoc = docVenda.NumDoc;
             }
             catch (Exception ex)
             {
                 PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento {documento} " +
                                                         $"no erp primavera: {ex.Message}");
             }
+
+            var motores = new Motores();
+            motores.EnviaImpressao(documento, NumDoc.ToString(), DateTime.Now.Year, "");
+            NumDoc = 0;
         }
 
         #endregion

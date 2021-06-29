@@ -90,6 +90,10 @@ namespace TRTv10.User_Interface
             this.txtOudTimer = new System.Windows.Forms.TextBox();
             this.CbOudAno = new System.Windows.Forms.ComboBox();
             this.cbOudProcesso = new System.Windows.Forms.ComboBox();
+            this.lblDocEstornar = new System.Windows.Forms.Label();
+            this.CbOutAnoEstornar = new System.Windows.Forms.ComboBox();
+            this.CbOutNumEstornar = new System.Windows.Forms.ComboBox();
+            this.CbOutDocEstornar = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItemsOud)).BeginInit();
             this.SuspendLayout();
             // 
@@ -559,7 +563,7 @@ namespace TRTv10.User_Interface
             this.dgvItemsOud.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvItemsOud.Location = new System.Drawing.Point(669, 24);
             this.dgvItemsOud.Name = "dgvItemsOud";
-            this.dgvItemsOud.Size = new System.Drawing.Size(645, 604);
+            this.dgvItemsOud.Size = new System.Drawing.Size(645, 637);
             this.dgvItemsOud.TabIndex = 136;
             this.dgvItemsOud.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItemsOud_CellValueChanged);
             // 
@@ -684,11 +688,57 @@ namespace TRTv10.User_Interface
             this.cbOudProcesso.TabIndex = 161;
             this.cbOudProcesso.SelectedIndexChanged += new System.EventHandler(this.cbOudProcesso_SelectedIndexChanged);
             // 
+            // lblDocEstornar
+            // 
+            this.lblDocEstornar.AutoSize = true;
+            this.lblDocEstornar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDocEstornar.Location = new System.Drawing.Point(27, 639);
+            this.lblDocEstornar.Name = "lblDocEstornar";
+            this.lblDocEstornar.Size = new System.Drawing.Size(98, 17);
+            this.lblDocEstornar.TabIndex = 162;
+            this.lblDocEstornar.Text = "Doc. a estornar";
+            // 
+            // CbOutAnoEstornar
+            // 
+            this.CbOutAnoEstornar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CbOutAnoEstornar.FormattingEnabled = true;
+            this.CbOutAnoEstornar.Location = new System.Drawing.Point(593, 636);
+            this.CbOutAnoEstornar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.CbOutAnoEstornar.Name = "CbOutAnoEstornar";
+            this.CbOutAnoEstornar.Size = new System.Drawing.Size(60, 25);
+            this.CbOutAnoEstornar.TabIndex = 165;
+            // 
+            // CbOutNumEstornar
+            // 
+            this.CbOutNumEstornar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CbOutNumEstornar.FormattingEnabled = true;
+            this.CbOutNumEstornar.Location = new System.Drawing.Point(521, 636);
+            this.CbOutNumEstornar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.CbOutNumEstornar.Name = "CbOutNumEstornar";
+            this.CbOutNumEstornar.Size = new System.Drawing.Size(66, 25);
+            this.CbOutNumEstornar.TabIndex = 164;
+            this.CbOutNumEstornar.SelectedIndexChanged += new System.EventHandler(this.CbOutNumEstornar_SelectedIndexChanged);
+            // 
+            // CbOutDocEstornar
+            // 
+            this.CbOutDocEstornar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CbOutDocEstornar.FormattingEnabled = true;
+            this.CbOutDocEstornar.Location = new System.Drawing.Point(165, 636);
+            this.CbOutDocEstornar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.CbOutDocEstornar.Name = "CbOutDocEstornar";
+            this.CbOutDocEstornar.Size = new System.Drawing.Size(350, 25);
+            this.CbOutDocEstornar.TabIndex = 163;
+            this.CbOutDocEstornar.SelectedIndexChanged += new System.EventHandler(this.CbOutDocEstornar_SelectedIndexChanged);
+            // 
             // FrmOutrosDocs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1339, 653);
+            this.ClientSize = new System.Drawing.Size(1339, 675);
+            this.Controls.Add(this.CbOutAnoEstornar);
+            this.Controls.Add(this.CbOutNumEstornar);
+            this.Controls.Add(this.CbOutDocEstornar);
+            this.Controls.Add(this.lblDocEstornar);
             this.Controls.Add(this.cbOudProcesso);
             this.Controls.Add(this.CbOudAno);
             this.Controls.Add(this.cbOudNumOperacao);
@@ -825,5 +875,9 @@ namespace TRTv10.User_Interface
         public System.Windows.Forms.TextBox txtOudTimer;
         public System.Windows.Forms.ComboBox CbOudAno;
         public System.Windows.Forms.ComboBox cbOudProcesso;
+        private System.Windows.Forms.Label lblDocEstornar;
+        public System.Windows.Forms.ComboBox CbOutAnoEstornar;
+        public System.Windows.Forms.ComboBox CbOutNumEstornar;
+        public System.Windows.Forms.ComboBox CbOutDocEstornar;
     }
 }

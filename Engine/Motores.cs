@@ -315,6 +315,7 @@ namespace TRTv10.Integration
             double valorDoc, double valorIva, double valorRet, double valorTot, double valorRec,
             string utilizador, string cliente, string nome, string nif, string morada, string localidade,
             string codPostal, string codPostalLocalidade, string pais, bool ivaCativo, bool retencao,
+            string docEstorno, int numEstorno, int anoEstorno,
             DataGridView dataGridView)
         {
             if (documento == "DRV")
@@ -381,7 +382,7 @@ namespace TRTv10.Integration
             if (documento == "DRV" || documento == "COT" || documento == "RI") return;
             var integraPrimavera = new IntegraPrimavera();
             integraPrimavera.IntegraDocVendasErpPrimavera(documento, cliente, data, cambio,
-                Convert.ToString(ano), processo, retencao, numero, idOrig);
+                Convert.ToString(ano), processo, retencao, numero, idOrig, docEstorno, numEstorno, anoEstorno);
         }
 
         public void CriaCabecDocumentoRi(Guid idOrig, string documento, int ano, int numero, DateTime data, string moeda,
@@ -1990,7 +1991,7 @@ namespace TRTv10.Integration
                 var integraPrimavera = new IntegraPrimavera();
                 integraPrimavera.IntegraDocVendasErpPrimavera(documentoConv, lstDoc.Valor(0).ToString(),
                     DateTime.Now.Date, Convert.ToDouble(lstDoc.Valor(1)),
-                    Convert.ToString(anoConv), lstDoc.Valor(2), lstDoc.Valor(3), numeroConv, id);
+                    Convert.ToString(anoConv), lstDoc.Valor(2), lstDoc.Valor(3), numeroConv, id, documentoConv, 0, 0);
             }
             catch (Exception ex)
             {
@@ -2062,11 +2063,6 @@ namespace TRTv10.Integration
             {
                 nomeMapa = "TRT_RCF";
             }
-            else if (documento == "FA")
-            {
-                nomeMapa = "TRT_FA";
-                mapaSistema = true;
-            }
             else if (documento == "FR")
             {
                 nomeMapa = "TRT_FR";
@@ -2078,28 +2074,33 @@ namespace TRTv10.Integration
                 mapaSistema = true;
             }
 
+            var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+            var numerador = list.Length + 1;
+            var fileName = string.Format("{0}_{1}_{2}_{3}.pdf", documento, ano, numero, numerador);
+            PriEngine.Platform.Mapas.Inicializar("BAS");
+            PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
+            PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf,
+                @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+            PriEngine.Platform.Mapas.JanelaPrincipal = 0;
+
             if(mapaSistema is false)
             {
-                PriEngine.Platform.Mapas.Inicializar("BAS");
-                PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
-                var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
-                var numerador = list.Length + 1;
-                var fileName = string.Format("{0}_{1}_{2}_{3}.pdf", documento, ano, numero, numerador);
-                PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf,
-                    @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-                PriEngine.Platform.Mapas.JanelaPrincipal = 0;
                 PriEngine.Platform.Mapas.SelectionFormula =
                     $"{{TDU_TRT_CabecDocumentos.CDU_Documento}} = '{documento}' AND " +
                     $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = {ano} AND " +
                     $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = {numero} ";
                 PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName);
-                System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
             }
             
             if(mapaSistema is true)
             {
-
+                PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName, "W", 1, "N", 
+                    $"{{CabecDoc.TipoDoc}} = '{documento}' AND " +
+                    //$"{{CabecDoc.Serie}} = {ano} AND " +
+                    $"{{CabecDoc.NumDoc}} = {numero} ");
             }
+
+            System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
             
         }
 

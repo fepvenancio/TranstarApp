@@ -343,6 +343,9 @@ namespace TRTv10.User_Interface
                                 Convert.ToString(pais),
                                 Convert.ToBoolean(ivaCativo),
                                 Convert.ToBoolean(retencao),
+                                Convert.ToString(documento),
+                                Convert.ToInt32(0),
+                                Convert.ToInt32(0),
                                 dgvItemsServicosCOT);
 
                             motores.EnviaImpressao(documento, cbCotNumOperacao.Text, Convert.ToInt32(CbCotAno.Text), "Cotação");

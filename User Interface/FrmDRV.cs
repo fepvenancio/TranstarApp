@@ -265,6 +265,9 @@ namespace TRTv10.User_Interface
                                     Convert.ToString(pais),
                                     Convert.ToBoolean(ivaCativo),
                                     Convert.ToBoolean(retencao),
+                                    Convert.ToString(doc),
+                                    Convert.ToInt32(0),
+                                    Convert.ToInt32(0),
                                     dgvLinhasDrv);
                             }
 
@@ -296,6 +299,9 @@ namespace TRTv10.User_Interface
                                 Convert.ToString(pais),
                                 Convert.ToBoolean(ivaCativo),
                                 Convert.ToBoolean(retencao),
+                                Convert.ToString("DRV"),
+                                Convert.ToInt32(0),
+                                Convert.ToInt32(0),
                                 dgvLinhasDrv);
 
                             motores.ActualizaIdDrvLinhasDoc(id, CbRECDocumento.Text, Convert.ToInt32(CbRECNumero.Text), Convert.ToInt32(CbRECAno.Text));

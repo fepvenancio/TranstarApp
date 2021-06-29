@@ -17,6 +17,62 @@ namespace TRTv10.User_Interface
         }
 
         /// <summary>
+        /// Apos ter o documento e o numero de estorno preenchido vai buscar o ano
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbOutNumEstornar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbOudProcesso.Text == "") return;
+            if(CbOutDocEstornar.Text == "") return;
+            if(CbOutNumEstornar.Text == "") return;
+
+            var queryA = new StringBuilder();
+            queryA.Append("SELECT DISTINCT(CDU_Ano) FROM TDU_TRT_CabecDocumentos ");
+            queryA.Append($"WHERE CDU_Processo = '{cbOudProcesso.Text}' ");
+            queryA.Append($"AND CDU_Documento = '{CbOutDocEstornar.Text}' ");
+            queryA.Append($"AND CDU_Numero = '{CbOutNumEstornar.Text}' ");
+            queryA.Append($"ORDER BY CDU_Ano ASC ");
+            var sqlQA = queryA.ToString();
+            var lstQA = PriEngine.Engine.Consulta(sqlQA);
+
+            if(lstQA.Vazia() || lstQA.NoFim()) return;
+
+            while (!lstQA.NoFim())
+            {
+                CbOutAnoEstornar.Items.Add(lstQA.Valor(0));
+                lstQA.Seguinte();
+            }
+        }
+
+        /// <summary>
+        /// Apos escolher o documento a estornar vai buscar o numero
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbOutDocEstornar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbOudProcesso.Text == "") return;
+            if(CbOutDocEstornar.Text == "") return;
+
+            var queryN = new StringBuilder();
+            queryN.Append("SELECT CDU_Numero FROM TDU_TRT_CabecDocumentos ");
+            queryN.Append($"WHERE CDU_Processo = '{cbOudProcesso.Text}' ");
+            queryN.Append($"AND CDU_Documento = '{CbOutDocEstornar.Text}' ");
+            queryN.Append($"ORDER BY CDU_Numero ASC ");
+            var sqlQN = queryN.ToString();
+            var lstQN = PriEngine.Engine.Consulta(sqlQN);
+
+            if(lstQN.Vazia() || lstQN.NoFim()) return;
+
+            while (!lstQN.NoFim())
+            {
+                CbOutNumEstornar.Items.Add(lstQN.Valor(0));
+                lstQN.Seguinte();
+            }
+        }
+
+        /// <summary>
         /// Form ao abrir preenche os campos necessarios.
         /// </summary>
         /// <param name="sender"></param>
@@ -49,6 +105,29 @@ namespace TRTv10.User_Interface
             motores.GetAnos(CbOudAno);
             CbOudAno.Text = Convert.ToString(DateTime.Now.Year);
             cbOudNumOperacao.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc));
+
+            if(codDoc != "NC") return;
+            if(cbOudProcesso.Text == "") return;
+
+            var queryDoc = new StringBuilder();
+            queryDoc.Append("SELECT DISTINCT(CDU_Documento) FROM TDU_TRT_CabecDocumentos ");
+            queryDoc.Append($"WHERE CDU_Processo = '{cbOudProcesso.Text}' ");
+            queryDoc.Append("AND CDU_Documento <> 'COT' ");
+            queryDoc.Append("AND CDU_Documento <> 'REQ' ");
+            queryDoc.Append("AND CDU_Documento <> 'RQA' ");
+            queryDoc.Append("AND CDU_Documento <> 'RI' ");
+            queryDoc.Append("AND CDU_Documento <> 'REC' ");
+            queryDoc.Append("AND CDU_Documento <> 'DRV'");
+            var sqlQDoc = queryDoc.ToString();
+            var lstQDoc = PriEngine.Engine.Consulta(sqlQDoc);
+
+            if(lstQDoc.Vazia() || lstQDoc.NoFim()) return;
+
+            while (!lstQDoc.NoFim())
+            {
+                CbOutDocEstornar.Items.Add(lstQDoc.Valor(0));
+                lstQDoc.Seguinte();
+            }
         }
 
         /// <summary>
@@ -320,6 +399,25 @@ namespace TRTv10.User_Interface
                     var id = Guid.NewGuid();
                     var cambio = motores.AlteraPontosPorVirgulas(txtOudCambio.Text);
 
+                    if(documento == "NC")
+                    {
+                        if(CbOutDocEstornar.Text == "")
+                        { 
+                            PriEngine.Platform.Dialogos.MostraAviso("Deve preencher o documento a estornar"); 
+                            return;
+                        } 
+                        if(CbOutNumEstornar.Text == "")
+                        { 
+                            PriEngine.Platform.Dialogos.MostraAviso("Deve preencher o numero do documento a estornar"); 
+                            return;
+                        } 
+                        if(CbOutAnoEstornar.Text == "")
+                        { 
+                            PriEngine.Platform.Dialogos.MostraAviso("Deve preencher o ano do documento a estornar"); 
+                            return;
+                        } 
+                    }
+
                     motores.CriaCabecDocumento(
                         id,
                         Convert.ToString(documento),
@@ -348,6 +446,9 @@ namespace TRTv10.User_Interface
                         Convert.ToString(pais),
                         Convert.ToBoolean(ivaCativo),
                         Convert.ToBoolean(retencao),
+                        Convert.ToString(CbOutDocEstornar.Text),
+                        Convert.ToInt32(CbOutNumEstornar.Text),
+                        Convert.ToInt32(CbOutAnoEstornar.Text),
                         dgvItemsOud);
                 }
                 else
@@ -398,5 +499,6 @@ namespace TRTv10.User_Interface
 
         #endregion
 
+        
     }
 }
