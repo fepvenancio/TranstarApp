@@ -75,7 +75,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar a requisição: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao criar a requisição: {ex.Message}");
             }
         }
 

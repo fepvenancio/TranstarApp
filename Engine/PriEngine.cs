@@ -43,6 +43,7 @@ namespace TRTv10.Engine
             var motorLe = new ErpBS();
             StdBETipos.EnumTipoPlataforma objTipoPlataforma;
 
+            //Alterar transtar e' profissional
             objTipoPlataforma = StdBETipos.EnumTipoPlataforma.tpProfissional;
             objAplConf.Instancia = "Default";
             objAplConf.AbvtApl = "ERP";

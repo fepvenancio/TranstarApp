@@ -684,7 +684,7 @@ namespace TRTv10.Integration
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao actualizar a DRV na linha: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao actualizar a DRV na linha: {ex.Message}");
             }
         }
 
@@ -1090,7 +1090,7 @@ namespace TRTv10.Integration
             }
             catch(Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar a lista de documentos: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar a lista de documentos: {ex.Message}");
             }
 
             return dataGridView;
@@ -1173,7 +1173,7 @@ namespace TRTv10.Integration
             }
             catch(Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar a lista de documentos: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar a lista de documentos: {ex.Message}");
             }
 
             return dataGridView;
@@ -1782,7 +1782,7 @@ namespace TRTv10.Integration
             }
             catch
             {
-                PriEngine.Platform.Dialogos.MostraAviso("Não existem Items para carregar!");
+                PriEngine.Platform.MensagensDialogos.MostraAviso("Não existem Items para carregar!");
             }
 
             return dataGridView;
@@ -1995,7 +1995,7 @@ namespace TRTv10.Integration
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao converter o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao converter o documento: {ex.Message}");
             }
         }
 
@@ -2074,21 +2074,23 @@ namespace TRTv10.Integration
                 mapaSistema = true;
             }
 
-            var list = Directory.GetFiles(@"\\192.168.10.10\primavera\SG100\Mapas\App", "*.pdf");
+            var list = Directory.GetFiles(@"\\TRTPRIM02\primavera\SG100\Mapas\App", "*.pdf");
+            //var list = Directory.GetFiles(@"C:\Program Files\PRIMAVERA\SG100\Mapas\LP\", "*.pdf");
             var numerador = list.Length + 1;
             var fileName = string.Format("{0}_{1}_{2}_{3}.pdf", documento, ano, numero, numerador);
             PriEngine.Platform.Mapas.Inicializar("BAS");
             PriEngine.Platform.Mapas.Destino = StdBSTipos.CRPEExportDestino.edFicheiro;
             PriEngine.Platform.Mapas.SetFileProp(StdBSTipos.CRPEExportFormat.efPdf,
-                @$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
+                @$"\\TRTPRIM02\primavera\SG100\Mapas\App\{fileName}");
+                //@$"C:\\Program Files\\PRIMAVERA\\SG100\\Mapas\\LP\\{fileName}");
             PriEngine.Platform.Mapas.JanelaPrincipal = 0;
 
             if(mapaSistema is false)
             {
                 PriEngine.Platform.Mapas.SelectionFormula =
+                    $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = {numero} AND " +
                     $"{{TDU_TRT_CabecDocumentos.CDU_Documento}} = '{documento}' AND " +
-                    $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = {ano} AND " +
-                    $"{{TDU_TRT_CabecDocumentos.CDU_Numero}} = {numero} ";
+                    $"{{TDU_TRT_CabecDocumentos.CDU_Ano}} = {ano} ";
                 PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName);
             }
             
@@ -2096,12 +2098,12 @@ namespace TRTv10.Integration
             {
                 PriEngine.Platform.Mapas.ImprimeListagem(nomeMapa, docName, "W", 1, "N", 
                     $"{{CabecDoc.TipoDoc}} = '{documento}' AND " +
-                    //$"{{CabecDoc.Serie}} = {ano} AND " +
+                    $"{{CabecDoc.Serie}} = {ano} AND " +
                     $"{{CabecDoc.NumDoc}} = {numero} ");
             }
 
             System.Diagnostics.Process.Start(@$"\\192.168.10.10\primavera\SG100\Mapas\App\{fileName}");
-            
+            //System.Diagnostics.Process.Start(@$"C:\\Program Files\\PRIMAVERA\\SG100\\Mapas\\LP\\{fileName}");
         }
 
         #endregion

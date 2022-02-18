@@ -204,7 +204,7 @@ namespace TRTv10.User_Interface
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso("Não tem permissões para alterar");
+                        PriEngine.Platform.MensagensDialogos.MostraAviso("Não tem permissões para alterar");
                     }
                     sqlCmd.ExecuteNonQuery();
                     PopulaGrelhaAprovacoes();
@@ -258,7 +258,7 @@ namespace TRTv10.User_Interface
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso("Não tem permissões para alterar");
+                        PriEngine.Platform.MensagensDialogos.MostraAviso("Não tem permissões para alterar");
                     }
                     sqlCmd.ExecuteNonQuery();
                     PopulaGrelhaAprovacoes();
@@ -432,7 +432,7 @@ namespace TRTv10.User_Interface
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso("Não tem permissões para alterar");
+                        PriEngine.Platform.MensagensDialogos.MostraAviso("Não tem permissões para alterar");
                     }
                     sqlCmd.ExecuteNonQuery();
                     PopulaGrelhaAprovacoes();

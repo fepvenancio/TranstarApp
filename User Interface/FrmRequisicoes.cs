@@ -156,7 +156,7 @@ namespace TRTv10.User_Interface
                 }
                 catch (Exception ex)
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
                 }
             }
         }
@@ -222,7 +222,7 @@ namespace TRTv10.User_Interface
 
                 if(pontoCif is true || pontoAduaneiro is true || pontoCambio is true || pontoDar is true)
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso("Deve trocar o separador das casas decimais para uma vírgula (,)");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso("Deve trocar o separador das casas decimais para uma vírgula (,)");
                     return;
                 }
 
@@ -375,7 +375,7 @@ namespace TRTv10.User_Interface
                             }
                             else
                             {
-                                PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
+                                PriEngine.Platform.MensagensDialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
                                                                         "Tipo de Serviço, " +
                                                                         "Operacao, " +
                                                                         "Cliente, " +
@@ -389,7 +389,7 @@ namespace TRTv10.User_Interface
                         }
                         else
                         {
-                            PriEngine.Platform.Dialogos.MostraAviso("Já existe uma REQ para esse processo. Deve criar uma RQA.");
+                            PriEngine.Platform.MensagensDialogos.MostraAviso("Já existe uma REQ para esse processo. Deve criar uma RQA.");
                         }
                     }
                     else
@@ -401,12 +401,12 @@ namespace TRTv10.User_Interface
                 }
                 else
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
                 }
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
             }
 
         }

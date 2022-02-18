@@ -161,7 +161,7 @@ namespace TRTv10.Integration
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso("Erro ao criar o documento " + documento +
+                PriEngine.Platform.MensagensDialogos.MostraAviso("Erro ao criar o documento " + documento +
                                                         " no erp primavera: " + ex.Message);
             }
         }
@@ -312,7 +312,7 @@ namespace TRTv10.Integration
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento {documento} " +
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao criar o documento {documento} " +
                                                         $"no erp primavera: {ex.Message}");
             }
 

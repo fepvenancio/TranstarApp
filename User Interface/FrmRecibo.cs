@@ -121,7 +121,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
             }
         }
 
@@ -167,7 +167,7 @@ namespace TRTv10.User_Interface
                 valorTotRet += Convert.ToDouble(dgvRecLinhasDocumentos.Rows[e.RowIndex].Cells["Valor Ret."].Value);
                 valorTotRec += Convert.ToDouble(dgvRecLinhasDocumentos.Rows[e.RowIndex].Cells["Valor Rec."].Value);
                 if (!(valorDoc < valorRec)) continue;
-                PriEngine.Platform.Dialogos.MostraAviso("o valor a receber nao pode ser superior ao valor do documento.");
+                PriEngine.Platform.MensagensDialogos.MostraAviso("o valor a receber nao pode ser superior ao valor do documento.");
                 valorTotRet -= Convert.ToDouble(dgvRecLinhasDocumentos.Rows[e.RowIndex].Cells["Valor Ret."].Value);
                 valorTotRec -= Convert.ToDouble(dgvRecLinhasDocumentos.Rows[e.RowIndex].Cells["Valor Rec."].Value);
                 dgvRecLinhasDocumentos.Rows[e.RowIndex].Cells["Valor Rec."].Value = 0;
@@ -203,7 +203,7 @@ namespace TRTv10.User_Interface
 
                 if(pontoCambio is true)
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso("Deve trocar o separador das casas decimais para uma vírgula (,)");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso("Deve trocar o separador das casas decimais para uma vírgula (,)");
                     return;
                 }
 
@@ -268,7 +268,7 @@ namespace TRTv10.User_Interface
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso("Devem preencher o campo obrigatório: Processo");
+                        PriEngine.Platform.MensagensDialogos.MostraAviso("Devem preencher o campo obrigatório: Processo");
                     }
                 }
                 else
@@ -280,7 +280,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
             }
 
         }

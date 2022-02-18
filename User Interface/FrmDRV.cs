@@ -78,7 +78,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
             }
         }
 
@@ -148,7 +148,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
             }
         }
 
@@ -312,7 +312,7 @@ namespace TRTv10.User_Interface
                         }
                         else
                         {
-                            PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
+                            PriEngine.Platform.MensagensDialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
                                                                     "Processo, " +
                                                                     "Documento a Receber, " +
                                                                     "Numero, " +
@@ -324,7 +324,7 @@ namespace TRTv10.User_Interface
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
+                        PriEngine.Platform.MensagensDialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
                     }
                 }
                 else
@@ -332,12 +332,12 @@ namespace TRTv10.User_Interface
 
                     var arrDoc = new string[2];
                     arrDoc = motores.GetNumAnoDrvProcesso(CbRECProcesso.Text);
-                    PriEngine.Platform.Dialogos.MostraAviso($"Já existe uma DRV criada para esse processo: DRV {arrDoc[0]}/{arrDoc[1]}");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Já existe uma DRV criada para esse processo: DRV {arrDoc[0]}/{arrDoc[1]}");
                 }
             }
             catch(Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
             }
         }
         

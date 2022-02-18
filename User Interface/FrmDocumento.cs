@@ -97,7 +97,7 @@ namespace TRTv10.User_Interface
                 }
                 catch (Exception ex)
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
                 }
             }
         }
@@ -149,7 +149,7 @@ namespace TRTv10.User_Interface
                 {
                     TxtDocNumDocConvertido.Text = doc;
                 }
-                PriEngine.Platform.Dialogos.MostraAviso($"O documento que pretende converter ja foi convertido: {doc}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"O documento que pretende converter ja foi convertido: {doc}");
             }
         }
 

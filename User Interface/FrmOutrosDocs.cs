@@ -223,7 +223,7 @@ namespace TRTv10.User_Interface
                 }
                 catch (Exception ex)
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
                 }
             }
         }
@@ -338,7 +338,7 @@ namespace TRTv10.User_Interface
                 }
                 catch (Exception ex)
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
                 }
                 }
         }
@@ -403,17 +403,17 @@ namespace TRTv10.User_Interface
                     {
                         if(CbOutDocEstornar.Text == "")
                         { 
-                            PriEngine.Platform.Dialogos.MostraAviso("Deve preencher o documento a estornar"); 
+                            PriEngine.Platform.MensagensDialogos.MostraAviso("Deve preencher o documento a estornar"); 
                             return;
                         } 
                         if(CbOutNumEstornar.Text == "")
                         { 
-                            PriEngine.Platform.Dialogos.MostraAviso("Deve preencher o numero do documento a estornar"); 
+                            PriEngine.Platform.MensagensDialogos.MostraAviso("Deve preencher o numero do documento a estornar"); 
                             return;
                         } 
                         if(CbOutAnoEstornar.Text == "")
                         { 
-                            PriEngine.Platform.Dialogos.MostraAviso("Deve preencher o ano do documento a estornar"); 
+                            PriEngine.Platform.MensagensDialogos.MostraAviso("Deve preencher o ano do documento a estornar"); 
                             return;
                         } 
                     }
@@ -460,7 +460,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
             }
 
         }

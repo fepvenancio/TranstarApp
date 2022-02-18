@@ -37,7 +37,7 @@ namespace TRTv10
             assemblyName = new AssemblyName(args.Name);
             assemblyFullName =
                 Path.Combine(
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                         primaveraFolder), assemblyName.Name + ".dll");
 
             if (File.Exists(assemblyFullName))

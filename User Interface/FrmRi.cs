@@ -53,7 +53,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
             }
         }
 
@@ -178,7 +178,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
             }
         }
 
@@ -220,7 +220,7 @@ namespace TRTv10.User_Interface
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar o documento: {ex.Message}");
             }
         }
 
@@ -328,29 +328,25 @@ namespace TRTv10.User_Interface
                             Convert.ToInt32(CbRECAno.Text),
                             Convert.ToInt32(CbRECNumero.Text));
 
-                        motores.EnviaImpressao("RI", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Requisição Interna");
-                        motores.ApagaDadosForm(this);
+                        //motores.EnviaImpressao("RI", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Requisição Interna");
                     }
                     else
                     {
-                        PriEngine.Platform.Dialogos.MostraAviso("Devem preencher os campos obrigatorios: " +
-                                                                "Processo, " +
-                                                                "Documento a Receber, " +
-                                                                "Numero, " +
-                                                                "Ano, ");
+                        PriEngine.Platform.MensagensDialogos.MostraAviso("Devem preencher os campos obrigatorios: Processo, Documento a Receber, Numero Ano, ");
                     }
 
-                    motores.EnviaImpressao("RI", CbRECNumero.Text, Convert.ToInt32(CbRECAno.Text), "Requisição Interna");
+                    motores.EnviaImpressao("RI", CbRecNumeroDrv.Text, Convert.ToInt32(CbRecAnoDrv.Text), "Requisição Interna");
+                    motores.ApagaDadosForm(this);
                     LimpaForm();
                 }
                 else
                 {
-                    PriEngine.Platform.Dialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Deve adicionar linhas (Items) ao documento!");
                 }
             }
             catch (Exception ex)
             {
-                PriEngine.Platform.Dialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
+                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao criar o documento: {ex.Message}");
             }
         }
 
