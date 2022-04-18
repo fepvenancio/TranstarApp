@@ -447,8 +447,8 @@ namespace TRTv10.User_Interface
                         Convert.ToBoolean(ivaCativo),
                         Convert.ToBoolean(retencao),
                         Convert.ToString(CbOutDocEstornar.Text),
-                        Convert.ToInt32(CbOutNumEstornar.Text),
-                        Convert.ToInt32(CbOutAnoEstornar.Text),
+                        Convert.ToInt32(0),
+                        Convert.ToInt32(0),
                         dgvItemsOud);
                 }
                 else
