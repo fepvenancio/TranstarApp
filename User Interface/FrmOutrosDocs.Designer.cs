@@ -676,6 +676,7 @@ namespace TRTv10.User_Interface
             this.CbOudAno.Name = "CbOudAno";
             this.CbOudAno.Size = new System.Drawing.Size(60, 25);
             this.CbOudAno.TabIndex = 160;
+            this.CbOudAno.SelectedIndexChanged += new System.EventHandler(this.CbOudAno_SelectedIndexChanged);
             // 
             // cbOudProcesso
             // 

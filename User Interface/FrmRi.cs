@@ -130,10 +130,19 @@ namespace TRTv10.User_Interface
 
             Motores motores = new Motores();
             string codDoc = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
-            motores.GetNumeros(CbRecNumeroDrv, codDoc);
             motores.GetAnos(CbRecAnoDrv);
+            bool existeSerie = motores.ValidaExisteSerie(codDoc, Convert.ToInt32(CbRecAnoDrv.Text));
             CbRecAnoDrv.Text = Convert.ToString(DateTime.Now.Year);
-            CbRecNumeroDrv.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc));
+            if (existeSerie == true)
+            {
+                motores.GetNumeros(CbRecAnoDrv, codDoc, Convert.ToInt32(CbRecAnoDrv.Text));
+                CbRecAnoDrv.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbRecAnoDrv.Text)));
+            }
+            else
+            {
+                CbRecAnoDrv.Text = "";
+            }
+            
 
             ///Valida se aquela RI ja existe se existir carrega os campos
             bool validaSeExiste = motores.ExisteDocumento(CbRecDocumentoDrv.Text, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));
@@ -190,8 +199,12 @@ namespace TRTv10.User_Interface
         /// <param name="e"></param>
         private void CbRECAnoDrv_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Motores motores = new Motores();
+            string codDoc = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
+            motores.GetNumeros(CbRecAnoDrv, codDoc, Convert.ToInt32(CbRecAnoDrv.Text));
+            CbRecAnoDrv.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbRecAnoDrv.Text)));
+
             //depois de carregar os valores pega neles e valida se o doc ja existe.
-            var motores = new Motores();
             var documento = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
             if(CbRecAnoDrv.Text == "" || CbRecNumeroDrv.Text == "") return;
             var existeDoc = motores.ExisteDocumento(documento, Convert.ToInt32(CbRecNumeroDrv.Text), Convert.ToInt32(CbRecAnoDrv.Text));

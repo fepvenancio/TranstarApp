@@ -672,6 +672,7 @@ namespace TRTv10.User_Interface
             this.CbReqAno.Name = "CbReqAno";
             this.CbReqAno.Size = new System.Drawing.Size(60, 25);
             this.CbReqAno.TabIndex = 160;
+            this.CbReqAno.SelectedIndexChanged += new System.EventHandler(this.CbReqAno_SelectedIndexChanged);
             // 
             // CbReqNumProcesso
             // 

@@ -59,15 +59,22 @@ namespace TRTv10.User_Interface
             {
                 CbRecNumero.Text = "";
             }
-            
         }
 
-        /// <summary>
-        /// Devolve o nome do cliente apos escolher o codigo de cliente
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CbRecCliente_SelectedIndexChanged(object sender, EventArgs e)
+        private void CbRecAno_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Motores motores = new Motores();
+            string codDoc = motores.GetCodigoDocumento(CbRecDocumento.Text);
+            motores.GetNumeros(CbRecNumero, codDoc, Convert.ToInt32(CbRecAno.Text));
+            CbRecNumero.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbRecAno.Text)));
+        }
+
+            /// <summary>
+            /// Devolve o nome do cliente apos escolher o codigo de cliente
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private void CbRecCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
             var motores = new Motores();
             TxtRecNomeCliente.Text = motores.GetNomeCliente(CbRecCliente.Text);

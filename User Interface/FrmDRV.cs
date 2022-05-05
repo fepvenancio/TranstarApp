@@ -106,10 +106,18 @@ namespace TRTv10.User_Interface
 
             Motores motores = new Motores();
             string codDoc = motores.GetCodigoDocumento(CbRecDocumentoDrv.Text);
-            motores.GetNumeros(CbRecNumeroDrv, codDoc);
             motores.GetAnos(CbRecAnoDrv);
             CbRecAnoDrv.Text = Convert.ToString(DateTime.Now.Year);
-            CbRecNumeroDrv.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc));
+            bool existeSerie = motores.ValidaExisteSerie(codDoc, Convert.ToInt32(CbRecNumeroDrv.Text));
+            if (existeSerie == true)
+            {
+                motores.GetNumeros(CbRecNumeroDrv, codDoc, Convert.ToInt32(CbRecNumeroDrv.Text));
+                CbRecNumeroDrv.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbRecNumeroDrv.Text)));
+            }
+            else
+            {
+                CbRecNumeroDrv.Text = "";
+            }
         }
 
         /// <summary>
@@ -233,7 +241,7 @@ namespace TRTv10.User_Interface
 
                             foreach (var doc in numDocs)
                             {
-                                var numero = motores.GetDocumentosNumerador(doc);
+                                var numero = motores.GetDocumentosNumerador(doc, DateTime.Now.Year);
                                 var cambio = motores.AlteraPontosPorVirgulas(TxtRECCambio.Text);
 
                                 //criar cabec

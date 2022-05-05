@@ -243,6 +243,7 @@ namespace TRTv10.User_Interface
             this.CbRecAno.Name = "CbRecAno";
             this.CbRecAno.Size = new System.Drawing.Size(60, 25);
             this.CbRecAno.TabIndex = 160;
+            this.CbRecAno.SelectedIndexChanged += new System.EventHandler(this.CbRecAno_SelectedIndexChanged);
             // 
             // label16
             // 

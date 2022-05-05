@@ -101,10 +101,18 @@ namespace TRTv10.User_Interface
         {
             Motores motores = new Motores();
             string codDoc = motores.GetCodigoDocumento(cbOudOperacao.Text);
-            motores.GetNumeros(cbOudNumOperacao, codDoc);
             motores.GetAnos(CbOudAno);
             CbOudAno.Text = Convert.ToString(DateTime.Now.Year);
-            cbOudNumOperacao.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc));
+            bool existeSerie = motores.ValidaExisteSerie(codDoc, Convert.ToInt32(CbOudAno.Text));
+            if (existeSerie == true)
+            {
+                motores.GetNumeros(cbOudNumOperacao, codDoc, Convert.ToInt32(CbOudAno.Text));
+                cbOudNumOperacao.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbOudAno.Text)));
+            }
+            else
+            {
+                CbOudAno.Text = "";
+            }
 
             if(codDoc != "NC") return;
             if(cbOudProcesso.Text == "") return;
@@ -139,6 +147,14 @@ namespace TRTv10.User_Interface
         {
             Motores motores = new Motores();
             TxtOudNomeCliente.Text = motores.GetNomeCliente(cbOudCliente.Text);
+        }
+
+        private void CbOudAno_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Motores motores = new Motores();
+            string codDoc = motores.GetCodigoDocumento(cbOudOperacao.Text);
+            motores.GetNumeros(cbOudNumOperacao, codDoc, Convert.ToInt32(CbOudAno.Text));
+            cbOudNumOperacao.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbOudAno.Text)));
         }
 
         /// <summary>

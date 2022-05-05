@@ -43,10 +43,27 @@ namespace TRTv10.User_Interface
         {
             Motores motores = new Motores();
             string codDoc = motores.GetCodigoDocumento(CbReqOperacao.Text);
-            motores.GetNumeros(CbReqNumOperacao, codDoc);
             motores.GetAnos(CbReqAno);
             CbReqAno.Text = Convert.ToString(DateTime.Now.Year);
-            CbReqNumOperacao.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc));
+            bool existeSerie = motores.ValidaExisteSerie(codDoc, Convert.ToInt32(CbReqNumOperacao.Text));
+            if (existeSerie == true)
+            {
+                motores.GetNumeros(CbReqNumOperacao, codDoc, Convert.ToInt32(CbReqNumOperacao.Text));
+                CbReqNumOperacao.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbReqNumOperacao.Text)));
+            }
+            else
+            {
+                CbReqNumOperacao.Text = "";
+            }
+        }
+
+        private void CbReqAno_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Motores motores = new Motores();
+            string codDoc = motores.GetCodigoDocumento(CbReqOperacao.Text);
+            motores.GetNumeros(CbReqNumOperacao, codDoc, Convert.ToInt32(CbReqNumOperacao.Text));
+            CbReqNumOperacao.Text = Convert.ToString(motores.GetDocumentosNumerador(codDoc, Convert.ToInt32(CbReqNumOperacao.Text)));
+
         }
 
         /// <summary>

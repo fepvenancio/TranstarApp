@@ -1967,7 +1967,7 @@ namespace TRTv10.Integration
                 var utilizador = PriEngine.Engine.Contexto.UtilizadorActual;
                 var cotacao = $"{documento} {numero}/{ano}";
                 var anoConv = DateTime.Now.Year;
-                var numeroConv = GetDocumentosNumerador(documentoConv);
+                var numeroConv = GetDocumentosNumerador(documentoConv, anoConv);
 
                 var connectionString = GetConnectionString();
                 using var sqlCon = new SqlConnection(connectionString);
