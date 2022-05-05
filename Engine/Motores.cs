@@ -79,9 +79,9 @@ namespace TRTv10.Integration
         /// </summary>
         /// <param name="codigo"></param>
         /// <returns></returns>
-        public int GetDocumentosNumerador(string codigo)
+        public int GetDocumentosNumerador(string codigo, int serie)
         {
-            var query = $"SELECT CDU_Numerador FROM TDU_TRT_Documento WHERE CDU_Codigo = '{codigo}'";
+            var query = $"SELECT CDU_Numerador FROM TDU_TRT_Documento WHERE CDU_Codigo = '{codigo}' AND CDU_ANO = '{serie}'";
             var lstQuery = PriEngine.Engine.Consulta(query);
 
             return !lstQuery.Vazia() ? (int) lstQuery.Valor(0) : 0;
@@ -98,6 +98,23 @@ namespace TRTv10.Integration
             var lstQuery = PriEngine.Engine.Consulta(query);
 
             return !lstQuery.Vazia() && (bool) lstQuery.Valor(0);
+        }
+
+        /// <summary>
+        /// Vai a tabela e valida de para o documento selecionado o ano existe.
+        /// </summary>
+        /// <param name="codigo"> codigo do documento </param>
+        /// <param name="serie"> ano/serie</param>
+        /// <returns></returns>
+        public bool ValidaExisteSerie(string codigo, int serie)
+        {
+            var query = $"SELECT CDU_Ano FROM TDU_TRT_Documento WHERE CDU_Codigo = '{codigo}' AND CDU_ANO = '{serie}'";
+            var lstQuery = PriEngine.Engine.Consulta(query);
+            if(lstQuery.NumLinhas() > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -827,10 +844,10 @@ namespace TRTv10.Integration
         /// </summary>
         /// <param name="cbComboBox"></param>
         /// <returns></returns>
-        public ComboBox GetNumeros(ComboBox cbComboBox, string codDoc)
+        public ComboBox GetNumeros(ComboBox cbComboBox, string codDoc, int serie)
         {
             cbComboBox.Items.Clear();
-            var numerador = GetDocumentosNumerador(codDoc);
+            var numerador = GetDocumentosNumerador(codDoc, serie);
             for (int i = 1; i <= numerador; i++)
             {
                 cbComboBox.Items.Add(i);

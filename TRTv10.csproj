@@ -222,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Disposable\DisposableBase.cs" />
+    <Compile Include="Engine\Objectos.cs" />
     <Compile Include="Engine\PriEngine.cs" />
     <Compile Include="Integration\IntegraPrimavera.cs" />
     <Compile Include="Engine\Motores.cs" />
