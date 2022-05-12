@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRTv10", "TRTv10.csproj", "{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		32Bit|Any CPU = 32Bit|Any CPU
+		32Bit|x64 = 32Bit|x64
+		32Bit|x86 = 32Bit|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.32Bit|Any CPU.ActiveCfg = 32Bit|Any CPU
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.32Bit|Any CPU.Build.0 = 32Bit|Any CPU
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.32Bit|x64.ActiveCfg = 32Bit|x64
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.32Bit|x64.Build.0 = 32Bit|x64
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.32Bit|x86.ActiveCfg = 32Bit|x86
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.32Bit|x86.Build.0 = 32Bit|x86
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Debug|x64.ActiveCfg = Debug|x64
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Debug|x64.Build.0 = Debug|x64
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Debug|x86.ActiveCfg = Debug|x86
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Debug|x86.Build.0 = Debug|x86
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Release|x64.ActiveCfg = Release|x64
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Release|x64.Build.0 = Release|x64
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Release|x86.ActiveCfg = Release|x86
+		{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {579570D4-D9FE-4F4B-9F9D-076499EDF5C2}
+	EndGlobalSection
+EndGlobal

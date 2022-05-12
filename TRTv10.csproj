@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B8D88F1-732E-47BE-BBB4-F59D6C3C7C41}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TRTv10</RootNamespace>
+    <AssemblyName>TRTv10</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '32Bit|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\32Bit\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '32Bit|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\32Bit\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '32Bit|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\32Bit\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="BasBE100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\BasBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CblBE100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\CblBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CctBE100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\CctBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\CrystalDecisions.ReportSource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\CrystalDecisions.Shared.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\CrystalDecisions.Windows.Forms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ErpBE100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\ErpBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ErpBS100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\ErpBS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ErpDS100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="IBasBS100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\IBasBS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICblBS100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\ICblBS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICctBS100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\ICctBS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ITesBS100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\ITesBS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="IVndBS100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\IVndBS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Primavera.Extensibility.Engine">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\Primavera.Extensibility.Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Primavera.Extensibility.Patterns">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\Primavera.Extensibility.Patterns.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PRISDK100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\PRISDK100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="StdBE100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\StdBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="StdPlatBS100">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\StdPlatBS100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TesBE100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\TesBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VndBE100">
+      <HintPath>C:\Program Files\PRIMAVERA\SG100\Apl\VndBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Disposable\DisposableBase.cs" />
+    <Compile Include="Engine\PriEngine.cs" />
+    <Compile Include="Integration\IntegraPrimavera.cs" />
+    <Compile Include="Engine\Motores.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User Interface\FrmAprovacoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmAprovacoes.Designer.cs">
+      <DependentUpon>FrmAprovacoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmCotacao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmCotacao.Designer.cs">
+      <DependentUpon>FrmCotacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmDocumento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmDocumento.Designer.cs">
+      <DependentUpon>FrmDocumento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmExplorer.Designer.cs">
+      <DependentUpon>FrmExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmExtracto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmExtracto.Designer.cs">
+      <DependentUpon>FrmExtracto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmMovBancario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmMovBancario.Designer.cs">
+      <DependentUpon>FrmMovBancario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmDRV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmDRV.Designer.cs">
+      <DependentUpon>FrmDRV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmOutrosDocs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmOutrosDocs.Designer.cs">
+      <DependentUpon>FrmOutrosDocs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmRecibo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmRecibo.Designer.cs">
+      <DependentUpon>FrmRecibo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmRequisicoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmRequisicoes.Designer.cs">
+      <DependentUpon>FrmRequisicoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmTipoProcesso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmTipoProcesso.Designer.cs">
+      <DependentUpon>FrmTipoProcesso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmTransporte.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmTransporte.Designer.cs">
+      <DependentUpon>FrmTransporte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\FrmRi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Interface\FrmRi.Designer.cs">
+      <DependentUpon>FrmRi.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="User Interface\FrmAprovacoes.resx">
+      <DependentUpon>FrmAprovacoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmCotacao.resx">
+      <DependentUpon>FrmCotacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmDocumento.resx">
+      <DependentUpon>FrmDocumento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmExplorer.resx">
+      <DependentUpon>FrmExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmExtracto.resx">
+      <DependentUpon>FrmExtracto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmMovBancario.resx">
+      <DependentUpon>FrmMovBancario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmDRV.resx">
+      <DependentUpon>FrmDRV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmOutrosDocs.resx">
+      <DependentUpon>FrmOutrosDocs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmRecibo.resx">
+      <DependentUpon>FrmRecibo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmRequisicoes.resx">
+      <DependentUpon>FrmRequisicoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmTipoProcesso.resx">
+      <DependentUpon>FrmTipoProcesso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Interface\FrmRi.resx">
+      <DependentUpon>FrmRi.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
