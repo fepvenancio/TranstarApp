@@ -999,6 +999,7 @@ namespace TRTv10.Integration
             linhasQ.Append("FROM TDU_TRT_CabecDocumentos C ");
             linhasQ.Append("INNER JOIN TDU_TRT_Documento D ");
             linhasQ.Append("ON C.CDU_Documento = D.CDU_Codigo ");
+            linhasQ.Append("AND C.CDU_Ano = D.CDU_Ano ");
             linhasQ.Append("WHERE CDU_Codigo <> 'COT' ");
             linhasQ.Append("AND CDU_Codigo <> 'DRV' ");
             linhasQ.Append("AND CDU_Codigo <> 'RI' ");
@@ -1075,39 +1076,39 @@ namespace TRTv10.Integration
                     tabela.Rows.Add(processo, cliente, documento, numero, ano, debito, credito, saldoProcesso, saldoAcum);
                     lstQ.Seguinte();
                 }
-            }
-        
-            try
-            {
-                
-                var totalDebito = Convert.ToDecimal(tabela.Compute("SUM(Débito)", string.Empty)); 
-                var totalCredito = Convert.ToDecimal(tabela.Compute("SUM(Crédito)", string.Empty));
-                tabela.Rows.Add("", "", "", "", "Total", totalDebito, totalCredito);
-                tabela.Rows.Add();
 
-                dataGridView.DataSource = tabela;
-                dataGridView.Columns["Processo"].Width = 150;
-                dataGridView.Columns["Processo"].ReadOnly = true;
-                dataGridView.Columns["Cliente"].Width = 150;
-                dataGridView.Columns["Cliente"].ReadOnly = true;
-                dataGridView.Columns["Documento"].Width = 100;
-                dataGridView.Columns["Documento"].ReadOnly = true;
-                dataGridView.Columns["Número"].Width = 75;
-                dataGridView.Columns["Número"].ReadOnly = true;
-                dataGridView.Columns["Ano"].Width = 50;
-                dataGridView.Columns["Ano"].ReadOnly = true;
-                dataGridView.Columns["Débito"].Width = 150;
-                dataGridView.Columns["Débito"].ReadOnly = true;
-                dataGridView.Columns["Crédito"].Width = 150;
-                dataGridView.Columns["Crédito"].ReadOnly = true;
-                dataGridView.Columns["Saldo Processo"].Width = 150;
-                dataGridView.Columns["Saldo Processo"].ReadOnly = true;
-                dataGridView.Columns["Saldo Acumulado"].Width = 150;
-                dataGridView.Columns["Saldo Acumulado"].ReadOnly = true;
-            }
-            catch(Exception ex)
-            {
-                PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar a lista de documentos: {ex.Message}");
+                try
+                {
+
+                    var totalDebito = Convert.ToDecimal(tabela.Compute("SUM(Débito)", string.Empty));
+                    var totalCredito = Convert.ToDecimal(tabela.Compute("SUM(Crédito)", string.Empty));
+                    tabela.Rows.Add("", "", "", "", "Total", totalDebito, totalCredito);
+                    tabela.Rows.Add();
+
+                    dataGridView.DataSource = tabela;
+                    dataGridView.Columns["Processo"].Width = 150;
+                    dataGridView.Columns["Processo"].ReadOnly = true;
+                    dataGridView.Columns["Cliente"].Width = 150;
+                    dataGridView.Columns["Cliente"].ReadOnly = true;
+                    dataGridView.Columns["Documento"].Width = 100;
+                    dataGridView.Columns["Documento"].ReadOnly = true;
+                    dataGridView.Columns["Número"].Width = 75;
+                    dataGridView.Columns["Número"].ReadOnly = true;
+                    dataGridView.Columns["Ano"].Width = 50;
+                    dataGridView.Columns["Ano"].ReadOnly = true;
+                    dataGridView.Columns["Débito"].Width = 150;
+                    dataGridView.Columns["Débito"].ReadOnly = true;
+                    dataGridView.Columns["Crédito"].Width = 150;
+                    dataGridView.Columns["Crédito"].ReadOnly = true;
+                    dataGridView.Columns["Saldo Processo"].Width = 150;
+                    dataGridView.Columns["Saldo Processo"].ReadOnly = true;
+                    dataGridView.Columns["Saldo Acumulado"].Width = 150;
+                    dataGridView.Columns["Saldo Acumulado"].ReadOnly = true;
+                }
+                catch (Exception ex)
+                {
+                    PriEngine.Platform.MensagensDialogos.MostraAviso($"Erro ao carregar a lista de documentos: {ex.Message}");
+                }
             }
 
             return dataGridView;
