@@ -94,7 +94,7 @@ namespace TRTv10.User_Interface
             using var sqlCon = new SqlConnection(connectionString);
             var sql = new StringBuilder();
 
-            sql.Append("SELECT CDU_Documento, CDU_Numero, CDU_Ano, ");
+            sql.Append("SELECT CDU_Documento, CDU_Numero, ");
             sql.Append("CDU_DataDocumento As 'Data', CDU_Processo As 'Processo', CDU_Cliente As 'Cliente', CDU_Nome As 'Nome',  ");
             sql.Append("CDU_Aprovacao1 As 'Apr Tesouraria', CDU_Aprovacao2 As 'Apr Operacoes', CDU_Aprovacao3 As 'Apr Direcçao', CDU_Aprovacao4 As 'Pgto Tesouraria' ");
             sql.Append("FROM TDU_TRT_Aprovacoes ");
@@ -106,7 +106,7 @@ namespace TRTv10.User_Interface
             var dataTable = new DataTable();
             dataTable.Columns.Add("Doc", typeof(string));
             dataTable.Columns.Add("Nº", typeof(int));
-            dataTable.Columns.Add("Serie", typeof(string));
+            //dataTable.Columns.Add("Serie", typeof(string));
             dataTable.Columns.Add("Data", typeof(string));
             dataTable.Columns.Add("Processo", typeof(string));
             dataTable.Columns.Add("Cliente", typeof(string));
@@ -124,10 +124,10 @@ namespace TRTv10.User_Interface
                 {
                     dgvAprovacoes.Rows.Add(dr[11], dr[12], dr[13], 
                         dr[3], dr[4], dr[5], dr[6], 
-                        dr[7], dr[14], dr[15], dr[16]);
+                        dr[7], dr[14]);
                 }
             }
-            
+            // dr[15], dr[16]
             dgvAprovacoes.Columns[0].Width = 75;
             dgvAprovacoes.Columns[1].Width = 75;
             dgvAprovacoes.Columns[2].Width = 75;
